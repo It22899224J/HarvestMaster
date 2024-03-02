@@ -24,6 +24,11 @@ public class FarmerServiceImpl implements FarmerService{
         return farmerRepository.findById(id).get();
     }
 
+    @Override
+    public Farmer authCheck(String userName) {
+        return farmerRepository.findByname(userName);
+    }
+
 
     @Override
     public boolean deleteProfile(Integer id) {

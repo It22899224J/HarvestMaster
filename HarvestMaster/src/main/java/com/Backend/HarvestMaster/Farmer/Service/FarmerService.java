@@ -10,6 +10,8 @@ public interface FarmerService {
     public Farmer signUpDetails(Farmer details);
 
     public Farmer profileDetails(Integer id);
+
+    public Farmer authCheck(String userName);
     public boolean deleteProfile(Integer id);
 
     public List<Farmer> getAllProfiles();
