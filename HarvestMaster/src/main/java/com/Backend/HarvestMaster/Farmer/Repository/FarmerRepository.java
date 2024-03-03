@@ -8,5 +8,5 @@ import java.util.Map;
 public interface FarmerRepository extends JpaRepository<Farmer,Integer> {
 
 
-    Farmer findByname(String userName);
+    Farmer findByemail(String email);
 }

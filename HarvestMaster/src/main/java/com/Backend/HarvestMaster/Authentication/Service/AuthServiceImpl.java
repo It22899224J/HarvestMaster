@@ -1,5 +1,6 @@
 package com.Backend.HarvestMaster.Authentication.Service;
 
+import com.Backend.HarvestMaster.Authentication.model.UserDetails;
 import com.Backend.HarvestMaster.Farmer.Model.Farmer;
 import com.Backend.HarvestMaster.Farmer.Repository.FarmerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,11 @@ public class AuthServiceImpl implements AuthService{
 
 
     @Autowired
-    private FarmerRepository farmerRepository;
+    private JwtUtil jwtUtil;
 
 
     @Override
-    public Farmer login(Integer userId) {
-        return farmerRepository.findById(userId).get();
+    public String jwtAuth(UserDetails userDetails) {
+        return jwtUtil.generateToken(userDetails);
     }
 }

@@ -11,7 +11,7 @@ public interface FarmerService {
 
     public Farmer profileDetails(Integer id);
 
-    public Farmer authCheck(String userName);
+    public Farmer authCheck(String email);
     public boolean deleteProfile(Integer id);
 
     public List<Farmer> getAllProfiles();

@@ -25,8 +25,9 @@ public class FarmerServiceImpl implements FarmerService{
     }
 
     @Override
-    public Farmer authCheck(String userName) {
-        return farmerRepository.findByname(userName);
+    public Farmer authCheck(String email) {
+
+        return farmerRepository.findByemail(email);
     }
 
 
