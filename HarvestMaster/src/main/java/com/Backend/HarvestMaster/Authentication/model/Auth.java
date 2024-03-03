@@ -1,4 +1,4 @@
-package com.Backend.HarvestMaster.Authentication;
+package com.Backend.HarvestMaster.Authentication.model;
 
 public class Auth {
 

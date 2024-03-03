@@ -1,8 +1,7 @@
 package com.Backend.HarvestMaster.Authentication.Controler;
 
 
-import com.Backend.HarvestMaster.Authentication.Auth;
-import com.Backend.HarvestMaster.Authentication.Service.AuthService;
+import com.Backend.HarvestMaster.Authentication.model.Auth;
 import com.Backend.HarvestMaster.Farmer.Model.Farmer;
 import com.Backend.HarvestMaster.Farmer.Service.FarmerService;
 import org.springframework.beans.factory.annotation.Autowired;
