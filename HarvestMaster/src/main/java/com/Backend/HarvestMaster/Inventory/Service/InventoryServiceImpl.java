@@ -14,6 +14,12 @@ public class InventoryServiceImpl implements InventoryService{
     private InventoryRepository inventoryRepository;
 
     @Override
+    public boolean deleteInventoryItem(int id) {
+        inventoryRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
     public Inventory saveInventory(Inventory inventory){
         return inventoryRepository.save(inventory);
     }

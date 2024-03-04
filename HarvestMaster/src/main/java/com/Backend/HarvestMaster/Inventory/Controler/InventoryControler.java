@@ -1,5 +1,6 @@
 package com.Backend.HarvestMaster.Inventory.Controler;
 
+import com.Backend.HarvestMaster.Farmer.Model.Farmer;
 import com.Backend.HarvestMaster.Inventory.Model.Inventory;
 import com.Backend.HarvestMaster.Inventory.Service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
@@ -25,10 +27,23 @@ public class InventoryControler {
     }
 
     @GetMapping("/getAll")
-    public List<Inventory> getInventories(){
+    public List<Inventory> getInventories() {
         return inventoryService.getInventories();
     }
 
+    @DeleteMapping("/inventory/{id}")
+    public ResponseEntity<Farmer> getProfileDetails(@PathVariable String id) {
+        try {
+            int pid = Integer.parseInt(id);
+            if (inventoryService.deleteInventoryItem(pid)) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
 
+    }
 }
