@@ -1,33 +1,31 @@
 package com.Backend.HarvestMaster.Farmer.Model;
 
+import com.Backend.HarvestMaster.User.Model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Farmer {
+public class Farmer extends User {
 
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String agriCode;
 
-    private String address;
-    private String nic;
-    private String name;
-    private String gender;
-    private String email;
-    private String phone;
-    private String password;
     public Farmer() {
     }
 
     public int getId() {
         return id;
     }
+    public String getAgriCode() {
+        return agriCode;
+    }
 
+    public void setAgriCode(String agriCode) {
+        this.agriCode = agriCode;
+    }
     public void setId(int id) {
         this.id = id;
     }
@@ -36,6 +34,13 @@ public class Farmer {
         return address;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
     public void setAddress(String address) {
         this.address = address;
     }

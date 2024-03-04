@@ -1,7 +1,14 @@
 package com.Backend.HarvestMaster.Authentication.model;
 
 public class UserDetails {
-
+    private String userName;
+    private String type;
+    private int id;
+    public UserDetails(int id,String userName, String type) {
+        this.userName = userName;
+        this.type = type;
+        this.id = id;
+    }
 
     public String getUserName() {
         return userName;
@@ -27,13 +34,6 @@ public class UserDetails {
         this.id = id;
     }
 
-    private String userName;
-    private String type;
-    private int id;
-    public UserDetails(int id,String userName, String type) {
-        this.userName = userName;
-        this.type = type;
-        this.id = id;
-    }
+
 
 }
