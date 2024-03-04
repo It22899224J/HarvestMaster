@@ -2,6 +2,8 @@ package com.Backend.HarvestMaster.PostHarvest.Model;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
@@ -9,8 +11,9 @@ public class PostHarvest
 
 {
     @Id
-    private int fieldId;
-    private String farmerId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int field_id;
+    private int farmer;
 
     private String fieldName;
     private String paddyVareity;
@@ -25,19 +28,19 @@ public class PostHarvest
     }
 
     public int getFieldId() {
-        return fieldId;
+        return field_id;
     }
 
-    public void setFieldId(int fieldId) {
-        this.fieldId = fieldId;
+    public void setFieldId(int field_id) {
+        this.field_id = field_id;
     }
 
-    public String getFarmerId() {
-        return farmerId;
+    public int getFarmer_id() {
+        return farmer;
     }
 
-    public void setFarmerId(String farmerId) {
-        this.farmerId = farmerId;
+    public void setFarmer_id(int farmer) {
+        this.farmer = farmer;
     }
 
     public String getFieldName() {

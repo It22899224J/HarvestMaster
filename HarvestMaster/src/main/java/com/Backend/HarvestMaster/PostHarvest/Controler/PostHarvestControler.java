@@ -5,10 +5,9 @@ import com.Backend.HarvestMaster.PostHarvest.Service.PostHarvestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/postharvest")
@@ -24,5 +23,22 @@ public class PostHarvestControler {
         postHarvestService.addPostHarvestPlans(postHarvest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PostHarvest> updatePostHarvestPlan(@PathVariable Integer id ,  @RequestBody PostHarvest postHarvest){
+
+        try{
+
+            postHarvestService.updatePostHarvestDetails(id,postHarvest);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        }catch (NoSuchElementException e){
+
+            return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
+
+        }
+
+    }
+
 
 }
