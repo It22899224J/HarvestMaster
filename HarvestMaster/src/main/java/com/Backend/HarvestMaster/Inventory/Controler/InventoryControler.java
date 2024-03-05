@@ -3,6 +3,7 @@ package com.Backend.HarvestMaster.Inventory.Controler;
 import com.Backend.HarvestMaster.Farmer.Model.Farmer;
 import com.Backend.HarvestMaster.Inventory.Model.Inventory;
 import com.Backend.HarvestMaster.Inventory.Service.InventoryService;
+import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class InventoryControler {
     }
 
     @DeleteMapping("/inventory/{id}")
-    public ResponseEntity<Farmer> getProfileDetails(@PathVariable String id) {
+    public ResponseEntity<Inventory> getInventory(@PathVariable String id) {
         try {
             int pid = Integer.parseInt(id);
             if (inventoryService.deleteInventoryItem(pid)) {
@@ -46,4 +47,20 @@ public class InventoryControler {
 
 
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Inventory> updateInventory(@PathVariable Integer id, @RequestBody Inventory inventory) {
+
+        try {
+
+            inventoryService.updateInventory(id, inventory);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (NoSuchElementException e) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
 }
