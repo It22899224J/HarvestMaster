@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -24,6 +25,27 @@ public class PostHarvestControler {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<PostHarvest> get(@PathVariable Integer id){
+        try {
+            PostHarvest current = postHarvestService.getPostHarvestDetails(id);
+            return new ResponseEntity<>(current, HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping("/all/{f_id}")
+    public ResponseEntity<List<PostHarvest>> getAll(@PathVariable Integer f_id){
+        try{
+
+            return new ResponseEntity<>(postHarvestService.getPostHarvestPlans(f_id),HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<PostHarvest> updatePostHarvestPlan(@PathVariable Integer id ,  @RequestBody PostHarvest postHarvest){
 
@@ -39,6 +61,19 @@ public class PostHarvestControler {
         }
 
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<PostHarvest> deleteHarvestPlan(@PathVariable Integer id ){
+        try{
+
+            postHarvestService.deletePostHarvestPlan(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 
 
 }
