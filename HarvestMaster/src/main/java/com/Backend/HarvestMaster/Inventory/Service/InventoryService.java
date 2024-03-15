@@ -19,6 +19,8 @@ public interface InventoryService {
     List<Inventory> getAllInventory();
 
     public Inventory updateInventory(Integer p_id , Inventory inventory);
+
+    Inventory updatePostHarvestDetails(Integer p_id, Inventory inventory);
 }
 
 

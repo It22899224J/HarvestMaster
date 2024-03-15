@@ -38,6 +38,11 @@ public class InventoryServiceImpl implements InventoryService{
 
     @Override
     public Inventory updateInventory(Integer p_id, Inventory inventory) {
+        return null;
+    }
+
+    @Override
+    public Inventory updatePostHarvestDetails(Integer p_id, Inventory inventory) {
 
         inventory.setpId(p_id);
         inventoryRepository.save(inventory);
