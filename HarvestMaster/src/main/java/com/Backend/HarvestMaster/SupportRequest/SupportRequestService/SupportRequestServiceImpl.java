@@ -1,5 +1,6 @@
 package com.Backend.HarvestMaster.SupportRequest.SupportRequestService;
 
+import com.Backend.HarvestMaster.SupportRequest.Model.LegalOpinion;
 import com.Backend.HarvestMaster.SupportRequest.Model.SupportRequest;
 import com.Backend.HarvestMaster.SupportRequest.Repository.SupportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class SupportRequestServiceImpl implements SupportRequestService{
   @Override
   public List<SupportRequest> getAllRequest() {
     return supportRepository.findAll();
+  }
+
+  @Override
+  public LegalOpinion addLegalOpinion(LegalOpinion legalOpinion) {
+    return legalOpinion;
   }
 }

@@ -4,6 +4,7 @@ package com.Backend.HarvestMaster.PostHarvest.Service;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 import com.Backend.HarvestMaster.PostHarvest.Repository.PostHarvestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class PostHarvestImpl implements PostHarvestService{
     }
 
     @Override
+    @Async
     public boolean deletePostHarvestPlan(Integer field_id) {
 
         postHarvestRepository.deleteById(field_id);

@@ -5,6 +5,7 @@ import com.Backend.HarvestMaster.PostHarvest.Service.PostHarvestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class PostHarvestControler {
     public ResponseEntity<PostHarvest> updatePostHarvestPlan(@PathVariable Integer id ,  @RequestBody PostHarvest postHarvest){
 
         try{
+
 
             postHarvestService.updatePostHarvestDetails(id,postHarvest);
             return new ResponseEntity<>(HttpStatus.OK);
