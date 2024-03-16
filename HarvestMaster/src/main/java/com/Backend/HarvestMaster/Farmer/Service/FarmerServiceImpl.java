@@ -34,7 +34,7 @@ public class FarmerServiceImpl implements FarmerService{
     @Override
     public boolean deleteProfile(Integer id) {
 
-        farmerRepository.deleteById( id);
+        farmerRepository.deleteById(id);
         return true;
     }
 

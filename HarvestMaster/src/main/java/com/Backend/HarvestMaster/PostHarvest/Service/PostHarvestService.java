@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface PostHarvestService {
 
-    public PostHarvest getPostHarvestDetails(Integer fieldId);
+    public PostHarvest getPostHarvestDetails(Integer field_id);
 
-    public List<PostHarvest> getPostHarvestPlans(Integer farmerId);
+    public List<PostHarvest> getPostHarvestPlans(Integer farmer_id);
 
-    public boolean deletePostHarvestPlan(Integer fieldId);
+    public boolean deletePostHarvestPlan(Integer field_id);
 
     public PostHarvest addPostHarvestPlans(PostHarvest postHarvest);
+
+    public PostHarvest updatePostHarvestDetails(Integer fieldId,PostHarvest postHarvest);
 }
