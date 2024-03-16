@@ -14,8 +14,8 @@ import java.util.Optional;
 @Service
 public class IssueServiceImpl implements IssueService {
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+//    @Value("${file.upload-dir}")
+//    private String uploadDir;
 
     @Autowired
     private IssueRepository issueRepository;
