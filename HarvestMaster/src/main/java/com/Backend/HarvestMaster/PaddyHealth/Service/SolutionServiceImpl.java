@@ -37,24 +37,16 @@ public class SolutionServiceImpl implements SolutionService {
 
     // Delete a solution by its ID
     @Override
-    public void deleteSolution(int id) {
-        if (!solutionRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Solution with ID " + id + " not found");
-        }
+    public boolean delete(int id){
         solutionRepository.deleteById(id);
+        return true;
     }
 
     // Update an existing solution
     @Override
-    public Solution updateSolution(Solution solution, int id) {
-        Optional<Solution> existingSolutionOptional = solutionRepository.findById(id);
-        if (existingSolutionOptional.isPresent()) {
-            Solution existingSolution = existingSolutionOptional.get();
-            existingSolution.setSolution(solution.getSolution());
-            existingSolution.setDocumentUrl(solution.getDocumentUrl());
-            return solutionRepository.save(existingSolution);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Solution with ID " + id + " not found");
-        }
+    public Solution updateSolution(int id, Solution solution) {
+        Solution current=solutionRepository.findById(id).get();
+        solution.setId(current.getId());
+        return solutionRepository.save(solution) ;
     }
 }
