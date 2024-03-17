@@ -51,6 +51,33 @@ public class PreHarvestPlansController {
         }
     }
 
+    @PutMapping("update/{fieldId}")
+    public ResponseEntity<?> updatePlan(@PathVariable Integer fieldId,@RequestBody PreHarvestPlans preHarvestPlans){
+        try{
+            PreHarvestPlans plan = preHarvestPlansService.updatePreHarvestPlan(fieldId,preHarvestPlans);
+            return new ResponseEntity<>(plan, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("Failed to update plan", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete/{fieldId}")
+    public ResponseEntity<?> deletePlan(@PathVariable Integer fieldId) {
+        try {
+            boolean deleted = preHarvestPlansService.deletePreHarvestPlan(fieldId);
+            if (deleted) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Plan not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to delete plan", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
 
 
 

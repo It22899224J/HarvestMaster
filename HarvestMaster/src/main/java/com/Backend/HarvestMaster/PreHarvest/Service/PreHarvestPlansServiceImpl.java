@@ -15,23 +15,31 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
     private PreHarvestPlansRepository preHarvestPlansRepository;
 
     @Override
-    public void createPreHarvestPlan(PreHarvestPlans preHarvestPlans) {
-        preHarvestPlansRepository.save(preHarvestPlans);
-    }
-
-    @Override
-    public List<PreHarvestPlans> getAllPreHarvestPlans() {
-        return preHarvestPlansRepository.findAll();
-    }
-
-    @Override
-    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer fieldId) {
-        return preHarvestPlansRepository.findById(fieldId).orElseThrow(() -> new NoSuchElementException("PreHarvestPlans with id " + fieldId + " not found"));
+    public PreHarvestPlans createPreHarvestPlan(PreHarvestPlans preHarvestPlans) {
+        return preHarvestPlansRepository.save(preHarvestPlans);
     }
 
     @Override
     public List<PreHarvestPlans> getAllPreHarvestPlansByFarmerID(Integer farmerID) {
         return preHarvestPlansRepository.findByFarmerId(farmerID);
+    }
+
+
+    @Override
+    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer fieldId) {
+        return preHarvestPlansRepository.findById(fieldId).get();
+    }
+
+    @Override
+    public PreHarvestPlans updatePreHarvestPlan(Integer fieldId, PreHarvestPlans preHarvestPlans) {
+        preHarvestPlans.setFieldId(fieldId);
+        return preHarvestPlansRepository.save(preHarvestPlans);
+    }
+
+    @Override
+    public boolean deletePreHarvestPlan(Integer fieldId) {
+        preHarvestPlansRepository.deleteById(fieldId);
+        return true;
     }
 
 
