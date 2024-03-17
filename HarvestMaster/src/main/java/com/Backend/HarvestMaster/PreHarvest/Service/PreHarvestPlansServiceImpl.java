@@ -24,7 +24,7 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
     }
 
     @Override
-    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer field_Id) {
-        return preHarvestPlansRepository.getReferenceById(field_Id);
+    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer fieldId) {
+        return preHarvestPlansRepository.findById(fieldId).get();
     }
 }
