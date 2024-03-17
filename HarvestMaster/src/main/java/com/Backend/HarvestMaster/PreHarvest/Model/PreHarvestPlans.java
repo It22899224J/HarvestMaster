@@ -10,6 +10,7 @@ public class PreHarvestPlans {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fieldId;
+    private int farmerId;
     private String district;
     private String city;
     private String cropSeason;
@@ -29,6 +30,13 @@ public class PreHarvestPlans {
     }
     public void setFieldId(int fieldId) {
         this.fieldId = fieldId;
+    }
+
+    public int getFarmerId() {
+        return farmerId;
+    }
+    public void setFarmerId(int farmerId) {
+        this.farmerId = farmerId;
     }
 
     public String getDistrict() {
@@ -100,4 +108,6 @@ public class PreHarvestPlans {
     public void setHarvestTime(String harvestTime) {
         this.harvestTime = harvestTime;
     }
+
+
 }
