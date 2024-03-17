@@ -14,10 +14,13 @@ public interface IssueService {
     Issue getIssueById(int id);
 
     // Method to delete an issue by its ID
-    void deleteIssueById(int id);
+    public boolean delete(int id);
 
     // Method to update an existing issue
-    Issue updateIssue(Issue issue, int id);
+    public  Issue updateIssue( int id,Issue issue);
 
 
 }
+
+
+
