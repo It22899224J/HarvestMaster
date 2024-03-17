@@ -1,23 +1,23 @@
 package com.Backend.HarvestMaster.Order.Controler;
 
-import com.Backend.HarvestMaster.Order.Model.Delivery;
+import com.Backend.HarvestMaster.Order.Model.CommonResponse;
+import com.Backend.HarvestMaster.Order.Model.DeliveryCreateRequest;
 import com.Backend.HarvestMaster.Order.Service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/delivery")
+@RequestMapping("/api/delivery/")
 public class DeliveryControler {
     @Autowired
     private DeliveryService deliveryService;
 
-    @GetMapping
+   /* @GetMapping
     public ResponseEntity<List<Delivery>> getAllDeliverySchedules() {
         List<Delivery> deliverySchedules = deliveryService.getAllDeliverySchedules();
         return new ResponseEntity<>(deliverySchedules, HttpStatus.OK);
@@ -36,20 +36,29 @@ public class DeliveryControler {
         return new ResponseEntity<>(createdDeliverySchedule, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Delivery> updateDeliverySchedule(@PathVariable("id") Long id, @RequestBody Delivery delivery) {
-        Delivery updatedDeliverySchedule = deliveryService.updateDeliverySchedule(id, delivery);
-        if (updatedDeliverySchedule != null) {
+    @PutMapping("/update")
+    public ResponseEntity<CommonResponse> updateDeliverySchedule(@RequestBody DeliveryRequest delivery) {
+        CommonResponse updatedDeliverySchedule = deliveryService.updateDeliverySchedule(delivery);
+        if (updatedDeliverySchedule.isStatus()) {
             return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteDeliverySchedule(@PathVariable("id") Long id) {
         deliveryService.deleteDeliverySchedule(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }*/
+
+    @PostMapping("create")
+    public ResponseEntity<?> createNewDelivery(@RequestBody DeliveryCreateRequest request) {
+        CommonResponse response = deliveryService.createNewDelivery(request);
+        if (response.isStatus()) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
 
