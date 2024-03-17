@@ -3,12 +3,16 @@ package com.Backend.HarvestMaster.Order.Model;
 import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
 
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Delivery")
@@ -29,9 +33,4 @@ public class Delivery {
     private String deliveryAddress;
     private String pickupAddress;
     private Date deliveryDate;
-
-    public void setdelivery_id(Long delivery_id) {
-        this.delivery_id = delivery_id;
-    }
-
 }
