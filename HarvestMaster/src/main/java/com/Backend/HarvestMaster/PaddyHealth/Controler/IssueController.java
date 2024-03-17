@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @CrossOrigin("http://localhost:5173/")
 @RestController
@@ -69,24 +70,29 @@ public class IssueController {
     }
 
     // Endpoint to delete an issue by its ID
-    @DeleteMapping("/issues/{id}")
-    public ResponseEntity<String> deleteIssueById(@PathVariable("id") int id) {
-        issueService.deleteIssueById(id);
-        return ResponseEntity.ok("Issue deleted successfully");
+    @DeleteMapping("/issue/{id}")
+    public ResponseEntity<Issue> delete(@PathVariable int id) {
+        try {
+
+
+            if (issueService.delete(id)){
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    // Endpoint to update an existing issue
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateIssue(@PathVariable int id, @RequestBody Issue updatedIssue) {
-        Issue existingIssue = issueService.getIssueById(id);
-        if (existingIssue != null) {
-
-            // Update the existing issue with the provided data
-            updatedIssue.setId(existingIssue.getId());
-            issueService.updateIssue(updatedIssue, id);
-            return ResponseEntity.ok("Issue updated successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Issue with ID " + id + " not found");
+    //Endpoint to update an issue by its id
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Issue> updateIssue(@PathVariable int id, @RequestBody Issue issue) {
+        try {
+            issueService.updateIssue(id, issue);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
