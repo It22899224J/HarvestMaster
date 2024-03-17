@@ -30,4 +30,8 @@ public class Delivery {
     private String pickupAddress;
     private Date deliveryDate;
 
+    public void setdelivery_id(Long delivery_id) {
+        this.delivery_id = delivery_id;
+    }
+
 }
