@@ -18,11 +18,13 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
         return preHarvestPlansRepository.save(preHarvestPlans);
     }
 
-  @Override
+    @Override
     public List<PreHarvestPlans> getAllPreHarvestPlans() {
         return preHarvestPlansRepository.findAll();
     }
 
-
-
+    @Override
+    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer field_Id) {
+        return preHarvestPlansRepository.getReferenceById(field_Id);
+    }
 }
