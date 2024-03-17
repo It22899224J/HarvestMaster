@@ -5,11 +5,11 @@ import com.Backend.HarvestMaster.PreHarvest.Model.PreHarvestPlans;
 import java.util.List;
 
 public interface PreHarvestPlansService {
-    public PreHarvestPlans createPreHarvestPlan(PreHarvestPlans preHarvestPlans);
-    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer fieldId);
-    public List<PreHarvestPlans> getAllPreHarvestPlansByFarmerID(Integer farmerID);
-    public PreHarvestPlans updatePreHarvestPlan(Integer fieldId, PreHarvestPlans preHarvestPlans);
-    public boolean deletePreHarvestPlan(Integer fieldId);
+     PreHarvestPlans createPreHarvestPlan(PreHarvestPlans preHarvestPlans);
+     PreHarvestPlans getPreHarvestPlanDetailsById(Integer fieldId);
+     List<PreHarvestPlans> getAllPreHarvestPlansByFarmerID(Integer farmerID);
+     PreHarvestPlans updatePreHarvestPlan(Integer fieldId, PreHarvestPlans preHarvestPlans);
+     boolean deletePreHarvestPlan(Integer fieldId);
 
 
 }
