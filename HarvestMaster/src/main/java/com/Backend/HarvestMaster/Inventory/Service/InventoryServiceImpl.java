@@ -36,6 +36,8 @@ public class InventoryServiceImpl implements InventoryService{
         return null;
     }
 
+
+
     @Override
     public Inventory updateInventory(Integer p_id, Inventory inventory) {
 

@@ -16,9 +16,15 @@ public class PostHarvest
     private int farmer;
 
     private String fieldName;
+    private String regNo;
+
     private String paddyVareity;
     private float area;
     private String ownership;
+
+
+
+    private String split;
     private String location;
     private float startingPrice;
     private String plantedDate;
@@ -107,7 +113,21 @@ public class PostHarvest
         this.harvestDate = harvestDate;
     }
 
+    public String getRegNo() {
+        return regNo;
+    }
 
+    public void setRegNo(String regNo) {
+        this.regNo = regNo;
+    }
+
+    public String getSplit() {
+        return split;
+    }
+
+    public void setSplit(String split) {
+        this.split = split;
+    }
 
 
 }
