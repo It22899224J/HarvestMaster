@@ -38,15 +38,17 @@ public class PreHarvestPlansController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<PreHarvestPlans > get(@PathVariable Integer id){
+    public ResponseEntity<?> get(@PathVariable Integer id) {
         try {
-            PreHarvestPlans current = preHarvestPlansService.getPreHarvestPlanDetailsById(id);
-            return new ResponseEntity<>(current, HttpStatus.OK);
-        }catch (NoSuchElementException e){
+            PreHarvestPlans plan = preHarvestPlansService.getPreHarvestPlanDetailsById(id);
+            return new ResponseEntity<>(plan, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred while processing the request",HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
+
 
 
 
