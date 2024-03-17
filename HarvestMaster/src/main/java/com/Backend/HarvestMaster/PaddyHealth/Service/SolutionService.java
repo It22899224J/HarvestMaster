@@ -12,11 +12,12 @@ public interface SolutionService {
     // Retrieve a solution by its ID
     Solution getSolutionById(int id);
 
-    // Delete a solution by its ID
-    void deleteSolution(int id);
+    // Method to delete a solution by its ID
+    public boolean delete(int id);
 
-    // Update an existing solution
-    Solution updateSolution(Solution solution, int id);
+    // Method to update an existing solution
+    Solution updateSolution(int id, Solution solution);
+
+
 }
-
 
