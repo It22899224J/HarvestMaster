@@ -5,6 +5,8 @@ import com.Backend.HarvestMaster.PreHarvest.Repository.PreHarvestPlansRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
 
@@ -15,4 +17,12 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
     public PreHarvestPlans createPreHarvestPlan(PreHarvestPlans preHarvestPlans) {
         return preHarvestPlansRepository.save(preHarvestPlans);
     }
+
+  @Override
+    public List<PreHarvestPlans> getAllPreHarvestPlans() {
+        return preHarvestPlansRepository.findAll();
+    }
+
+
+
 }
