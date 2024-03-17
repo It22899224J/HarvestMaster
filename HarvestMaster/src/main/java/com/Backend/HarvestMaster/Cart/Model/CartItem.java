@@ -19,11 +19,11 @@ public class CartItem {
     private Integer quantity;
     private Double unitPrice;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_Id")
     private Inventory inventory;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_Id")
     private Buyer buyer;
 }
