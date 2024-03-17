@@ -1,14 +1,14 @@
 package com.Backend.HarvestMaster.Order.Service;
 
-import com.Backend.HarvestMaster.Order.Model.Order;
+import com.Backend.HarvestMaster.Order.Model.PurchaseOrder;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    List<Order> getAllOrders();
+    List<PurchaseOrder> getAllOrders();
 
-    Optional<Order> getOrderById(Long id);
+    Optional<PurchaseOrder> getOrderById(Long id);
 
-    Order createOrder(Order order);
+    PurchaseOrder createOrder(PurchaseOrder purchaseOrder);
 }
