@@ -1,6 +1,6 @@
 package com.Backend.HarvestMaster.PreHarvest.Controller;
 
-import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
+
 import com.Backend.HarvestMaster.PreHarvest.Model.PreHarvestPlans;
 import com.Backend.HarvestMaster.PreHarvest.Service.PreHarvestPlansService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +27,22 @@ public class PreHarvestPlansController {
         }
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<?> getAllPlans() {
-        try {
-            List<PreHarvestPlans> plans = preHarvestPlansService.getAllPreHarvestPlans();
-            return new ResponseEntity<>(plans, HttpStatus.OK);
+
+    @GetMapping("/getAll/{farmerId}")
+    public  ResponseEntity<?> getPlansByFarmerId(@PathVariable Integer farmerId){
+        try{
+            List<PreHarvestPlans> plans = preHarvestPlansService.getAllPreHarvestPlansByFarmerID(farmerId);
+            return new ResponseEntity<>(plans,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to retrieve pre-harvest plans", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) {
+
+    @GetMapping("/get/{fieldId}")
+    public ResponseEntity<?> getPlanByFieldId(@PathVariable Integer fieldId) {
         try {
-            PreHarvestPlans plan = preHarvestPlansService.getPreHarvestPlanDetailsById(id);
+            PreHarvestPlans plan = preHarvestPlansService.getPreHarvestPlanDetailsById(fieldId);
             return new ResponseEntity<>(plan, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
