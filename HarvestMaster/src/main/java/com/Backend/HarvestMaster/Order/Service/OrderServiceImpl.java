@@ -1,6 +1,6 @@
 package com.Backend.HarvestMaster.Order.Service;
 
-import com.Backend.HarvestMaster.Order.Model.Order;
+import com.Backend.HarvestMaster.Order.Model.PurchaseOrder;
 import com.Backend.HarvestMaster.Order.Repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +15,17 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public List<Order> getAllOrders() {
+    public List<PurchaseOrder> getAllOrders() {
         return orderRepository.findAll();
     }
 
     @Override
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
+    public PurchaseOrder createOrder(PurchaseOrder purchaseOrder) {
+        return orderRepository.save(purchaseOrder);
     }
 
     @Override
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<PurchaseOrder> getOrderById(Long id) {
         return orderRepository.findById(id);
 }
 
