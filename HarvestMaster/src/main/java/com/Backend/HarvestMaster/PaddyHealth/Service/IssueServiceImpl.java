@@ -14,8 +14,8 @@ import java.util.Optional;
 @Service
 public class IssueServiceImpl implements IssueService {
 
-//    @Value("${file.upload-dir}")
-//    private String uploadDir;
+    //@Value("${file.upload-dir}")
+    private String uploadDir;
 
     @Autowired
     private IssueRepository issueRepository;
@@ -47,26 +47,16 @@ public class IssueServiceImpl implements IssueService {
 
     // Delete an issue by its ID
     @Override
-    public void deleteIssueById(int id) {
+    public boolean delete(int id){
         issueRepository.deleteById(id);
+        return true;
     }
 
     // Update an existing issue
     @Override
-    public Issue updateIssue(Issue issue, int id) {
-        Optional<Issue> optionalIssue = issueRepository.findById(id);
-        if (optionalIssue.isPresent()) {
-            Issue existingIssue = optionalIssue.get();
-            existingIssue.setDate(issue.getDate());
-            existingIssue.setFarmerName(issue.getFarmerName());
-            existingIssue.setFieldLocation(issue.getFieldLocation());
-            existingIssue.setImageData(issue.getImageData());
-            existingIssue.setObservedIssues(issue.getObservedIssues());
-            existingIssue.setPaddyName(issue.getPaddyName());
-
-            return issueRepository.save(existingIssue);
-        } else {
-            throw new RuntimeException("Issue with ID " + id + " not found"); // Solution with the provided ID not found
-        }
+    public Issue updateIssue( int id,Issue issue) {
+        Issue current=issueRepository.findById(id).get();
+        issue.setId(current.getId());
+        return issueRepository.save(issue) ;
     }
 }
