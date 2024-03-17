@@ -20,7 +20,7 @@ public interface InventoryService {
 
     public Inventory updateInventory(Integer p_id , Inventory inventory);
 
-    Inventory updatePostHarvestDetails(Integer p_id, Inventory inventory);
+
 }
 
 
