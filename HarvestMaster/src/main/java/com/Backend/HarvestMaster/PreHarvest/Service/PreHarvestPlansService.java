@@ -11,5 +11,4 @@ public interface PreHarvestPlansService {
      PreHarvestPlans updatePreHarvestPlan(Integer fieldId, PreHarvestPlans preHarvestPlans);
      boolean deletePreHarvestPlan(Integer fieldId);
 
-
 }

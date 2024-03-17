@@ -20,9 +20,9 @@ public class PreHarvestPlans {
     private String cropSeason;
     private float fieldArea;
     private String plantingMethod;
-    private int seedsAmount;
+    private float seedsAmount;
     private String riceVariety;
-    private int initialExpectedYield;
+    private float initialExpectedYield;
     private String startDate;
     private String harvestTime;
 

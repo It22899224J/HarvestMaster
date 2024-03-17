@@ -16,8 +16,22 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
 
     @Override
     public PreHarvestPlans createPreHarvestPlan(PreHarvestPlans preHarvestPlans) {
+        float area = preHarvestPlans.getFieldArea();
+        float seeds;
+        if ("Direct Planting".equals(preHarvestPlans.getPlantingMethod())) {
+            seeds = (area * 30);
+            preHarvestPlans.setSeedsAmount(seeds);
+        } else if ("Transplanting".equals(preHarvestPlans.getPlantingMethod())) {
+            seeds = (area * 17);
+            preHarvestPlans.setSeedsAmount(seeds);
+        }
+
+       float initYield= (area*3500);
+        preHarvestPlans.setInitialExpectedYield(initYield);
+
         return preHarvestPlansRepository.save(preHarvestPlans);
     }
+
 
     @Override
     public List<PreHarvestPlans> getAllPreHarvestPlansByFarmerID(Integer farmerID) {
