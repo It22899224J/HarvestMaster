@@ -1,7 +1,9 @@
 package com.Backend.HarvestMaster.Order.Repository;
 
-import com.Backend.HarvestMaster.Order.Model.Order;
+import com.Backend.HarvestMaster.Order.Model.PurchaseOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface OrderRepository extends JpaRepository<Order,Long>{
+@Repository
+public interface OrderRepository extends JpaRepository<PurchaseOrder,Long>{
         }
