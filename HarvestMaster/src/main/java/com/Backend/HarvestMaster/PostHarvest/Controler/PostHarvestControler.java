@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping("/postharvest")
 public class PostHarvestControler {
