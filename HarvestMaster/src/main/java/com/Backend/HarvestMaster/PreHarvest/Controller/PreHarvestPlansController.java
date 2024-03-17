@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/preHarvestPlans")
@@ -36,18 +37,15 @@ public class PreHarvestPlansController {
         }
     }
 
-    @GetMapping("/get/{field_Id}")
-    public ResponseEntity<?> getPreHarvestPlanDetailsById(@PathVariable Integer field_Id) {
+    @GetMapping("/get/{id}")
+    public ResponseEntity<PreHarvestPlans > get(@PathVariable Integer id){
         try {
-            PreHarvestPlans plan = preHarvestPlansService.getPreHarvestPlanDetailsById(field_Id);
-            if (plan != null) {
-                return new ResponseEntity<>(plan, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Pre-harvest plan not found", HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Failed to retrieve pre-harvest plan details", HttpStatus.INTERNAL_SERVER_ERROR);
+            PreHarvestPlans current = preHarvestPlansService.getPreHarvestPlanDetailsById(id);
+            return new ResponseEntity<>(current, HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
     }
 
 

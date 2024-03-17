@@ -7,5 +7,5 @@ import java.util.List;
 public interface PreHarvestPlansService {
     public PreHarvestPlans createPreHarvestPlan(PreHarvestPlans preHarvestPlans);
     public List<PreHarvestPlans> getAllPreHarvestPlans();
-    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer field_Id);
+    public PreHarvestPlans getPreHarvestPlanDetailsById(Integer fieldId);
 }
