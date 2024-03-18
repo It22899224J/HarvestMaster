@@ -18,9 +18,10 @@ public class PreHarvestCostsServiceImpl implements PreHarvestCostsService{
     }
 
     @Override
-    public List<PreHarvestCosts> getAllCostsByFieldId(Integer fieldId) {
-        return preHarvestCostsRepository.getAllCostsByFieldId(fieldId);
+    public List<PreHarvestCosts> getAllCosts(Integer fieldId) {
+        return preHarvestCostsRepository.findCostsByPreHarvestPlansFieldId(fieldId);
     }
+
 
     @Override
     public PreHarvestCosts updateCost(Integer costId, PreHarvestCosts preHarvestCosts) {

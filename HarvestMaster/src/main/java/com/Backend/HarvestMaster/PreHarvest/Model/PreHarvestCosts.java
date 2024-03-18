@@ -12,6 +12,7 @@ public class PreHarvestCosts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int costId;
+    private String date;
     private String description;
     private float amount;
 

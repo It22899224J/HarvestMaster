@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PreHarvestCostsRepository extends JpaRepository<PreHarvestCosts, Integer> {
-    List<PreHarvestCosts> getAllCostsByFieldId(Integer fieldId);
+    List<PreHarvestCosts> findCostsByPreHarvestPlansFieldId(Integer fieldId);
 }
