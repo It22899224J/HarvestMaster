@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class DeliveryCreateRequest {
     @JsonProperty("order_id")
-    private int order_id;
+    private int orderId;
 
     @JsonProperty("customer_name")
     private String customerName;
