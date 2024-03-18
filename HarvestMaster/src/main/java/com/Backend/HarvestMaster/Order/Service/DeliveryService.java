@@ -1,10 +1,7 @@
 package com.Backend.HarvestMaster.Order.Service;
 
 
-import com.Backend.HarvestMaster.Order.Model.CommonResponse;
-import com.Backend.HarvestMaster.Order.Model.Delivery;
-import com.Backend.HarvestMaster.Order.Model.DeliveryCreateRequest;
-import com.Backend.HarvestMaster.Order.Model.DeliveryRequest;
+import com.Backend.HarvestMaster.Order.Model.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +14,9 @@ public interface DeliveryService {
     void deleteDeliverySchedule(Long delivery_id);
 
     CommonResponse createNewDelivery(DeliveryCreateRequest request);
+
+    CommonResponse getPendingDelivery(PendingDeliveryRequest request);
+
+    CommonResponse manageDeliveries(ManageDeliveryRequest request);
+
 }
