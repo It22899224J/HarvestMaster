@@ -20,8 +20,8 @@ public class PreHarvestPlansController {
     @PostMapping("/add")
     public ResponseEntity<?> addPlan(@RequestBody PreHarvestPlans preHarvestPlans) {
         try {
-            preHarvestPlansService.createPreHarvestPlan(preHarvestPlans);
-            return new ResponseEntity<>(HttpStatus.OK);
+            PreHarvestPlans plan = preHarvestPlansService.createPreHarvestPlan(preHarvestPlans);
+            return new ResponseEntity<>(plan,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to add pre-harvest plan", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -74,12 +74,6 @@ public class PreHarvestPlansController {
             return new ResponseEntity<>("Failed to delete plan", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
-
-
 
 }
 

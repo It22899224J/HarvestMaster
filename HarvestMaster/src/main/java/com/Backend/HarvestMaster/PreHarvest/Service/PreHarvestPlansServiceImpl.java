@@ -16,18 +16,29 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
 
     @Override
     public PreHarvestPlans createPreHarvestPlan(PreHarvestPlans preHarvestPlans) {
-        float area = preHarvestPlans.getFieldArea();
-        float seeds;
-        if ("Direct Planting".equals(preHarvestPlans.getPlantingMethod())) {
+
+         float area = preHarvestPlans.getFieldArea();
+         float seeds;
+
+         if ("Direct Planting".equals(preHarvestPlans.getPlantingMethod())) {
             seeds = (area * 30);
             preHarvestPlans.setSeedsAmount(seeds);
-        } else if ("Transplanting".equals(preHarvestPlans.getPlantingMethod())) {
+         } else if ("Transplanting".equals(preHarvestPlans.getPlantingMethod())) {
             seeds = (area * 17);
             preHarvestPlans.setSeedsAmount(seeds);
-        }
+         }
 
-       float initYield= (area*3500);
-        preHarvestPlans.setInitialExpectedYield(initYield);
+         float initYield= (area*3500);
+         preHarvestPlans.setInitialExpectedYield(initYield);
+
+         if("Basmati".equals(preHarvestPlans.getRiceVariety())){
+             String harvestTime = "120 - 140 DAS";
+             preHarvestPlans.setHarvestTime(harvestTime);
+         }
+         else if("Keeri Samba".equals(preHarvestPlans.getRiceVariety())){
+             String harvestTime = "130 - 150 DAS";
+             preHarvestPlans.setHarvestTime(harvestTime);
+         }
 
         return preHarvestPlansRepository.save(preHarvestPlans);
     }
@@ -47,6 +58,31 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
     @Override
     public PreHarvestPlans updatePreHarvestPlan(Integer fieldId, PreHarvestPlans preHarvestPlans) {
         preHarvestPlans.setFieldId(fieldId);
+
+        float area = preHarvestPlans.getFieldArea();
+        float seeds;
+
+        if ("Direct Planting".equals(preHarvestPlans.getPlantingMethod())) {
+            seeds = (area * 30);
+            preHarvestPlans.setSeedsAmount(seeds);
+        } else if ("Transplanting".equals(preHarvestPlans.getPlantingMethod())) {
+            seeds = (area * 17);
+            preHarvestPlans.setSeedsAmount(seeds);
+        }
+
+        float initYield= (area*3500);
+
+        preHarvestPlans.setInitialExpectedYield(initYield);
+
+        if("Basmati".equals(preHarvestPlans.getRiceVariety())){
+            String harvestTime = "120 - 140 DAS";
+            preHarvestPlans.setHarvestTime(harvestTime);
+        }
+        else if("Keeri Samba".equals(preHarvestPlans.getRiceVariety())){
+            String harvestTime = "130 - 150 DAS";
+            preHarvestPlans.setHarvestTime(harvestTime);
+        }
+
         return preHarvestPlansRepository.save(preHarvestPlans);
     }
 
