@@ -1,9 +1,6 @@
 package com.Backend.HarvestMaster.Order.Controler;
 
-import com.Backend.HarvestMaster.Order.Model.CommonResponse;
-import com.Backend.HarvestMaster.Order.Model.DeliveryCreateRequest;
-import com.Backend.HarvestMaster.Order.Model.ManageDeliveryRequest;
-import com.Backend.HarvestMaster.Order.Model.PendingDeliveryRequest;
+import com.Backend.HarvestMaster.Order.Model.*;
 import com.Backend.HarvestMaster.Order.Service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,15 +32,7 @@ public class DeliveryControler {
         return new ResponseEntity<>(createdDeliverySchedule, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<CommonResponse> updateDeliverySchedule(@RequestBody DeliveryRequest delivery) {
-        CommonResponse updatedDeliverySchedule = deliveryService.updateDeliverySchedule(delivery);
-        if (updatedDeliverySchedule.isStatus()) {
-            return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.NOT_FOUND);
-        }
-    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteDeliverySchedule(@PathVariable("id") Long id) {
@@ -76,6 +65,16 @@ public class DeliveryControler {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<CommonResponse> updateDeliverySchedule(@RequestBody DeliveryRequest delivery) {
+        CommonResponse updatedDeliverySchedule = deliveryService.updateDeliverySchedule(delivery);
+        if (updatedDeliverySchedule.isStatus()) {
+            return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.NOT_FOUND);
+        }
     }
 }
 

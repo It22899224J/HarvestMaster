@@ -48,8 +48,6 @@ public class DeliveryServiceImpl implements DeliveryService {
                     .status(true)
                     .build();
         } else {
-            // Handle error or throw exception if the delivery schedule with the given ID doesn't exist
-
             return CommonResponse.builder()
                     .message("User not found!")
                     .status(false)
@@ -81,6 +79,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .buyer(cartDetails.getBuyer())
                 .cartId(request.getOrderId())
                 .build();
+
 
         deliveryData = deliveryRepository.save(deliveryData);
 

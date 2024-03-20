@@ -10,8 +10,8 @@ public interface DeliveryService {
     List<Delivery>getAllDeliverySchedules();
     Optional<Delivery>getDeliveryScheduleById(Long delivery_id);
     Delivery createDeliverySchedule(Delivery delivery);
-    CommonResponse updateDeliverySchedule(DeliveryRequest delivery);
     void deleteDeliverySchedule(Long delivery_id);
+    CommonResponse updateDeliverySchedule(DeliveryRequest delivery);
 
     CommonResponse createNewDelivery(DeliveryCreateRequest request);
 
