@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping("/support")
 public class SupportRequestController {
@@ -32,7 +32,7 @@ public class SupportRequestController {
         try {
             return new ResponseEntity<>(supportRequestService.getAllRequest(), HttpStatus.OK);
         }catch (NoSuchElementException e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
