@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/logicstic")
+@RequestMapping("/logistic")
 public class LogisticHandlerControler{
     @Autowired
     private LogisticHandlerRepository logisticHandlerRepository;
