@@ -1,6 +1,5 @@
-package com.Backend.HarvestMaster.Farmer.Model;
+package com.Backend.HarvestMaster.FinancialManager.Model;
 
-import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import com.Backend.HarvestMaster.User.Model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,24 +12,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "farmers")
-public class Farmer {
-
-
+@Table(name = "financial_manager")
+public class FinancialManager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String agriCode;
-
-    protected String address;
-    protected String nic;
-    protected String gender;
     protected String phone;
 
     @OneToOne
     @JoinColumn(name = "u_id")
     private User user;
-
-
 }

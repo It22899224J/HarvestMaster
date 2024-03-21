@@ -3,6 +3,7 @@ package com.Backend.HarvestMaster.Order.Model;
 import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -24,18 +25,21 @@ public class Delivery {
     @JoinColumn(name = "cus_id")
     private Buyer buyer;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "order_id")
-    private PurchaseOrder order;
+    private PurchaseOrder order;*/
 
     private String customerName;
     private String deliveryAddress;
     private String pickupAddress;
     private LocalDateTime deliveryDate;
+    @CreationTimestamp
+    private LocalDateTime orderDate;
     private String driverName;
     private String driverId;
     private String vehicleNumber;
-    private String order_status = "pending";
-    private String payment_status = "pending";
+    private String reason;
+    private String orderStatus = "pending";
+    private String paymentStatus = "pending";
 }
 

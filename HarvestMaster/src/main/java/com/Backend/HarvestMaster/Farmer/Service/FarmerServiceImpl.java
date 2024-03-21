@@ -2,6 +2,8 @@ package com.Backend.HarvestMaster.Farmer.Service;
 
 import com.Backend.HarvestMaster.Farmer.Model.Farmer;
 import com.Backend.HarvestMaster.Farmer.Repository.FarmerRepository;
+import com.Backend.HarvestMaster.User.Model.User;
+import com.Backend.HarvestMaster.User.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,34 +15,52 @@ public class FarmerServiceImpl implements FarmerService{
 
     @Autowired
     private FarmerRepository farmerRepository;
+    private UserRepository userRepository;
 
-    @Override
-    public Farmer signUpDetails(Farmer details) {
-        return farmerRepository.save(details);
+    @Autowired
+    public FarmerServiceImpl(FarmerRepository farmerRepository, UserRepository userRepository) {
+        this.farmerRepository = farmerRepository;
+        this.userRepository = userRepository;
     }
 
-    @Override
-    public Farmer profileDetails(Integer id) {
-        return farmerRepository.findById(id).get();
+    public Farmer createFarmer(User user, Farmer farmer) {
+        User savedUser = userRepository.save(user); // Save user first to get generated ID
+        farmer.setUser(savedUser); // Set the user for the farmer
+        return farmerRepository.save(farmer);
     }
 
-    @Override
-    public Farmer authCheck(String email) {
-
-        return farmerRepository.findByemail(email);
+    public Farmer getFarmerByEmail(String email) {
+        Optional<Farmer> farmerOptional = farmerRepository.findByUserEmail(email);
+        return farmerOptional.orElse(null);
     }
 
+//    @Override
+//    public Farmer signUpDetails(Farmer details) {
+//        return farmerRepository.save(details);
+//    }
+//
+//    @Override
+//    public Farmer profileDetails(Integer id) {
+//        return farmerRepository.findById(id).get();
+//    }
 
-    @Override
-    public boolean deleteProfile(Integer id) {
+//    @Override
+//    public Farmer authCheck(String email) {
+//
+//        return farmerRepository.findByemail(email);
+//    }
 
-        farmerRepository.deleteById(id);
-        return true;
-    }
 
-    @Override
-    public List<Farmer> getAllProfiles() {
+//    @Override
+//    public boolean deleteProfile(Integer id) {
+//
+//        farmerRepository.deleteById(id);
+//        return true;
+//    }
 
-        return farmerRepository.findAll();
-    }
+//    @Override
+//    public List<Farmer> getAllProfiles() {
+//
+//        return farmerRepository.findAll();
+//    }
 }

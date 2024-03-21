@@ -2,14 +2,13 @@ package com.Backend.HarvestMaster.Order.Service;
 
 import com.Backend.HarvestMaster.Cart.Model.CartItem;
 import com.Backend.HarvestMaster.Cart.Repository.CartRepository;
-import com.Backend.HarvestMaster.Order.Model.CommonResponse;
-import com.Backend.HarvestMaster.Order.Model.Delivery;
-import com.Backend.HarvestMaster.Order.Model.DeliveryCreateRequest;
-import com.Backend.HarvestMaster.Order.Model.DeliveryRequest;
+import com.Backend.HarvestMaster.Order.Model.*;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,8 +48,6 @@ public class DeliveryServiceImpl implements DeliveryService {
                     .status(true)
                     .build();
         } else {
-            // Handle error or throw exception if the delivery schedule with the given ID doesn't exist
-
             return CommonResponse.builder()
                     .message("User not found!")
                     .status(false)
@@ -67,7 +64,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public CommonResponse createNewDelivery(DeliveryCreateRequest request) {
 
-        CartItem cartDetails = cartRepository.findById(request.getOrder_id()).get();
+        CartItem cartDetails = cartRepository.findById(request.getOrderId()).get();
 
         Delivery deliveryData = Delivery.builder()
                 .customerName(request.getCustomerName())
@@ -77,10 +74,12 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .driverId(request.getDriverId())
                 .driverName(request.getDriverName())
                 .vehicleNumber(request.getVehicleNumber())
-                .order_status("PENDING")
-                .payment_status("PENDING")
+                .orderStatus("PENDING")
+                .paymentStatus("PENDING")
                 .buyer(cartDetails.getBuyer())
+                .cartId(request.getOrderId())
                 .build();
+
 
         deliveryData = deliveryRepository.save(deliveryData);
 
@@ -88,6 +87,55 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .status(true)
                 .message("Data Saved")
                 .data(deliveryData)
+                .build();
+    }
+
+    @Override
+    public CommonResponse getPendingDelivery(PendingDeliveryRequest request) {
+        List<Delivery> deliveries = deliveryRepository.findDeliverysByOrderStatusAndPaymentStatus(request.getOrderStatus(), request.getPaymentStatus());
+        List<PendingDeliveryResponse> pendingDeliveries = new ArrayList<>();
+
+        for (Delivery item : deliveries) {
+            pendingDeliveries.add(
+                    PendingDeliveryResponse.builder()
+                            .customerName(item.getBuyer().getCusName())
+                            .orderId(String.valueOf(item.getCartId()))
+                            .orderDate(item.getOrderDate().toString())
+                            .deliveryAddress(item.getDeliveryAddress())
+                            .pickupAddress(item.getPickupAddress())
+                            .deliveryDate(item.getDeliveryDate())
+                            .deliveryId(item.getDeliveryId())
+                            .build()
+            );
+        }
+
+        return CommonResponse.builder()
+                .status(true)
+                .message("Pending Deliveries")
+                .data(pendingDeliveries)
+                .build();
+
+    }
+
+    @Override
+    public CommonResponse manageDeliveries(ManageDeliveryRequest request) {
+        Optional<Delivery> delivery = deliveryRepository.findById(request.getDeliveryId());
+        if (delivery.isEmpty()) {
+            return CommonResponse.builder()
+                    .status(false)
+                    .message("Delivery not found")
+                    .data(null)
+                    .build();
+        }
+        Delivery deliveryDetails = delivery.get();
+        deliveryDetails.setOrderStatus(request.isOrderStatus()?"APPROVED":"REJECTED");
+        deliveryDetails.setReason(request.getReason());
+//        deliveryDetails.setReason(StringUtils.hasLength(request.getReason())?request.getReason():null);
+        deliveryRepository.save(deliveryDetails);
+        return CommonResponse.builder()
+                .status(true)
+                .message("Delivery Managed")
+                .data(null)
                 .build();
     }
 }
