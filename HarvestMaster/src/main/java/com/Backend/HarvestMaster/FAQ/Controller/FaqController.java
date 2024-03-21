@@ -6,11 +6,13 @@ import com.Backend.HarvestMaster.FAQ.Service.FAQService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.html.HTMLTableCaptionElement;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -36,6 +38,22 @@ public class FaqController{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+
+    }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<FAQ>> get(){
+
+
+        try {
+
+            return new ResponseEntity<>(faqService.getAllFaq(),HttpStatus.OK);
+
+        }catch (NoSuchElementException e){
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
 
