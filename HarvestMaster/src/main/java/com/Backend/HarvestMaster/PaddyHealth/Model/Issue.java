@@ -19,7 +19,6 @@ public class Issue {
 
     // Getters and Setters
 
-
     public int getId() {
         return id;
     }
