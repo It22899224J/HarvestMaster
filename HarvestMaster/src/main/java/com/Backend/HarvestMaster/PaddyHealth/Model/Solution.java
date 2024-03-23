@@ -14,6 +14,10 @@ public class Solution {
     private String solution;
     private String documentUrl;
 
+    private String date;
+
+    private String instructor;
+
     private int issue_id;
 
 
@@ -51,5 +55,19 @@ public class Solution {
         this.documentUrl = documentUrl;
     }
 
+    public String getDate() {
+        return date;
+    }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
 }
