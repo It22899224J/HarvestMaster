@@ -3,6 +3,7 @@ package com.Backend.HarvestMaster.PaddyHealth.Service;
 import com.Backend.HarvestMaster.PaddyHealth.Model.Issue;
 import com.Backend.HarvestMaster.PaddyHealth.Repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,10 +14,6 @@ import java.util.Optional;
 @CrossOrigin("http://localhost:5173/")
 @Service
 public class IssueServiceImpl implements IssueService {
-
-    //Value("${file.upload-dir}")
-    //private String uploadDir;
-
     @Autowired
     private IssueRepository issueRepository;
 
@@ -77,5 +74,6 @@ public class IssueServiceImpl implements IssueService {
         return issueRepository.findByStatus(status);
     }
 }
+
 
 
