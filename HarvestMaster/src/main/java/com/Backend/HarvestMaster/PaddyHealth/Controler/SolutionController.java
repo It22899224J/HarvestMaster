@@ -40,31 +40,26 @@ public class SolutionController {
         }
     }
 
-    // Endpoint to delete an issue by its ID
+    // Endpoint to delete a solution by its id
     @DeleteMapping("/solution/{id}")
-    public ResponseEntity<Solution> delete(@PathVariable int id) {
-        try {
+    public ResponseEntity<String> deleteSolution(@PathVariable int id) {
 
-
-            if (solutionService.delete(id)){
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (solutionService.delete(id)) {
+            return ResponseEntity.ok("Solution deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Solution could not be deleted");
         }
+
     }
 
-    //Endpoint to update an issue by its id
+    // Endpoint to update a solution by its id
     @PutMapping("/update/{id}")
-    public ResponseEntity<Solution> updateSolution(@PathVariable int id, @RequestBody Solution solution) {
+    public ResponseEntity<String> updateSolution(@PathVariable int id, @RequestBody Solution solution) {
         try {
             solutionService.updateSolution(id, solution);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok("Solution updated successfully");
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(null);
         }
     }
-
 }
