@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -39,8 +40,11 @@ public class IssueController {
         newIssue.setStatus("pending"); // Set status as "pending"
 
         try {
-            // Setting image data to the Issue object
-            newIssue.setImageData(file.getBytes());
+            // Encoding image data to Base64 string
+            String base64ImageData = Base64.getEncoder().encodeToString(file.getBytes());
+
+            // Setting Base64 encoded image data to the Issue object
+            newIssue.setImageData(base64ImageData.getBytes());
 
             // Saving the new issue
             issueService.saveIssue(newIssue,file);
