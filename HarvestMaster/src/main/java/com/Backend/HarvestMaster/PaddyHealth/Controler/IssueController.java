@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 public class IssueController {
 
     @Autowired
-    private IssueService issueService; // Making IssueService object
+    private IssueService issueService; // Injecting IssueService object
 
     // Endpoint to add a new issue
     @PostMapping("/add")
@@ -26,8 +26,8 @@ public class IssueController {
             @RequestParam("farmer_name") String farmerName,
             @RequestParam("field_location") String fieldLocation,
             @RequestParam("image_data") MultipartFile file,
-            @RequestParam("observed_issues") String observedIssues,
-            @RequestParam( "paddy_name") String paddyName){
+            @RequestParam("observed_issues") String observedIssues){
+
         System.out.println("Received date: " + date);
 
         // Creating a new Issue object
@@ -36,8 +36,7 @@ public class IssueController {
         newIssue.setFarmerName(farmerName);
         newIssue.setFieldLocation(fieldLocation);
         newIssue.setObservedIssues(observedIssues);
-        newIssue.setPaddyName(paddyName);
-
+        newIssue.setStatus("pending"); // Set status as "pending"
 
         try {
             // Setting image data to the Issue object
@@ -69,31 +68,57 @@ public class IssueController {
         }
     }
 
-    // Endpoint to delete an issue by its ID
+    // Endpoint to delete an issue by its id
     @DeleteMapping("/issue/{id}")
-    public ResponseEntity<Issue> delete(@PathVariable int id) {
-        try {
+    public ResponseEntity<String> delete(@PathVariable int id) {
 
-
-            if (issueService.delete(id)){
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (issueService.delete(id)) {
+            return ResponseEntity.ok("Issue deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Issue could not be deleted");
         }
     }
+
 
     //Endpoint to update an issue by its id
     @PutMapping("/update/{id}")
-    public ResponseEntity<Issue> updateIssue(@PathVariable int id, @RequestBody Issue issue) {
+    public ResponseEntity<String> updateIssue(@PathVariable int id, @RequestBody Issue issue) {
         try {
             issueService.updateIssue(id, issue);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok("Issue updated successfully");
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
+    // Endpoint to mark an issue as accepted
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<String> acceptIssue(@PathVariable int id) {
+        try {
+            Issue issue = issueService.getIssueById(id);
+            if (issue != null) {
+                issue.setStatus("accepted");
+                issueService.updateIssue(id, issue);
+                return ResponseEntity.ok("Issue accepted successfully");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error accepting issue: " + e.getMessage());
+        }
+    }
+
+    // Endpoint to get all pending issues
+    @GetMapping("/pending")
+    public ResponseEntity<List<Issue>> getPendingIssues() {
+        List<Issue> pendingIssues = issueService.getIssuesByStatus("pending");
+        return ResponseEntity.ok(pendingIssues);
+    }
+
+    // Endpoint to get all accepted issues
+    @GetMapping("/accepted")
+    public ResponseEntity<List<Issue>> getAcceptedIssues() {
+        List<Issue> acceptedIssues = issueService.getIssuesByStatus("accepted");
+        return ResponseEntity.ok(acceptedIssues);
+    }
 }
