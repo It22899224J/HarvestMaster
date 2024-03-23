@@ -107,7 +107,6 @@ public class IssueController {
             return ResponseEntity.badRequest().body("Error accepting issue: " + e.getMessage());
         }
     }
-
     // Endpoint to get all pending issues
     @GetMapping("/pending")
     public ResponseEntity<List<Issue>> getPendingIssues() {
@@ -121,4 +120,7 @@ public class IssueController {
         List<Issue> acceptedIssues = issueService.getIssuesByStatus("accepted");
         return ResponseEntity.ok(acceptedIssues);
     }
+
+
+
 }
