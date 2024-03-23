@@ -19,8 +19,12 @@ public interface IssueService {
     // Method to update an existing issue
     public  Issue updateIssue( int id,Issue issue);
 
+    // Method to update the status of an issue by its ID
+    Issue updateIssueStatus(int id, String status);
+
+
+    // Method to retrieve issues by status
+    List<Issue> getIssuesByStatus(String status);
+
 
 }
-
-
-
