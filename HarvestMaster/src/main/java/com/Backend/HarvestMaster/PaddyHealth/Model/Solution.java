@@ -9,29 +9,34 @@ public class Solution {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "issue_id")
-    private Issue issue;
     private String solution;
     private String documentUrl;
 
-    public Long getId() {
+    private String date;
+
+    private String instructor;
+
+    private int issue_id;
+
+
+    // Getters and Setters
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
 
-    public Issue getIssue() {
-        return issue;
+    public int getIssue_id() {
+        return issue_id;
     }
 
-    public void setIssue(Issue issue) {
-        this.issue = issue;
+    public void setIssue_id(int issue_id) {
+        this.issue_id = issue_id;
     }
 
     public String getSolution() {
@@ -50,5 +55,19 @@ public class Solution {
         this.documentUrl = documentUrl;
     }
 
+    public String getDate() {
+        return date;
+    }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(String instructor) {
+        this.instructor = instructor;
+    }
 }

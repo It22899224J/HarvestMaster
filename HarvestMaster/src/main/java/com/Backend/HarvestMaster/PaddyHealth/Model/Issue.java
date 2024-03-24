@@ -8,12 +8,16 @@ public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String date;
     private String farmerName;
     private String fieldLocation;
     private byte[] imageData;
     private String observedIssues;
-    private String paddyName;
+    private String status; // pending or accepted
+
+
+    // Getters and Setters
 
     public int getId() {
         return id;
@@ -63,13 +67,12 @@ public class Issue {
         this.observedIssues = observedIssues;
     }
 
-    public String getPaddyName() {
-        return paddyName;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPaddyName(String paddyName) {
-        this.paddyName = paddyName;
+    public void setStatus(String status) {
+        this.status = status;
     }
-
-
 }
+

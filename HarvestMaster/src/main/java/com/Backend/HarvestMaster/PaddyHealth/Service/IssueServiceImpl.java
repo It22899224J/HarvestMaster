@@ -10,13 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
 @CrossOrigin("http://localhost:5173/")
 @Service
 public class IssueServiceImpl implements IssueService {
-
-//    @Value("${file.upload-dir}")
-//    private String uploadDir;
-
     @Autowired
     private IssueRepository issueRepository;
 
@@ -47,26 +44,36 @@ public class IssueServiceImpl implements IssueService {
 
     // Delete an issue by its ID
     @Override
-    public void deleteIssueById(int id) {
+    public boolean delete(int id){
         issueRepository.deleteById(id);
+        return true;
     }
 
     // Update an existing issue
     @Override
-    public Issue updateIssue(Issue issue, int id) {
-        Optional<Issue> optionalIssue = issueRepository.findById(id);
-        if (optionalIssue.isPresent()) {
-            Issue existingIssue = optionalIssue.get();
-            existingIssue.setDate(issue.getDate());
-            existingIssue.setFarmerName(issue.getFarmerName());
-            existingIssue.setFieldLocation(issue.getFieldLocation());
-            existingIssue.setImageData(issue.getImageData());
-            existingIssue.setObservedIssues(issue.getObservedIssues());
-            existingIssue.setPaddyName(issue.getPaddyName());
+    public Issue updateIssue( int id,Issue issue) {
+        Issue current=issueRepository.findById(id).get();
+        issue.setId(current.getId());
+        return issueRepository.save(issue) ;
+    }
 
-            return issueRepository.save(existingIssue);
-        } else {
-            throw new RuntimeException("Issue with ID " + id + " not found"); // Solution with the provided ID not found
+    // Retrieve the issue from the database using its ID
+    @Override
+    public Issue updateIssueStatus(int id, String status) {
+        Issue issue = issueRepository.findById(id).orElse(null);
+        if (issue != null) {
+            issue.setStatus(status);
+            return issueRepository.save(issue);
         }
+        return null;
+    }
+
+    // Retrieve a list of issues from the database that match the provided status
+    @Override
+    public List<Issue> getIssuesByStatus(String status) {
+        return issueRepository.findByStatus(status);
     }
 }
+
+
+

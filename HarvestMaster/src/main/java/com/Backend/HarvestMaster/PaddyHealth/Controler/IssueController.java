@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @CrossOrigin("http://localhost:5173/")
 @RestController
@@ -16,7 +18,7 @@ import java.util.List;
 public class IssueController {
 
     @Autowired
-    private IssueService issueService; // Making IssueService object
+    private IssueService issueService; // Injecting IssueService object
 
     // Endpoint to add a new issue
     @PostMapping("/add")
@@ -25,8 +27,8 @@ public class IssueController {
             @RequestParam("farmer_name") String farmerName,
             @RequestParam("field_location") String fieldLocation,
             @RequestParam("image_data") MultipartFile file,
-            @RequestParam("observed_issues") String observedIssues,
-            @RequestParam( "paddy_name") String paddyName){
+            @RequestParam("observed_issues") String observedIssues){
+
         System.out.println("Received date: " + date);
 
         // Creating a new Issue object
@@ -35,12 +37,14 @@ public class IssueController {
         newIssue.setFarmerName(farmerName);
         newIssue.setFieldLocation(fieldLocation);
         newIssue.setObservedIssues(observedIssues);
-        newIssue.setPaddyName(paddyName);
-
+        newIssue.setStatus("pending"); // Set status as "pending"
 
         try {
-            // Setting image data to the Issue object
-            newIssue.setImageData(file.getBytes());
+            // Encoding image data to Base64 string
+            String base64ImageData = Base64.getEncoder().encodeToString(file.getBytes());
+
+            // Setting Base64 encoded image data to the Issue object
+            newIssue.setImageData(base64ImageData.getBytes());
 
             // Saving the new issue
             issueService.saveIssue(newIssue,file);
@@ -68,26 +72,59 @@ public class IssueController {
         }
     }
 
-    // Endpoint to delete an issue by its ID
-    @DeleteMapping("/issues/{id}")
-    public ResponseEntity<String> deleteIssueById(@PathVariable("id") int id) {
-        issueService.deleteIssueById(id);
-        return ResponseEntity.ok("Issue deleted successfully");
-    }
+    // Endpoint to delete an issue by its id
+    @DeleteMapping("/issue/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id) {
 
-    // Endpoint to update an existing issue
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateIssue(@PathVariable int id, @RequestBody Issue updatedIssue) {
-        Issue existingIssue = issueService.getIssueById(id);
-        if (existingIssue != null) {
-
-            // Update the existing issue with the provided data
-            updatedIssue.setId(existingIssue.getId());
-            issueService.updateIssue(updatedIssue, id);
-            return ResponseEntity.ok("Issue updated successfully");
+        if (issueService.delete(id)) {
+            return ResponseEntity.ok("Issue deleted successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Issue with ID " + id + " not found");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Issue could not be deleted");
         }
     }
+
+
+    //Endpoint to update an issue by its id
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateIssue(@PathVariable int id, @RequestBody Issue issue) {
+        try {
+            issueService.updateIssue(id, issue);
+            return ResponseEntity.ok("Issue updated successfully");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    // Endpoint to mark an issue as accepted
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<String> acceptIssue(@PathVariable int id) {
+        try {
+            Issue issue = issueService.getIssueById(id);
+            if (issue != null) {
+                issue.setStatus("accepted");
+                issueService.updateIssue(id, issue);
+                return ResponseEntity.ok("Issue accepted successfully");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error accepting issue: " + e.getMessage());
+        }
+    }
+    // Endpoint to get all pending issues
+    @GetMapping("/pending")
+    public ResponseEntity<List<Issue>> getPendingIssues() {
+        List<Issue> pendingIssues = issueService.getIssuesByStatus("pending");
+        return ResponseEntity.ok(pendingIssues);
+    }
+
+    // Endpoint to get all accepted issues
+    @GetMapping("/accepted")
+    public ResponseEntity<List<Issue>> getAcceptedIssues() {
+        List<Issue> acceptedIssues = issueService.getIssuesByStatus("accepted");
+        return ResponseEntity.ok(acceptedIssues);
+    }
+
+
 
 }

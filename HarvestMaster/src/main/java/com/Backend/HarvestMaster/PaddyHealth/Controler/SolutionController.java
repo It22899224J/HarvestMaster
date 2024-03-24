@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @CrossOrigin("http://localhost:5173/")
 @RestController
@@ -13,7 +14,7 @@ import java.util.List;
 public class SolutionController {
 
     @Autowired
-    private SolutionService solutionService; // Making SolutionService object
+    private SolutionService solutionService; // Injecting SolutionService object
 
     // Endpoint to add a new solution
     @PostMapping("/add")
@@ -39,31 +40,26 @@ public class SolutionController {
         }
     }
 
-    // Endpoint to update an existing solution
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateSolution(@PathVariable int id, @RequestBody Solution updatedSolution) {
-        Solution existingSolution = solutionService.getSolutionById(id);
-        if (existingSolution != null) {
-            // Update the existing solution with the provided data
-            updatedSolution.setId(existingSolution.getId());
-            solutionService.saveSolution(updatedSolution);
-            return ResponseEntity.ok("Solution updated successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Solution with ID " + id + " not found");
-        }
-    }
-
-
-    // Endpoint to delete a solution by its ID
-    @DeleteMapping("/{id}")
+    // Endpoint to delete a solution by its id
+    @DeleteMapping("/solution/{id}")
     public ResponseEntity<String> deleteSolution(@PathVariable int id) {
-        Solution existingSolution = solutionService.getSolutionById(id);
-        if (existingSolution != null) {
-            solutionService.deleteSolution(id);
+
+        if (solutionService.delete(id)) {
             return ResponseEntity.ok("Solution deleted successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Solution could not be deleted");
+        }
+
+    }
+
+    // Endpoint to update a solution by its id
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateSolution(@PathVariable int id, @RequestBody Solution solution) {
+        try {
+            solutionService.updateSolution(id, solution);
+            return ResponseEntity.ok("Solution updated successfully");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }
-
