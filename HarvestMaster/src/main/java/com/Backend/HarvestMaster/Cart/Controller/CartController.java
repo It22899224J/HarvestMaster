@@ -2,7 +2,6 @@ package com.Backend.HarvestMaster.Cart.Controller;
 
 import com.Backend.HarvestMaster.Cart.Model.CartItem;
 import com.Backend.HarvestMaster.Cart.Service.CartService;
-import com.Backend.HarvestMaster.Inventory.Model.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +24,9 @@ public class CartController {
     }
 
     @GetMapping(path = "/cart/{customerId}")
-    public List<CartItem> getAllCartItems(@PathVariable("customerId") Integer customerId){
+    public List<CartItem> findAllCartItems(@PathVariable Integer customerId){
 
-        return null;
+        return cartService.findAllCartItems(customerId);
     }
 
     @DeleteMapping(path = "/cart/{id}")
