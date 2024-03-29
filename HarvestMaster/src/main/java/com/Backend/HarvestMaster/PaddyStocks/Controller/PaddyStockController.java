@@ -4,6 +4,7 @@ package com.Backend.HarvestMaster.PaddyStocks.Controller;
 import com.Backend.HarvestMaster.PaddyHealth.Model.Issue;
 import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStock;
 import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockDTO;
+import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockViewDTO;
 import com.Backend.HarvestMaster.PaddyStocks.Model.Status_stock;
 import com.Backend.HarvestMaster.PaddyStocks.Service.PaddyStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class PaddyStockController {
 
 
 @GetMapping("/get/{postharvest_id}")
-    public ResponseEntity<PaddyStock> getPaddyStock(@PathVariable Integer postharvest_id){
+    public ResponseEntity<PaddyStockViewDTO> getPaddyStock(@PathVariable Integer postharvest_id){
     try {
         return new ResponseEntity<>(paddyStockService.getPaddyStockDetails(postharvest_id).get(0),HttpStatus.OK);
     }catch (NoSuchElementException e)
