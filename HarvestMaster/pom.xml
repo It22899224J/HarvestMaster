@@ -65,6 +65,23 @@
 			<artifactId>stripe-java</artifactId>
 			<version>20.124.0</version>
 		</dependency>
+
+		<dependency>
+		<groupId> org.springframework.boot </groupId>
+		<artifactId>spring-boot-starter-webflux </artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.13.1</version> <!-- or the latest version -->
+		</dependency>
+
+		<!-- Jackson Databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.1</version> <!-- or the latest version -->
+		</dependency>
 	</dependencies>
 
 	<build>
