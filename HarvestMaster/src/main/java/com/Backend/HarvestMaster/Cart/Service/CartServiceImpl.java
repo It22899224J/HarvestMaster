@@ -19,8 +19,8 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public List<CartItem> findAll(int customerId) {
-        return null;
+    public List<CartItem> findAllCartItems(Integer customerId) {
+        return cartRepository.getCartItemList(customerId);
     }
 
     @Override

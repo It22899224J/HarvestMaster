@@ -7,7 +7,7 @@ import java.util.List;
 public interface CartService {
     CartItem saveCartItem(CartItem cartItem);
 
-    List<CartItem> findAll(int customerId);
+    List<CartItem> findAllCartItems(Integer customerId);
 
     boolean deleteCartItem(Integer id);
 }
