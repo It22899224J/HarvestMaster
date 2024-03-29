@@ -41,7 +41,7 @@ public class InventoryServiceImpl implements InventoryService{
     @Override
     public Inventory updateInventory(Integer p_id, Inventory inventory) {
 
-        inventory.setpId(p_id);
+        inventory.setPId(p_id);
         inventoryRepository.save(inventory);
         return inventory;
     }
