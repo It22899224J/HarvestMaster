@@ -2,6 +2,7 @@ package com.Backend.HarvestMaster.PaddyStocks.Service;
 
 import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStock;
 import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockDTO;
+import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockViewDTO;
 import com.Backend.HarvestMaster.PaddyStocks.Repository.PaddyStockRepository;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 import com.Backend.HarvestMaster.PostHarvest.Repository.PostHarvestRepository;
@@ -28,10 +29,20 @@ public class PaddyStockImpl implements PaddyStockService{
     private PostHarvestRepository postHarvestRepository;
     @Override
 
-    public  List<PaddyStock> getPaddyStockDetails(int fieldId) {
+    public  List<PaddyStockViewDTO> getPaddyStockDetails(int fieldId) {
 
 
-        return paddyStockRepository.findByRelatedPostHarvest_FieldId(fieldId);
+        paddyStockRepository.findByRelatedPostHarvest_FieldId(fieldId);
+
+
+        List<PaddyStock> paddyStocks =  paddyStockRepository.findByRelatedPostHarvest_FieldId(fieldId);
+        List<PaddyStockViewDTO> paddyStockViewDTOs = paddyStocks.stream()
+                .map(this::convertToviewDTO)
+                .collect(Collectors.toList());
+
+
+        return paddyStockViewDTOs;
+
 
 
     }
@@ -88,6 +99,44 @@ public class PaddyStockImpl implements PaddyStockService{
         dto.setStatus(paddyStock.getStatus());
 
 
+
+        // Convert image data to Base64
+
+        dto.setImageBase64(blobConverter(paddyStock));
+
+        // Populate fields from the associated PostHarvest object
+        PostHarvest postHarvest = paddyStock.getRelatedPostHarvest();
+        if (postHarvest != null) {
+            dto.setPaddyVariety(postHarvest.getPaddyVareity());
+            dto.setLocation(postHarvest.getLocation());
+            // Add other fields as needed
+        }
+
+        return dto;
+    }
+
+    private PaddyStockViewDTO convertToviewDTO(PaddyStock paddyStock) {
+        PaddyStockViewDTO dto = new PaddyStockViewDTO();
+        dto.setPs_id(paddyStock.getPs_id());
+        dto.setAmount(paddyStock.getAmount());
+        dto.setPrice(paddyStock.getPrice());
+        dto.setStatus(paddyStock.getStatus());
+
+
+
+        // Convert image data to Base64
+
+        dto.setImage(blobConverter(paddyStock));
+
+        // Populate fields from the associated PostHarvest object
+        PostHarvest postHarvest = paddyStock.getRelatedPostHarvest();
+        if (postHarvest != null) {
+            dto.setRelatedPostHarvest(postHarvest);
+        }
+
+        return dto;
+    }
+    private String blobConverter(PaddyStock paddyStock){
         String imageBase64 = null;
         Blob imageBlob = paddyStock.getImage();
         if (imageBlob != null) {
@@ -99,18 +148,6 @@ public class PaddyStockImpl implements PaddyStockService{
                 e.printStackTrace();
             }
         }
-        // Convert image data to Base64
-
-        dto.setImageBase64(imageBase64);
-
-        // Populate fields from the associated PostHarvest object
-        PostHarvest postHarvest = paddyStock.getRelatedPostHarvest();
-        if (postHarvest != null) {
-            dto.setPaddyVariety(postHarvest.getPaddyVareity());
-            dto.setLocation(postHarvest.getLocation());
-            // Add other fields as needed
-        }
-
-        return dto;
+        return imageBase64;
     }
 }
