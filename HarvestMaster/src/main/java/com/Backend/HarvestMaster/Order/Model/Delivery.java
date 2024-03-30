@@ -39,7 +39,11 @@ public class Delivery {
     private String driverId;
     private String vehicleNumber;
     private String reason;
-    private String orderStatus = "pending";
-    private String paymentStatus = "pending";
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'PENDING'")
+    private String orderStatus;
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'PENDING'")
+    private String paymentStatus;
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'PENDING'")
+    private String deliveryStatus;
 }
 
