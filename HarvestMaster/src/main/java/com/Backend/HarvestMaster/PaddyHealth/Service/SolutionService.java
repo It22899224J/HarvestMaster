@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface SolutionService {
     // Save a new solution
-    void saveSolution(Solution solution);
+    void saveSolution(int issue_id,Solution solution);
 
     // Retrieve all solutions
     List<Solution> getAllSolutions();
