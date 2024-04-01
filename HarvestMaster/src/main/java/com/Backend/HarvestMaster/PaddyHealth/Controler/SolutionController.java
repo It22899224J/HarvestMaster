@@ -17,9 +17,9 @@ public class SolutionController {
     private SolutionService solutionService; // Injecting SolutionService object
 
     // Endpoint to add a new solution
-    @PostMapping("/add")
-    public String add(@RequestBody Solution solution) {
-        solutionService.saveSolution(solution); // Saving the new solution
+    @PostMapping("/add/{id}")
+    public String add(@PathVariable int issue_id,@RequestBody Solution solution) {
+        solutionService.saveSolution(1,solution); // Saving the new solution
         return "New Solution is Added";
     }
 
