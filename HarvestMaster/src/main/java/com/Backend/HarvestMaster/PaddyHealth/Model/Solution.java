@@ -1,4 +1,5 @@
 package com.Backend.HarvestMaster.PaddyHealth.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 
@@ -11,6 +12,19 @@ public class Solution {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+    @OneToOne
+    @JoinColumn(name = "issue_id")
+    private Issue issue;
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
+
+    public Issue getIssue() {
+        return issue;
+    }
+
     private String solution;
     private String documentUrl;
 
@@ -18,7 +32,7 @@ public class Solution {
 
     private String instructor;
 
-    private int issue_id;
+
 
 
     // Getters and Setters
@@ -28,15 +42,6 @@ public class Solution {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-
-    public int getIssue_id() {
-        return issue_id;
-    }
-
-    public void setIssue_id(int issue_id) {
-        this.issue_id = issue_id;
     }
 
     public String getSolution() {
