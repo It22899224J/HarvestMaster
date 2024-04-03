@@ -4,6 +4,8 @@ package com.Backend.HarvestMaster.PaddyStocks.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class PaddyStockDTO {
@@ -15,7 +17,7 @@ public class PaddyStockDTO {
     private Status_stock status;
     private String paddyVariety;
     private String location;
-
+    private List<BidDTO> bids;
 
     public PaddyStockDTO() {
     }
