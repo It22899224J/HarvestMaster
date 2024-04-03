@@ -1,6 +1,7 @@
 package com.Backend.HarvestMaster.Inventory.Service;
 
 import com.Backend.HarvestMaster.Inventory.Model.Inventory;
+import com.Backend.HarvestMaster.Inventory.Model.InventoryDTO;
 import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 
@@ -16,7 +17,7 @@ public interface InventoryService {
 
     public List<Inventory> getInventories();
 
-    List<Inventory> getAllInventory();
+    List<InventoryDTO> getAllInventory();
 
     public Inventory updateInventory(Integer p_id , Inventory inventory);
 

@@ -11,34 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/delivery/")
 public class DeliveryControler {
     @Autowired
-    private DeliveryService deliveryService;
+    private final DeliveryService deliveryService;
 
-   /* @GetMapping
-    public ResponseEntity<List<Delivery>> getAllDeliverySchedules() {
-        List<Delivery> deliverySchedules = deliveryService.getAllDeliverySchedules();
-        return new ResponseEntity<>(deliverySchedules, HttpStatus.OK);
+    public DeliveryControler(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Delivery> getDeliveryScheduleById(@PathVariable("id") Long id) {
-        Optional<Delivery> deliverySchedule = deliveryService.getDeliveryScheduleById(id);
-        return deliverySchedule.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PostMapping
-    public ResponseEntity<Delivery> createDeliverySchedule(@RequestBody Delivery delivery) {
-        Delivery createdDeliverySchedule = deliveryService.createDeliverySchedule(delivery);
-        return new ResponseEntity<>(createdDeliverySchedule, HttpStatus.CREATED);
-    }
-
-
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteDeliverySchedule(@PathVariable("id") Long id) {
-        deliveryService.deleteDeliverySchedule(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }*/
 
     @PostMapping("create")
     public ResponseEntity<CommonResponse> createNewDelivery(@RequestBody DeliveryCreateRequest request) {
@@ -74,6 +51,37 @@ public class DeliveryControler {
             return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(updatedDeliverySchedule, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/confirm")
+    public ResponseEntity<CommonResponse> markAsDelivered(@RequestBody DeliveryConfirmRequest delivery) {
+        CommonResponse markAsDelivered = deliveryService.markAsDelivered(delivery);
+        if (markAsDelivered.isStatus()) {
+            return new ResponseEntity<>(markAsDelivered, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(markAsDelivered, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @GetMapping("/log")
+    public ResponseEntity<CommonResponse> deliveryLogActivityCommonResponseResponseEntity(){
+        CommonResponse deliveryLogActivity = deliveryService.deliveryLogActivity();
+        if (deliveryLogActivity.isStatus()) {
+            return new ResponseEntity<>(deliveryLogActivity, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(deliveryLogActivity, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<CommonResponse> orderTotalCommonResponseResponseEntity(){
+        CommonResponse orderTotal = deliveryService.orderTotal();
+        if (orderTotal.isStatus()) {
+            return new ResponseEntity<>(orderTotal, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(orderTotal, HttpStatus.NOT_FOUND);
         }
     }
 }

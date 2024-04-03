@@ -1,6 +1,7 @@
 package com.Backend.HarvestMaster.PaddyStocks.Service;
 
 import com.Backend.HarvestMaster.PaddyStocks.Model.Bid;
+import com.Backend.HarvestMaster.PaddyStocks.Model.BidDTO;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public interface BidService {
     public List<Bid> getAllBids(Integer stock_id);
     public Bid getBid(Integer bid_id);
 
+    public List<BidDTO> getMarketBids(Integer stock_id);
     public Bid updateBid(Integer bid_id,Bid bid);
 
     public boolean deleteBid(Integer bid_id);

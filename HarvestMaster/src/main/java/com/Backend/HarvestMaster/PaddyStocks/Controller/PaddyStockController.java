@@ -2,10 +2,7 @@ package com.Backend.HarvestMaster.PaddyStocks.Controller;
 
 
 import com.Backend.HarvestMaster.PaddyHealth.Model.Issue;
-import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStock;
-import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockDTO;
-import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockViewDTO;
-import com.Backend.HarvestMaster.PaddyStocks.Model.Status_stock;
+import com.Backend.HarvestMaster.PaddyStocks.Model.*;
 import com.Backend.HarvestMaster.PaddyStocks.Service.PaddyStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,6 +66,22 @@ public class PaddyStockController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
+
+    @PostMapping("/filtered-stocks")
+    public ResponseEntity<List<PaddyStockAvl>> getPaddyStock(@RequestBody StockSearch stockSearch){
+
+
+
+
+        try {
+            System.out.println(stockSearch.getVariety());
+            return new ResponseEntity<>(paddyStockService.getPaddyStocksByType(stockSearch.getVariety(),stockSearch.getFert()),HttpStatus.OK);
+        }catch (NoSuchElementException e)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping("/all")
     public ResponseEntity<List<PaddyStockDTO>> getallPaddyStock(){

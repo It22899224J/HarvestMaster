@@ -42,6 +42,8 @@ public class BidController {
         }
 
     }
+
+
     @GetMapping("/getbids/{bid_id}")
     @Async
     public ResponseEntity<Bid> getBidDetails(@PathVariable Integer bid_id){

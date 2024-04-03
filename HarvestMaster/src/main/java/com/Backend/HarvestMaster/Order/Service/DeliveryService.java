@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DeliveryService {
-    List<Delivery>getAllDeliverySchedules();
-    Optional<Delivery>getDeliveryScheduleById(Long delivery_id);
-    Delivery createDeliverySchedule(Delivery delivery);
-    void deleteDeliverySchedule(Long delivery_id);
     CommonResponse updateDeliverySchedule(DeliveryRequest delivery);
 
     CommonResponse createNewDelivery(DeliveryCreateRequest request);
@@ -19,4 +15,9 @@ public interface DeliveryService {
 
     CommonResponse manageDeliveries(ManageDeliveryRequest request);
 
+    CommonResponse markAsDelivered(DeliveryConfirmRequest delivery);
+
+    CommonResponse deliveryLogActivity();
+
+    CommonResponse orderTotal();
 }

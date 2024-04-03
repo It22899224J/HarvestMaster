@@ -27,6 +27,7 @@ public class IssueController {
             @RequestParam("farmer_name") String farmerName,
             @RequestParam("field_location") String fieldLocation,
             @RequestParam("image_data") MultipartFile file,
+            @RequestParam("damaged_section") String damagedSection,
             @RequestParam("observed_issues") String observedIssues){
 
         System.out.println("Received date: " + date);
@@ -37,6 +38,7 @@ public class IssueController {
         newIssue.setFarmerName(farmerName);
         newIssue.setFieldLocation(fieldLocation);
         newIssue.setObservedIssues(observedIssues);
+        newIssue.setDamagedSection(damagedSection);
         newIssue.setStatus("pending"); // Set status as "pending"
 
         try {

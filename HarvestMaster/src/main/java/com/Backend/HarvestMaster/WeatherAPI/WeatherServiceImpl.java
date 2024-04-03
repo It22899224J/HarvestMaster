@@ -12,7 +12,7 @@ public class WeatherServiceImpl implements WeatherService {
 
     public WeatherModel getWeather(String zip) {
 
-        String url = "http://api.openweathermap.org/data/2.5/forecast?zip="+zip+"&appid=3cf94147a5db1997530840cdfe968ffb&units=metric";
+        String url = "http://api.openweathermap.org/data/2.5/forecast?zip="+zip+",lk&appid=ddb64a174007a68a4edc85f09f65f2e6&units=metric";
 
         WebClient.Builder builder = WebClient.builder();
 

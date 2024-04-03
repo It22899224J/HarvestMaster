@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Blob;
-
+//for the details page
 @Getter
 @Setter
 public class PaddyStockViewDTO {

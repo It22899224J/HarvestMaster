@@ -24,6 +24,7 @@ public class PostHarvest
 
     private String paddyVareity;
     private float area;
+    private int zip;
     private String ownership;
 
 

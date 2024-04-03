@@ -14,6 +14,8 @@ public class Issue {
     private String fieldLocation;
     private byte[] imageData;
     private String observedIssues;
+
+    private String damagedSection;
     private String status; // pending or accepted
 
 
@@ -73,6 +75,14 @@ public class Issue {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDamagedSection() {
+        return damagedSection;
+    }
+
+    public void setDamagedSection(String damagedSection) {
+        this.damagedSection = damagedSection;
     }
 }
 

@@ -11,22 +11,21 @@ import lombok.Setter;
 
 import java.sql.Blob;
 
-@Entity
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Inventory {
+public class InventoryDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int pId;
     private String Product_type;
     private String Product_Name;
     private String Description;
     private  int Packege_Type;
     private  double Price;
-    private Blob image;
+    private String image;
 
 
 }
