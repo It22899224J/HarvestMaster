@@ -1,8 +1,6 @@
 package com.Backend.HarvestMaster.PaddyStocks.Service;
 
-import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStock;
-import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockDTO;
-import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStockViewDTO;
+import com.Backend.HarvestMaster.PaddyStocks.Model.*;
 import com.Backend.HarvestMaster.PaddyStocks.Repository.PaddyStockRepository;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 import com.Backend.HarvestMaster.PostHarvest.Repository.PostHarvestRepository;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +23,8 @@ public class PaddyStockImpl implements PaddyStockService{
     @Autowired
     private PaddyStockRepository paddyStockRepository;
 
+    @Autowired BidService bidService;
+
 
     @Autowired
     private PostHarvestRepository postHarvestRepository;
@@ -32,7 +33,7 @@ public class PaddyStockImpl implements PaddyStockService{
     public  List<PaddyStockViewDTO> getPaddyStockDetails(int fieldId) {
 
 
-        paddyStockRepository.findByRelatedPostHarvest_FieldId(fieldId);
+
 
 
         List<PaddyStock> paddyStocks =  paddyStockRepository.findByRelatedPostHarvest_FieldId(fieldId);
@@ -45,6 +46,25 @@ public class PaddyStockImpl implements PaddyStockService{
 
 
 
+    }
+
+    @Override
+    public List<PaddyStockAvl> getPaddyStocksByType(String vareity, String fertilizer) {
+
+
+
+
+        List<Object[]> resultList = paddyStockRepository.findByVareityAndFertilizer(vareity,fertilizer);
+
+        List<PaddyStockAvl> mappedResult = new ArrayList<>();
+
+        for (Object[] objArray : resultList) {
+            float price = (float) objArray[0];
+
+            mappedResult.add(new PaddyStockAvl(price));
+        }
+
+return mappedResult;
     }
 
     @Override
@@ -97,6 +117,7 @@ public class PaddyStockImpl implements PaddyStockService{
         dto.setAmount(paddyStock.getAmount());
         dto.setPrice(paddyStock.getPrice());
         dto.setStatus(paddyStock.getStatus());
+        dto.setBids(bidService.getMarketBids(dto.getPs_id()));
 
 
 
