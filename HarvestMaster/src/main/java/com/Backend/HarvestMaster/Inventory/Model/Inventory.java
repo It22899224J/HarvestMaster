@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Blob;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,8 +25,8 @@ public class Inventory {
     private String Product_Name;
     private String Description;
     private  int Packege_Type;
-    private  int Price;
-    private long image;
+    private  double Price;
+    private Blob image;
 
 
 }
