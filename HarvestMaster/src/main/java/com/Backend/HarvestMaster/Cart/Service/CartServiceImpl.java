@@ -28,4 +28,15 @@ public class CartServiceImpl implements CartService{
         cartRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    public CartItem updateQuantity(Integer cartItemId, CartItem cartItem) {
+
+        CartItem existingCartItem = cartRepository.findById(cartItemId)
+                .orElseThrow(() -> new RuntimeException("CartItem not found with ID: " + cartItemId));
+
+        existingCartItem.setQuantity(cartItem.getQuantity());
+
+        return  cartRepository.save(existingCartItem);
+    }
 }
