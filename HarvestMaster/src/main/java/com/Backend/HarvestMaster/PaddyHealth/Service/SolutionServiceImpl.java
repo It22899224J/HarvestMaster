@@ -14,10 +14,15 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Autowired
     private SolutionRepository solutionRepository;
+    @Autowired
+    private IssueService issueService;
 
     // Save a new solution
     @Override
-    public void saveSolution(Solution solution) {
+    public void saveSolution(int issue_id,Solution solution) {
+
+        solution.setIssue(issueService.getIssueById(issue_id));
+
         solutionRepository.save(solution);
     }
 
