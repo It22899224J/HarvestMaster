@@ -9,6 +9,8 @@ public class Issue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+
     private String date;
     private String farmerName;
     private String fieldLocation;
@@ -80,6 +82,7 @@ public class Issue {
     public String getDamagedSection() {
         return damagedSection;
     }
+
 
     public void setDamagedSection(String damagedSection) {
         this.damagedSection = damagedSection;
