@@ -26,7 +26,7 @@ public class Solution {
     }
 
     private String solution;
-    private String documentUrl;
+    private String document_url;
 
     private String date;
 
@@ -52,12 +52,12 @@ public class Solution {
         this.solution = solution;
     }
 
-    public String getDocumentUrl() {
-        return documentUrl;
+    public String getDocument_url() {
+        return document_url;
     }
 
-    public void setDocumentUrl(String documentUrl) {
-        this.documentUrl = documentUrl;
+    public void setDocument_url(String documentUrl) {
+        this.document_url = documentUrl;
     }
 
     public String getDate() {
