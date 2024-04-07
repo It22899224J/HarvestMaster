@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("http://localhost:5173")
 @RestController
 @RequestMapping("/solution")
 public class SolutionController {
@@ -18,8 +18,8 @@ public class SolutionController {
 
     // Endpoint to add a new solution
     @PostMapping("/add/{id}")
-    public String add(@PathVariable int issue_id,@RequestBody Solution solution) {
-        solutionService.saveSolution(1,solution); // Saving the new solution
+    public String add(@PathVariable int id, @RequestBody Solution solution) {
+        solutionService.saveSolution(id, solution); // Saving the new solution
         return "New Solution is Added";
     }
 
