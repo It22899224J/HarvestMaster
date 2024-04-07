@@ -3,6 +3,7 @@ package com.Backend.HarvestMaster.Inventory.Controler;
 import com.Backend.HarvestMaster.Farmer.Model.Farmer;
 import com.Backend.HarvestMaster.Inventory.Model.Inventory;
 import com.Backend.HarvestMaster.Inventory.Model.InventoryDTO;
+import com.Backend.HarvestMaster.Inventory.Model.Update_Inventory;
 import com.Backend.HarvestMaster.Inventory.Service.InventoryService;
 import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStock;
 import com.Backend.HarvestMaster.PaddyStocks.Model.Status_stock;
@@ -88,11 +89,11 @@ public class InventoryControler {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Inventory> updateInventory(@PathVariable Integer id, @RequestBody Inventory inventory) {
+    public ResponseEntity<InventoryDTO> updateInventory(@PathVariable Integer id, @RequestBody Update_Inventory updateInventory) {
 
         try {
 
-            inventoryService.updateInventory(id, inventory);
+            inventoryService.updateInventory(id, updateInventory);
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (NoSuchElementException e) {
