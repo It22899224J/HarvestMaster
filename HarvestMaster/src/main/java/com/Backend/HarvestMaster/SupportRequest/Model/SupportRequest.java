@@ -5,8 +5,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
+
 @Entity
 public class SupportRequest {
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
 
     public SupportRequest() {
     }
@@ -47,11 +53,23 @@ public class SupportRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int r_Id;
 
+    private String topic;
     private String issue;
     private String status;
 
     private String user_id;
 
+private LocalDate localDate;
 
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
 
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
 }
