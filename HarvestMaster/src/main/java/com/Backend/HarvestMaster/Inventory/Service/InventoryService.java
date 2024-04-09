@@ -14,7 +14,7 @@ public interface InventoryService {
     public boolean deleteInventoryItem(int id) ;
 
 
-    public Inventory saveInventory(Inventory inventory);
+    public InventoryDTO saveInventory(Inventory inventory);
 
     public List<Inventory> getInventories();
 
