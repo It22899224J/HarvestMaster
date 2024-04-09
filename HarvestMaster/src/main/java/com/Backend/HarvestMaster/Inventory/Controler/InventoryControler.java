@@ -29,7 +29,7 @@ public class InventoryControler {
     private InventoryService inventoryService;
 
     @PostMapping("/add")
-    public ResponseEntity<Inventory> add(
+    public ResponseEntity<InventoryDTO> add(
 
 
             @RequestParam ("image") MultipartFile image_data,
