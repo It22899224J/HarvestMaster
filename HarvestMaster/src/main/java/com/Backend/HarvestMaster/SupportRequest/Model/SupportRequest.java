@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -59,7 +60,8 @@ public class SupportRequest {
 
     private String user_id;
 
-private LocalDate localDate;
+    @CreationTimestamp
+    private LocalDate localDate;
 
     public void setLocalDate(LocalDate localDate) {
         this.localDate = localDate;
