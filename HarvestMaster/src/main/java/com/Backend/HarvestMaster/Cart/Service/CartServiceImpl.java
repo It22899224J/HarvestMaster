@@ -15,6 +15,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public CartItem saveCartItem(CartItem cartItem) {
+        cartItem.setTotalAmount(cartItem.calTotalAmount());
         return cartRepository.save(cartItem);
     }
 
