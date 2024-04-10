@@ -54,4 +54,11 @@ public class SolutionServiceImpl implements SolutionService {
         solution.setId(current.getId());
         return solutionRepository.save(solution) ;
     }
+
+    //  get solutions for a specific issue
+    @Override
+    public List<Solution> getSolutionsForIssue(int issueId) {
+        return solutionRepository.findByIssueId(issueId);
+    }
+
 }
