@@ -26,18 +26,12 @@ public class SolutionController {
 
     // Endpoint to add a new solution
     @PostMapping("/add/{id}")
-<<<<<<< HEAD
-    public String add(@PathVariable int id, @RequestBody Solution solution) {
-        solutionService.saveSolution(id, solution); // Saving the new solution
-        return "New Solution is Added";
-=======
     public ResponseEntity<String> add(@PathVariable int id, @RequestBody Solution solution) {
         // Attempt to save the new solution
         solutionService.saveSolution(id, solution);
 
         // Assuming solutionService.saveSolution(id, solution) doesn't throw an exception on failure
         return ResponseEntity.status(HttpStatus.CREATED).body("New Solution is Added");
->>>>>>> 94080b8 (make issue and solution together fix)
     }
 
     // Endpoint to get all solutions
@@ -104,6 +98,4 @@ public class SolutionController {
         // Return the list of solutions
         return ResponseEntity.ok(solutions);
     }
-
-
 }
