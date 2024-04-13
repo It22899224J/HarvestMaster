@@ -1,5 +1,5 @@
 package com.Backend.HarvestMaster.PaddyHealth.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 
@@ -26,6 +26,8 @@ public class Solution {
     }
 
     private String solution;
+
+
     private String document_url;
 
     private String date;
