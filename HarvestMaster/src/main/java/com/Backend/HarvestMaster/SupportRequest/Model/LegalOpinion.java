@@ -10,4 +10,6 @@ public class LegalOpinion {
     private int requestID;
     private String opinion;
     private int expertID;
+
+    private String status;
 }
