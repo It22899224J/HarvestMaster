@@ -10,4 +10,6 @@ public interface CartService {
     List<CartItem> findAllCartItems(Integer customerId);
 
     boolean deleteCartItem(Integer id);
+
+    CartItem updateQuantity(Integer cartItemId, CartItem cartItem);
 }

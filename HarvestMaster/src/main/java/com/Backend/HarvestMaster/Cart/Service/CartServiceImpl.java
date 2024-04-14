@@ -15,6 +15,7 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public CartItem saveCartItem(CartItem cartItem) {
+        cartItem.setTotalAmount(cartItem.calTotalAmount());
         return cartRepository.save(cartItem);
     }
 
@@ -27,5 +28,16 @@ public class CartServiceImpl implements CartService{
     public boolean deleteCartItem(Integer id) {
         cartRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public CartItem updateQuantity(Integer cartItemId, CartItem cartItem) {
+
+        CartItem existingCartItem = cartRepository.findById(cartItemId)
+                .orElseThrow(() -> new RuntimeException("CartItem not found with ID: " + cartItemId));
+
+        existingCartItem.setQuantity(cartItem.getQuantity());
+
+        return  cartRepository.save(existingCartItem);
     }
 }

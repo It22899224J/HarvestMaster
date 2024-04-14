@@ -28,7 +28,19 @@ private WeatherService weatherService;
         }
 
     }
+    @GetMapping("/current/{zip}")
+    public ResponseEntity<CurrentWeather> getCurrentWeatherDetails(@PathVariable String zip){
 
+        try {
+
+            return new ResponseEntity<>(weatherService.getCurrentWeather(zip),HttpStatus.OK);
+
+        }catch (NoSuchElementException e){
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
 
 
 }

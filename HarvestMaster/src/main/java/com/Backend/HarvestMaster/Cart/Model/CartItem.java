@@ -26,5 +26,13 @@ public class CartItem {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "customer_Id")
     private Buyer buyer;
+
+    private double totalAmount;
+
+    public Double calTotalAmount(){
+        totalAmount = this.quantity * this.unitPrice;
+        return totalAmount;
+    }
+
 }
 

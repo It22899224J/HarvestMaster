@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value = "/api/harvestMaster")
+@CrossOrigin("http://localhost:5173")
 public class CartController {
 
     @Autowired
@@ -19,7 +20,6 @@ public class CartController {
 
     @PostMapping(path = "/cart")
     public ResponseEntity<CartItem> addToCart(@RequestBody CartItem cartItem){
-
         return new ResponseEntity<>(cartService.saveCartItem(cartItem), HttpStatus.CREATED);
     }
 
@@ -28,6 +28,15 @@ public class CartController {
 
         return cartService.findAllCartItems(customerId);
     }
+
+    @PatchMapping(path = "/cart/{cartItemId}")
+    public ResponseEntity<CartItem> updateQuantity(
+            @PathVariable Integer cartItemId,
+            @RequestBody CartItem cartItem){
+
+        return new ResponseEntity<>(cartService.updateQuantity(cartItemId, cartItem), HttpStatus.OK);
+    }
+
 
     @DeleteMapping(path = "/cart/{id}")
     public ResponseEntity<CartItem> deleteCartItem(@PathVariable Integer id) {
