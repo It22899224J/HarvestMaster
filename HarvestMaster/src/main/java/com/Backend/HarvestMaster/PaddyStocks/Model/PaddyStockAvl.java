@@ -11,6 +11,7 @@ public class PaddyStockAvl {
 
     private float price;
 
+
     public PaddyStockAvl() {
     }
 
