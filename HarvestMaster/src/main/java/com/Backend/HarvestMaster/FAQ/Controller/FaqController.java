@@ -45,7 +45,7 @@ public class FaqController{
 
         try {
 
-            return new ResponseEntity<>(faqService.getAllFaq(),HttpStatus.OK);
+            return new ResponseEntity<>(faqService.getAllFaqs(),HttpStatus.OK);
 
         }catch (NoSuchElementException e){
 
