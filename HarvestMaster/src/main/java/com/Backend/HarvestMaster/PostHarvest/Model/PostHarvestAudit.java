@@ -29,7 +29,7 @@ public class PostHarvestAudit {
 
     private float income;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "related_postharvest_Id")
     private PostHarvest relatedpostHarvest;
 
