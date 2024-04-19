@@ -128,7 +128,19 @@ public ResponseEntity<PaddyStockViewDTO> updateStock(
 
 
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePaddyStock(@PathVariable Integer id){
 
+    try {
+
+        return new ResponseEntity<>(paddyStockService.deletePaddyStock(id),HttpStatus.OK);
+    }
+    catch (Exception e){
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    }
 
 
 }
