@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Blob;
+import java.time.LocalDate;
+
 //for the details page
 @Getter
 @Setter
@@ -20,4 +22,5 @@ public class PaddyStockViewDTO {
     private float price;
     @Enumerated(EnumType.STRING)
     private Status_stock status;
+    private LocalDate stockCreationDate;
 }
