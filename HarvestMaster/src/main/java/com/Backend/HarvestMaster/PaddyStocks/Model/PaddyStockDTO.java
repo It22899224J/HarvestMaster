@@ -4,6 +4,7 @@ package com.Backend.HarvestMaster.PaddyStocks.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,7 @@ public class PaddyStockDTO {
     private String paddyVariety;
     private String location;
     private List<BidDTO> bids;
+    private LocalDate stockCreationDate;
 
     public PaddyStockDTO() {
     }
