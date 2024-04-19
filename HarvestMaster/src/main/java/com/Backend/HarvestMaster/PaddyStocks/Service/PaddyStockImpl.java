@@ -53,17 +53,14 @@ public class PaddyStockImpl implements PaddyStockService{
 
 
 
-        List<Object[]> resultList = paddyStockRepository.findByVareityAndFertilizer(vareity,fertilizer);
+        List<PaddyStockAvl> resultList = paddyStockRepository.findByVareityAndFertilizer(vareity,fertilizer);
 
-        List<PaddyStockAvl> mappedResult = new ArrayList<>();
 
-        for (Object[] objArray : resultList) {
-            float price = (float) objArray[0];
 
-            mappedResult.add(new PaddyStockAvl(price));
-        }
+        return  resultList;
 
-return mappedResult;
+
+
     }
 
     @Override
@@ -154,6 +151,7 @@ return mappedResult;
         dto.setAmount(paddyStock.getAmount());
         dto.setPrice(paddyStock.getPrice());
         dto.setStatus(paddyStock.getStatus());
+        dto.setStockCreationDate(paddyStock.getStockCreationDate());
         dto.setBids(bidService.getMarketBids(dto.getPs_id()));
 
 
@@ -182,6 +180,7 @@ return mappedResult;
         dto.setAmount(paddyStock.getAmount());
         dto.setPrice(paddyStock.getPrice());
         dto.setStatus(paddyStock.getStatus());
+        dto.setStockCreationDate(paddyStock.getStockCreationDate());
 
 
 
