@@ -1,11 +1,11 @@
 package com.Backend.HarvestMaster.LogisticHandler.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPayment;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,7 +13,9 @@ import lombok.Setter;
 public class Buyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cus_id")
     private int cusId;
+
     private String cusName;
     private int contactNo;
     private String deliverAddress;
@@ -23,4 +25,6 @@ public class Buyer {
     private String deliveryDate;
     private double qty;
     private String paddyType;
+    @OneToMany(mappedBy = "buyer")
+    private List<TransactionPayment> transactionPayments;
 }
