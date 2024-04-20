@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 public class TransactionPaymentRequest {
     private Long transactionId;
     private Long deliveryId;
-    private Long inventoryId;
+    private int inventoryId;
     private Integer quantity;
     private BigDecimal pricePerUnit;
     private BigDecimal totalPrice;
     private LocalDateTime transactionDate;
-    private Long buyerId;
+    private int buyerId;
     private String paymentMethod;
     private String paymentSuccessCode;
     private byte[] bankSlipImage;
