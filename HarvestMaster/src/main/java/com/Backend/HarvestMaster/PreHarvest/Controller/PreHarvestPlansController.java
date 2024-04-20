@@ -1,16 +1,15 @@
 package com.Backend.HarvestMaster.PreHarvest.Controller;
 
-
 import com.Backend.HarvestMaster.PreHarvest.Model.PreHarvestPlans;
 import com.Backend.HarvestMaster.PreHarvest.Service.PreHarvestPlansService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping("/preHarvestPlans")
 public class PreHarvestPlansController {
@@ -27,7 +26,6 @@ public class PreHarvestPlansController {
         }
     }
 
-
     @GetMapping("/getAll/{farmerId}")
     public  ResponseEntity<?> getPlansByFarmerId(@PathVariable Integer farmerId){
         try{
@@ -37,7 +35,6 @@ public class PreHarvestPlansController {
             return new ResponseEntity<>("Failed to retrieve pre-harvest plans", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     @GetMapping("/get/{fieldId}")
     public ResponseEntity<?> getPlanByFieldId(@PathVariable Integer fieldId) {
@@ -74,7 +71,6 @@ public class PreHarvestPlansController {
             return new ResponseEntity<>("Failed to delete plan", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
 
 
