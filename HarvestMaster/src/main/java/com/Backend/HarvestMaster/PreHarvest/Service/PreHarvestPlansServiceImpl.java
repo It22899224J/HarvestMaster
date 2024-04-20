@@ -4,13 +4,10 @@ import com.Backend.HarvestMaster.PreHarvest.Model.PreHarvestPlans;
 import com.Backend.HarvestMaster.PreHarvest.Repository.PreHarvestPlansRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
-
     @Autowired
     private PreHarvestPlansRepository preHarvestPlansRepository;
 
@@ -20,7 +17,7 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
          float area = preHarvestPlans.getFieldArea();
          float seeds;
 
-         if ("Direct Planting".equals(preHarvestPlans.getPlantingMethod())) {
+         if ("Direct Seeding".equals(preHarvestPlans.getPlantingMethod())) {
             seeds = (area * 30);
             preHarvestPlans.setSeedsAmount(seeds);
          } else if ("Transplanting".equals(preHarvestPlans.getPlantingMethod())) {
@@ -43,12 +40,10 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
         return preHarvestPlansRepository.save(preHarvestPlans);
     }
 
-
     @Override
     public List<PreHarvestPlans> getAllPreHarvestPlansByFarmerID(Integer farmerID) {
         return preHarvestPlansRepository.findByFarmerId(farmerID);
     }
-
 
     @Override
     public PreHarvestPlans getPreHarvestPlanDetailsById(Integer fieldId) {
@@ -62,7 +57,7 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
         float area = preHarvestPlans.getFieldArea();
         float seeds;
 
-        if ("Direct Planting".equals(preHarvestPlans.getPlantingMethod())) {
+        if ("Direct Seeding".equals(preHarvestPlans.getPlantingMethod())) {
             seeds = (area * 30);
             preHarvestPlans.setSeedsAmount(seeds);
         } else if ("Transplanting".equals(preHarvestPlans.getPlantingMethod())) {
@@ -91,6 +86,4 @@ public class PreHarvestPlansServiceImpl implements PreHarvestPlansService{
         preHarvestPlansRepository.deleteById(fieldId);
         return true;
     }
-
-
 }
