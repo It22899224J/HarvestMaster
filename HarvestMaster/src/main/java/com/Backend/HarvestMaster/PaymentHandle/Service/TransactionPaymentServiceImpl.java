@@ -4,12 +4,15 @@ import com.Backend.HarvestMaster.Buyer.Repositiory.BuyerRepositiory;
 import com.Backend.HarvestMaster.Inventory.Model.Inventory;
 import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
 import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
-import com.Backend.HarvestMaster.Order.Model.Delivery;
+import com.Backend.HarvestMaster.Order.Model.*;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryRepository;
 import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPayment;
 import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPaymentRequest;
 import com.Backend.HarvestMaster.PaymentHandle.Repositiory.TransactionPaymentRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionPaymentServiceImpl implements TransactionPaymentService {
@@ -68,5 +71,31 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
             throw new IllegalArgumentException("Unsupported payment method: " + transactionPaymentRequest.getPaymentMethod());
         }
         return transactionPayment;
+    }
+
+    @Override
+    public List<TransactionPaymentRequest> sucessTransaction(TransactionPaymentRequest transactionPaymentRequest) {
+        List<TransactionPayment> allTransactionPayments = transactionPaymentRepository.findAll();
+        return allTransactionPayments.stream()
+                .filter(transactionPayment -> "VERIFY".equals(transactionPaymentRequest.getStatus()))
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransactionPaymentRequest> sucessTransactionAll() {
+        List<TransactionPayment> allTransactionPayments = transactionPaymentRepository.findAll();
+        return allTransactionPayments.stream()
+                .filter(transactionPayment -> "VERIFY".equals(transactionPayment.getStatus()))
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private TransactionPaymentRequest convertToDto(TransactionPayment transactionPayment) {
+        TransactionPaymentRequest dto = new TransactionPaymentRequest();
+        dto.setTransactionId(transactionPayment.getTransactionId());
+//        dto.setAmount(transactionPayment.getAmount());
+        dto.setStatus(transactionPayment.getStatus());
+        return dto;
     }
 }
