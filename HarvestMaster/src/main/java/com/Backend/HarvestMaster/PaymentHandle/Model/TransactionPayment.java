@@ -5,6 +5,9 @@ import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import com.Backend.HarvestMaster.Order.Model.Delivery;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,7 +25,8 @@ public class TransactionPayment {
     private Long transactionId;
 
     @ManyToOne
-    @JoinColumn(name = "delivery_id")
+    @JoinColumn(name = "delivery_id", referencedColumnName = "delivery_id", nullable = true)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Delivery delivery;
 
     @ManyToOne
@@ -38,7 +42,8 @@ public class TransactionPayment {
     private LocalDateTime transactionDate;
 
     @ManyToOne
-    @JoinColumn(name = "cus_id")
+    @JoinColumn(name = "cus_id", referencedColumnName = "cus_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Buyer buyer;
 
     private String paymentMethod;
