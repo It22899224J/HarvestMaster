@@ -15,5 +15,5 @@ public interface BidService {
     public List<BidDTO> getMarketBids(Integer stock_id);
     public Bid updateBid(Integer bid_id,Bid bid);
 
-    public boolean deleteBid(Integer bid_id);
+    public Bid deleteBid(Integer bid_id);
 }
