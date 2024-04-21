@@ -47,14 +47,16 @@ public class BidServiceImpl implements BidService{
     public Bid updateBid(Integer bid_id, Bid bid) {
 
         Bid current = bidsRepository.findById(bid_id).get();
-        bid.setBid_id(current.getBid_id());
+        bid.setBidid(current.getBidid());
         return bidsRepository.save(bid);
     }
 
     @Override
-    public boolean deleteBid(Integer bid_id) {
-        bidsRepository.deleteById(bid_id);
-        return true;
+    public Bid deleteBid(Integer bid_id) {
+
+        Bid deleted = bidsRepository.findById(bid_id).get();
+         bidsRepository.deleteById(bid_id);
+         return deleted;
     }
 
 
