@@ -9,6 +9,8 @@ import java.time.LocalDate;
 
 public interface BidDTO {
 
+
+   int getBidid();
    LocalDate getCreationDate();
    float  getPrice();
 
