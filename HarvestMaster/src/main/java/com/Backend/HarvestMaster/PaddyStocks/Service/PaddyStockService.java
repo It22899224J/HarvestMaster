@@ -10,7 +10,9 @@ import java.util.List;
 public interface PaddyStockService {
 
 
-    public List<PaddyStockViewDTO> getPaddyStockDetails(int postharvest_id);
+    public List<PaddyStockViewDTO> getPaddyStockDetails(int stock_id);
+
+    public PaddyStock getPaddyStock(int stockid);
 
     public List<PaddyStockAvl>  getPaddyStocksByType(String vareity,String fertilizer);
 
