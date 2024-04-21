@@ -48,6 +48,14 @@ public class PaddyStockImpl implements PaddyStockService{
     }
 
     @Override
+    public PaddyStock getPaddyStock(int stockid) {
+
+
+
+        return  paddyStockRepository.findById(stockid).get();
+    }
+
+    @Override
     public List<PaddyStockAvl> getPaddyStocksByType(String vareity, String fertilizer) {
 
 
