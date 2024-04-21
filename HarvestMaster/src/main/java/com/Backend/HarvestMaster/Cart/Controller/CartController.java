@@ -54,16 +54,16 @@ public class CartController {
         }
     }
 
-    @DeleteMapping(path = "/cart/{cus_id}")
-    public ResponseEntity<?> deleteAllCartItem(@PathVariable Integer id) {
-        try {
-            if (cartService.deleteAll(id)) {
-                return new ResponseEntity<>("delete success", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    @DeleteMapping(path = "/cart/{cus_id}")
+//    public ResponseEntity<?> deleteAllCartItem(@PathVariable Integer id) {
+//        try {
+//            if (cartService.deleteAll(id)) {
+//                return new ResponseEntity<>("delete success", HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//            }
+//        } catch (NoSuchElementException e) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 }
