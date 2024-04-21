@@ -1,5 +1,7 @@
 package com.Backend.HarvestMaster.PostHarvest.Controler;
 
+import com.Backend.HarvestMaster.PaddyStocks.Service.BidService;
+import com.Backend.HarvestMaster.PaddyStocks.Service.SoldPaddyStockService;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvestAudit;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvestAuditProjection;
@@ -29,6 +31,13 @@ public class PostHarvestControler {
 
     @Autowired
     private PostHarvestAuditService postHarvestAuditService;
+
+    @Autowired
+    private BidService bidService;
+
+
+    @Autowired
+    private SoldPaddyStockService soldPaddyStockService;
 
     @PostMapping("/add")
     public ResponseEntity<PostHarvest> addPostHarvestPlan(@RequestBody PostHarvest postHarvest){
@@ -185,6 +194,9 @@ public class PostHarvestControler {
         }
 
     }
+
+
+
 
 
 }
