@@ -1,8 +1,6 @@
 package com.Backend.HarvestMaster.PaddyStocks.Service;
 
-import com.Backend.HarvestMaster.PaddyStocks.Model.Bid;
-import com.Backend.HarvestMaster.PaddyStocks.Model.SoldPaddyStock;
-import com.Backend.HarvestMaster.PaddyStocks.Model.SoldPaddyStockDTO;
+import com.Backend.HarvestMaster.PaddyStocks.Model.*;
 import com.Backend.HarvestMaster.PaddyStocks.Repository.SoldPaddyStockrepsitory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,9 +28,11 @@ public class SoldPaddyStockServiceImpl implements SoldPaddyStockService{
 
                 SoldPaddyStock newSoldStock = new SoldPaddyStock();
                 newSoldStock.setAcceptedbid(bidService.getBid(acceptedBid));
+                PaddyStock available = paddyStockService.getPaddyStock(stockid);
+                newSoldStock.setReleventpaddyStock(available);
 
-                newSoldStock.setReleventpaddyStock(paddyStockService.getPaddyStock(stockid));
-
+                available.setStatus(Status_stock.CLOSED);
+                paddyStockService.updateStock(available.getPs_id(), available);
                 return soldPaddyStockrepsitory.save(newSoldStock);
 
             }
