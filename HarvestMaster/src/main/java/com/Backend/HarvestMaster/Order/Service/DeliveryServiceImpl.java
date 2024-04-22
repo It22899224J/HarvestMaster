@@ -1,9 +1,11 @@
 package com.Backend.HarvestMaster.Order.Service;
 
-import com.Backend.HarvestMaster.Cart.Model.CartItem;
+import com.Backend.HarvestMaster.Buyer.Repositiory.BuyerRepositiory;
 import com.Backend.HarvestMaster.Cart.Repository.CartRepository;
 import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
+import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import com.Backend.HarvestMaster.Order.Model.*;
+import com.Backend.HarvestMaster.Order.Repository.DeliveryItemRepositiory;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryLogActivityRepository;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final CartRepository cartRepository;
     private final DeliveryLogActivityRepository logActivityRepository;
     private final InventoryRepository inventoryRepository;
+    private final DeliveryItemRepositiory deliveryItemRepositiory;
+    private final BuyerRepositiory buyerRepositiory;
 
     @Override
     public CommonResponse updateDeliverySchedule(DeliveryRequest delivery) {
@@ -82,7 +86,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public CommonResponse createNewDelivery(DeliveryCreateRequest request) {
 
-        CartItem cartDetails = cartRepository.findById(request.getOrderId()).get();
+//        CartItem cartDetails = cartRepository.findById(request.getOrderId()).get();
 
         Delivery deliveryData = Delivery.builder()
                 .customerName(request.getCustomerName())
@@ -94,7 +98,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .vehicleNumber(request.getVehicleNumber())
                 .orderStatus("PENDING")
                 .paymentStatus("PENDING")
-                .buyer(cartDetails.getBuyer())
+//                .buyer(cartDetails.getBuyer())
                 .cartId(request.getOrderId())
                 .build();
 
@@ -202,4 +206,68 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .data(map)
                 .build();
     }
+
+    @Override
+    public CommonResponse getDeliveryItems(PendingDeliveryRequest request) {
+//        Buyer buyer = buyerRepositiory.findOneById(request.getBuyerId()).orElse(null);
+//        if (buyer  == null) {
+//            return CommonResponse.builder()
+//                    .status(false)
+//                    .message("Buyer not found")
+//                    .build();
+//        }
+//        System.out.println(buyer);
+        List<Delivery> deliveries = deliveryRepository.findDeliverysByOrderStatusAndPaymentStatusAndDeliveryStatus(
+                request.getOrderStatus(), request.getPaymentStatus(), "PENDING");
+
+        List<DeliveryItemResponse> deliveryItemResponses = new ArrayList<>();
+
+        for (Delivery delivery : deliveries) {
+            List<DeliveryItem> deliveryItems = deliveryItemRepositiory.findByDelivery(delivery);
+
+
+            for (DeliveryItem deliveryItem : deliveryItems) {
+                deliveryItemResponses.add(
+                        DeliveryItemResponse.builder()
+                                .deliveryItemId(deliveryItem.getDeliveryItemId())
+                                .deliveryId(deliveryItem.getDeliveryItemId())
+                                .inventory(deliveryItem.getInventory())
+                                .build()
+                );
+            }
+
+        }
+        return CommonResponse.builder()
+                .status(true)
+                .message("Pending Delivery Items")
+                .data(deliveryItemResponses)
+                .build();
+    }
+
+//    @Override
+//    public CommonResponse getBuyerPendingDelivery(PendingDeliveryRequest request) {
+//        List<Delivery> deliveries = deliveryRepository.findDeliverysByOrderStatusAndPaymentStatusAndDeliveryStatus(request.getOrderStatus(), request.getPaymentStatus(), "PENDING");
+//        List<PendingDeliveryResponse> pendingDeliveries = new ArrayList<>();
+//
+//        for (Delivery item : deliveries) {
+//            pendingDeliveries.add(
+//                    PendingDeliveryResponse.builder()
+//                            .customerName(item.getBuyer().getCusName())
+//                            .orderId(String.valueOf(item.getCartId()))
+//                            .orderDate(item.getOrderDate().toString())
+//                            .deliveryAddress(item.getDeliveryAddress())
+//                            .pickupAddress(item.getPickupAddress())
+//                            .deliveryDate(item.getDeliveryDate())
+//                            .deliveryId(item.getDeliveryId())
+//                            .build()
+//            );
+//        }
+//
+//        return CommonResponse.builder()
+//                .status(true)
+//                .message("Pending Deliveries")
+//                .data(pendingDeliveries)
+//                .build();
+//
+//    }
 }

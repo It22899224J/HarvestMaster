@@ -20,4 +20,6 @@ public interface DeliveryService {
     CommonResponse deliveryLogActivity();
 
     CommonResponse orderTotal();
+
+    CommonResponse getDeliveryItems(PendingDeliveryRequest request);
 }

@@ -84,6 +84,15 @@ public class DeliveryControler {
             return new ResponseEntity<>(orderTotal, HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("get/pending-items")
+    public ResponseEntity<CommonResponse> getgDeliveryItems(@RequestBody PendingDeliveryRequest request) {
+        CommonResponse response = deliveryService.getDeliveryItems(request);
+        if (response.isStatus()) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 }
 
 
