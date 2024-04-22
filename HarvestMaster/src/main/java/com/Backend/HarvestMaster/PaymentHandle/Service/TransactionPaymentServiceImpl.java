@@ -6,6 +6,7 @@ import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
 import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import com.Backend.HarvestMaster.Order.Model.*;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryRepository;
+import com.Backend.HarvestMaster.PaymentHandle.Model.SucessTransactionResponse;
 import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPayment;
 import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPaymentRequest;
 import com.Backend.HarvestMaster.PaymentHandle.Repositiory.TransactionPaymentRepository;
@@ -65,7 +66,8 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
             transactionPayment.setPaymentSuccessCode(transactionPaymentRequest.getPaymentSuccessCode());
             transactionPayment.setStatus("VERIFY");
         } else if ("SLIP".equals(transactionPaymentRequest.getPaymentMethod())) {
-            transactionPayment.setBankSlipImage(transactionPaymentRequest.getBankSlipImage());
+            byte[] imageData = java.util.Base64.getDecoder().decode(transactionPaymentRequest.getPaymentMethod());
+            transactionPayment.setBankSlipImage(imageData);
             transactionPayment.setStatus("PENDING");
         } else {
             throw new IllegalArgumentException("Unsupported payment method: " + transactionPaymentRequest.getPaymentMethod());
@@ -94,6 +96,9 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
     private TransactionPaymentRequest convertToDto(TransactionPayment transactionPayment) {
         TransactionPaymentRequest dto = new TransactionPaymentRequest();
         dto.setTransactionId(transactionPayment.getTransactionId());
+        dto.setPaymentMethod(transactionPayment.getPaymentMethod());
+        dto.setTotalPrice(transactionPayment.getTotalPrice());
+        dto.setTransactionDate(transactionPayment.getTransactionDate());
 //        dto.setAmount(transactionPayment.getAmount());
         dto.setStatus(transactionPayment.getStatus());
         return dto;

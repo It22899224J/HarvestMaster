@@ -22,6 +22,6 @@ public class TransactionPaymentRequest {
     private int buyerId;
     private String paymentMethod;
     private String paymentSuccessCode;
-    private byte[] bankSlipImage;
+    private String bankSlipImage;
     private String status;
 }

@@ -50,6 +50,8 @@ public class TransactionPayment {
 
     private String paymentSuccessCode;
 
+    @Lob
+    @Column(name = "bank_slip_image", columnDefinition = "BLOB")
     private byte[] bankSlipImage;
 
     private String status;
