@@ -12,6 +12,7 @@ import org.w3c.dom.html.HTMLTableCaptionElement;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping ("/faq")
 public class FaqController{
@@ -23,7 +24,7 @@ public class FaqController{
 
 
     @PostMapping ("/add")
-    public ResponseEntity<FAQ> add(FAQ faq){
+    public ResponseEntity<FAQ> add(@RequestBody FAQ faq){
 
         try{
 
