@@ -89,7 +89,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 //        CartItem cartDetails = cartRepository.findById(request.getOrderId()).get();
 
         Delivery deliveryData = Delivery.builder()
-                .customerName(request.getCustomerName())
+//                .customerName(request.getCustomerName())
                 .deliveryAddress(request.getDeliveryAddress())
                 .pickupAddress(request.getPickupAddress())
 //                 .deliveryDate(request.getDeliveryDate())
@@ -125,7 +125,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                             .orderDate(item.getOrderDate().toString())
                             .deliveryAddress(item.getDeliveryAddress())
                             .pickupAddress(item.getPickupAddress())
-                            .deliveryDate(item.getDeliveryDate())
+                            .deliveryDate(item.getDeliveryDate().toString())
                             .deliveryId(item.getDeliveryId())
                             .build()
             );
