@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface BuyerRepositiory extends JpaRepository<Buyer, Integer> {
     Buyer findById(int cusId);
+
 }
