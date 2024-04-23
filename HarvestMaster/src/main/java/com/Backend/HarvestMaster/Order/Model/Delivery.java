@@ -51,5 +51,8 @@ public class Delivery {
 
     @OneToMany(mappedBy = "delivery")
     private List<TransactionPayment> transactionPayments;
+
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DeliveryItem> deliveryItems;
 }
 
