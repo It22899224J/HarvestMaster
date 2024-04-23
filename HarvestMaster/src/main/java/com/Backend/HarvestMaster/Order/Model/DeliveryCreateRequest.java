@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class DeliveryCreateRequest {
@@ -30,4 +32,7 @@ public class DeliveryCreateRequest {
 
     @JsonProperty("vehicle_number")
     private String vehicleNumber;
+
+    @JsonProperty("delivery_items")
+    private List<DeliveryItem> deliveryItems;
 }
