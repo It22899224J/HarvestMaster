@@ -74,7 +74,7 @@ public class PaddyStockImpl implements PaddyStockService{
     @Override
     public List<PaddyStockDTO> getAllPaddyStockDetails() {
 
-        List<PaddyStock> paddyStocks = paddyStockRepository.findAll();
+        List<PaddyStock> paddyStocks = paddyStockRepository.findActiveStocks();
         List<PaddyStockDTO> paddyStockDTOs = paddyStocks.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
