@@ -14,7 +14,4 @@ public interface CartRepository extends JpaRepository<CartItem, Integer> {
     @Query(value = "select * from cart_items where customer_id = ?1", nativeQuery = true)
     List<CartItem> getCartItemList(Integer customer_Id);
 
-//    @Modifying
-//    @Query(value = "")
-
 }

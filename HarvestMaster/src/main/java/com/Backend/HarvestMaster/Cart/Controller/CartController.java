@@ -2,6 +2,7 @@ package com.Backend.HarvestMaster.Cart.Controller;
 
 import com.Backend.HarvestMaster.Cart.Model.CartItem;
 import com.Backend.HarvestMaster.Cart.Model.CartItemDTO;
+import com.Backend.HarvestMaster.Cart.Model.Discount;
 import com.Backend.HarvestMaster.Cart.Service.CartService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,16 +55,22 @@ public class CartController {
         }
     }
 
-//    @DeleteMapping(path = "/cart/{cus_id}")
-//    public ResponseEntity<?> deleteAllCartItem(@PathVariable Integer id) {
-//        try {
-//            if (cartService.deleteAll(id)) {
-//                return new ResponseEntity<>("delete success", HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//            }
-//        } catch (NoSuchElementException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @DeleteMapping(path = "/cart/DeleteAll/{cus_id}")
+    public ResponseEntity<?> deleteAllItem(@PathVariable Integer id) {
+        try {
+            if (cartService.deleteAll(id)) {
+                return new ResponseEntity<>("delete success", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping(path="/discount")
+    public ResponseEntity<Discount> addDiscount(@RequestBody Discount discount){
+        return new ResponseEntity<>(cartService.saveDiscount(discount), HttpStatus.CREATED);
+    }
+
 }

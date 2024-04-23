@@ -2,7 +2,9 @@ package com.Backend.HarvestMaster.Cart.Service;
 
 import com.Backend.HarvestMaster.Cart.Model.CartItem;
 import com.Backend.HarvestMaster.Cart.Model.CartItemDTO;
+import com.Backend.HarvestMaster.Cart.Model.Discount;
 import com.Backend.HarvestMaster.Cart.Repository.CartRepository;
+import com.Backend.HarvestMaster.Cart.Repository.DiscountRepository;
 import com.Backend.HarvestMaster.Inventory.Model.Inventory;
 import com.Backend.HarvestMaster.Inventory.Model.InventoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class CartServiceImpl implements CartService{
 
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private DiscountRepository discountRepository;
 
     @Override
     public CartItem saveCartItem(CartItem cartItem) {
@@ -104,5 +109,10 @@ public class CartServiceImpl implements CartService{
     @Override
     public boolean deleteAll(Integer id) {
         return false;
+    }
+
+    @Override
+    public Discount saveDiscount(Discount discount) {
+        return discountRepository.save(discount);
     }
 }
