@@ -55,8 +55,26 @@ public class FaqController{
 
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<FAQ> update(@PathVariable Integer id) {
+    @PatchMapping ("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id,@RequestBody FAQ faq) {
+
+        try {
+
+            FAQ current = faqService.getSelectedFaq(id);
+
+            faq.setFaq_id(current.getFaq_id());
+
+
+            return new ResponseEntity<FAQ>(faqService.addFaq(faq),HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
+        }
+
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteFaq(@PathVariable Integer id) {
 
         try {
 
