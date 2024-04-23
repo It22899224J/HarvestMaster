@@ -13,6 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeliveryItemRequest {
     private Long deliveryItemId;
-    private Delivery delivery;
-    private Inventory inventory;
+    private Long deliveryId;
+    private int pId;
 }
