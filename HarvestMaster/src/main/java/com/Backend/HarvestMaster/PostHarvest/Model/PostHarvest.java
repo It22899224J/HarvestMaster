@@ -27,7 +27,7 @@ public class PostHarvest
     private int zip;
     private String ownership;
 
-
+    private String district;
 
     private String split;
     private String location;
