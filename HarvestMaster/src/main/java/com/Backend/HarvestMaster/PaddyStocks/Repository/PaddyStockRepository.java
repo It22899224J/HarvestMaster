@@ -11,7 +11,8 @@ import java.util.Map;
 public interface PaddyStockRepository extends JpaRepository<PaddyStock,Integer> {
 
 
-
+    @Query(value = "SELECT * FROM paddy_stock   WHERE  status='ACTIVE'  ",nativeQuery = true)
+    List<PaddyStock> findActiveStocks();
 
 
     @Query(value = "SELECT s.* FROM paddy_stock s JOIN post_harvest_audit a ON s.related_postharvest_audit_id=a.audit_id  WHERE  a.audit_id=?1  ",nativeQuery = true)
