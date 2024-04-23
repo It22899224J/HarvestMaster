@@ -36,4 +36,24 @@ public class SupportRequestController {
         }
     }
 
-}
+    @PatchMapping ("/updatesolution/{id}")
+    public ResponseEntity<?> updateSolution(@PathVariable Integer id,@RequestBody SupportRequest supportRequest) {
+
+        try {
+
+
+        SupportRequest current = supportRequestService.getRequest(id);
+
+       current.setSolution(supportRequest.getSolution());
+       current.setStatus("Answered");
+
+
+
+
+        return new ResponseEntity<>(supportRequestService.addRequest(current), HttpStatus.OK);
+    }catch(NoSuchElementException e){
+
+        return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+}}
