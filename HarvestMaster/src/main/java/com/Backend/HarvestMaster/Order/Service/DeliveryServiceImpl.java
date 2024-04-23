@@ -2,6 +2,8 @@ package com.Backend.HarvestMaster.Order.Service;
 
 import com.Backend.HarvestMaster.Buyer.Repositiory.BuyerRepositiory;
 import com.Backend.HarvestMaster.Cart.Repository.CartRepository;
+import com.Backend.HarvestMaster.Inventory.Model.Inventory;
+import com.Backend.HarvestMaster.Inventory.Model.InventoryDTO;
 import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
 import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import com.Backend.HarvestMaster.Order.Model.*;
@@ -105,6 +107,19 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         deliveryData = deliveryRepository.save(deliveryData);
 
+        // Store delivery items
+        List<DeliveryItem> deliveryItems = request.getDeliveryItems();
+        for (DeliveryItem item : deliveryItems) {
+            // Set the deliveryId of each delivery item to associate it with the newly created delivery
+            item.setDeliveryItemId(deliveryData.getDeliveryId());
+
+//            item.setInventory();
+        }
+        List<DeliveryItem> savedDeliveryItems = deliveryItemRepositiory.saveAll(deliveryItems);
+
+        // Associate the saved delivery items with the delivery
+        deliveryData.setDeliveryItems(savedDeliveryItems);
+
         return CommonResponse.builder()
                 .status(true)
                 .message("Data Saved")
@@ -121,10 +136,11 @@ public class DeliveryServiceImpl implements DeliveryService {
             pendingDeliveries.add(
                     PendingDeliveryResponse.builder()
                             .customerName(item.getBuyer().getCusName())
-                            .orderId(String.valueOf(item.getCartId()))
+//                            .orderId(String.valueOf(item.getDeliveryId()))
+                            .deliveryId(item.getDeliveryId())
                             .orderDate(item.getOrderDate().toString())
                             .deliveryAddress(item.getDeliveryAddress())
-                            .pickupAddress(item.getPickupAddress())
+                            .pickupAddress("HarvestMaster Pvt Ltd Polonnaruwa Road New Town")
                             .deliveryDate(item.getDeliveryDate().toString())
                             .deliveryId(item.getDeliveryId())
                             .build()
