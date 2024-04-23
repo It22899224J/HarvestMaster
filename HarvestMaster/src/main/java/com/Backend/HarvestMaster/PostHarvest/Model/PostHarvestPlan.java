@@ -9,4 +9,10 @@ public interface PostHarvestPlan {
     LocalDate getPlantedDate();
     String getFieldName();
 
+    String getPaddyVareity();
+
+    float getArea();
+
+    String getDistrict();
+
 }
