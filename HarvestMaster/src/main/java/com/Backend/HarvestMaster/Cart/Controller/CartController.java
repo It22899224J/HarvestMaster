@@ -73,4 +73,10 @@ public class CartController {
         return new ResponseEntity<>(cartService.saveDiscount(discount), HttpStatus.CREATED);
     }
 
+    @GetMapping(path = "/discount")
+    public List<Discount> findAllDiscounts(){
+
+        return cartService.getAllDiscount();
+    }
+
 }

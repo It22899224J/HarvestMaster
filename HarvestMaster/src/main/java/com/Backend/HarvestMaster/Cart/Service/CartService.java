@@ -18,4 +18,7 @@ public interface CartService {
     boolean deleteAll(Integer id);
 
     Discount saveDiscount(Discount discount);
+
+
+    List<Discount> getAllDiscount();
 }

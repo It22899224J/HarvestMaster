@@ -115,4 +115,9 @@ public class CartServiceImpl implements CartService{
     public Discount saveDiscount(Discount discount) {
         return discountRepository.save(discount);
     }
+
+    @Override
+    public List<Discount> getAllDiscount() {
+        return discountRepository.findAll();
+    }
 }
