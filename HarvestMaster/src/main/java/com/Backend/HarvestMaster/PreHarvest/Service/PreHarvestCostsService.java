@@ -7,6 +7,7 @@ import java.util.List;
 public interface PreHarvestCostsService {
     PreHarvestCosts addCost(PreHarvestCosts preHarvestCosts);
     List<PreHarvestCostProjection> getAllCosts(Integer fieldId);
+    PreHarvestCosts getCostById(Integer costId);
     PreHarvestCosts updateCost(Integer costId,PreHarvestCosts preHarvestCosts);
     boolean deleteCost(Integer costId);
 }

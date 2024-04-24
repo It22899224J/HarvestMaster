@@ -8,6 +8,7 @@ import java.util.List;
 public interface PreHarvestFieldVisitsService {
     PreHarvestFieldVisits addFieldVisit(PreHarvestFieldVisits preHarvestFieldVisits);
     List<PreHarvestFieldVisitProjection> getAllFieldVisits(Integer fieldId);
+    PreHarvestFieldVisits getFieldVisitById(Integer fieldObservationId);
     PreHarvestFieldVisits updateFieldVisits(Integer observationId, PreHarvestFieldVisits preHarvestFieldVisits);
     boolean deleteFieldVisit (Integer observationId);
 

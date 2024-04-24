@@ -24,6 +24,11 @@ public class PreHarvestFieldVisitsServiceImpl implements PreHarvestFieldVisitsSe
     }
 
     @Override
+    public PreHarvestFieldVisits getFieldVisitById(Integer fieldObservationId) {
+        return preHarvestFieldVisitsRepository.findById(fieldObservationId).get();
+    }
+
+    @Override
     public PreHarvestFieldVisits updateFieldVisits(Integer observationId, PreHarvestFieldVisits preHarvestFieldVisits) {
         preHarvestFieldVisits.setFieldObservationId(observationId);
         return preHarvestFieldVisitsRepository.save(preHarvestFieldVisits);

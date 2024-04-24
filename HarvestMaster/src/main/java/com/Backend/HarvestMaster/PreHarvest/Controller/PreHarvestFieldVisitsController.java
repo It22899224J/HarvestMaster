@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping("/PreHarvestFieldVisits")
 public class PreHarvestFieldVisitsController {
@@ -43,7 +44,6 @@ public class PreHarvestFieldVisitsController {
             preHarvestFieldVisits.setFieldVisitTime(preHarvestFieldVisit.getFieldVisitTime());
             preHarvestFieldVisits.setVisited(preHarvestFieldVisit.isVisited());
             preHarvestFieldVisits.setRequestStatus(preHarvestFieldVisit.getRequestStatus());
-
             preHarvestFieldVisits.setPreHarvestPlans(currentPlan);
 
             PreHarvestFieldVisits fieldVisit = preHarvestFieldVisitsService.addFieldVisit(preHarvestFieldVisits);
@@ -60,6 +60,16 @@ public class PreHarvestFieldVisitsController {
             return new ResponseEntity<>(fieldVisits,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to retrieve pre-harvest plans1", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/get/{fieldObservationId}")
+    public ResponseEntity<?> getPreHarvestFieldVisitById(@PathVariable Integer fieldObservationId){
+        try{
+            PreHarvestFieldVisits preHarvestFieldVisit = preHarvestFieldVisitsService.getFieldVisitById(fieldObservationId);
+            return new ResponseEntity<>(preHarvestFieldVisit,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to retrieve pre-harvest plan", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

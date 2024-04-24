@@ -58,6 +58,18 @@ public class PreHarvestCostsController {
         }
     }
 
+    @GetMapping("/get/{costId}")
+    public ResponseEntity<?> getPreHarvestCost(@PathVariable Integer costId){
+        try{
+            PreHarvestCosts cost= preHarvestCostsService.getCostById(costId);
+            return new ResponseEntity<>(cost,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to retrieve pre-harvest cost", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
     @PutMapping("update/{fieldId}/{costId}")
     public ResponseEntity<?> updateCost(@PathVariable Integer fieldId,@PathVariable Integer costId,@RequestBody PreHarvestCost preHarvestCost){
         try{
