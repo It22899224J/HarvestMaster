@@ -65,6 +65,11 @@ public class PostHarvestImpl implements PostHarvestService{
             existingPostHarvest.setPaddyVareity(newPostHarvest.getPaddyVareity());
         }
 
+        if (newPostHarvest.getDistrict() != null && !newPostHarvest.getDistrict().isEmpty()) {
+            existingPostHarvest.setDistrict(newPostHarvest.getDistrict());
+        }
+
+
         // Area
         if (newPostHarvest.getArea() > 0) {
             existingPostHarvest.setArea(newPostHarvest.getArea());
