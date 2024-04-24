@@ -14,4 +14,6 @@ public interface SupportRequestService {
     public LegalOpinion addLegalOpinion(LegalOpinion legalOpinion);
 
 
+    public boolean deleteRequest(Integer id);
+
 }

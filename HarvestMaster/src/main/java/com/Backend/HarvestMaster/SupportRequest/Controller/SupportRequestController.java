@@ -56,4 +56,23 @@ public class SupportRequestController {
         return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-}}
+}
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteRequest(@PathVariable Integer id) {
+
+        try {
+
+
+
+
+
+
+            return new ResponseEntity<>(supportRequestService.deleteRequest(id), HttpStatus.OK);
+        }catch(NoSuchElementException e){
+
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }}
+
+
+
+}
