@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class SucessTransactionResponse {
     private Long transactionId;
     private BigDecimal totalPrice;
-    private LocalDateTime transactionDate;
+    private String transactionDate;
     private String paymentMethod;
     private String status;
 }

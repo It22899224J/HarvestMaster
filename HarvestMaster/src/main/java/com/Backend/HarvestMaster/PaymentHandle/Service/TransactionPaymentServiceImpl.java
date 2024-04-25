@@ -12,7 +12,11 @@ import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPaymentRequest;
 import com.Backend.HarvestMaster.PaymentHandle.Repositiory.TransactionPaymentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,7 +80,7 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
     }
 
     @Override
-    public List<TransactionPaymentRequest> sucessTransaction(TransactionPaymentRequest transactionPaymentRequest) {
+    public List<SucessTransactionResponse> sucessTransaction(TransactionPaymentRequest transactionPaymentRequest) {
         List<TransactionPayment> allTransactionPayments = transactionPaymentRepository.findAll();
         return allTransactionPayments.stream()
                 .filter(transactionPayment -> "VERIFY".equals(transactionPaymentRequest.getStatus()))
@@ -85,7 +89,7 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
     }
 
     @Override
-    public List<TransactionPaymentRequest> sucessTransactionAll() {
+    public List<SucessTransactionResponse> sucessTransactionAll() {
         List<TransactionPayment> allTransactionPayments = transactionPaymentRepository.findAll();
         return allTransactionPayments.stream()
                 .filter(transactionPayment -> "VERIFY".equals(transactionPayment.getStatus()))
@@ -93,14 +97,43 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
                 .collect(Collectors.toList());
     }
 
-    private TransactionPaymentRequest convertToDto(TransactionPayment transactionPayment) {
-        TransactionPaymentRequest dto = new TransactionPaymentRequest();
+//    @Override
+//    public List<TransactionPaymentRequest> getTransactionById(Long deliveryId) {
+//        List<TransactionPayment> getTransactionPayment = transactionPaymentRepository.findAll();
+//        return getTransactionPayment.stream()
+//                .filter(transactionPayment ->
+//                        transactionPayment.getBuyer() != null && // Ensure Buyer object is not null
+//                                deliveryId == transactionPayment.getDelivery().getDeliveryId()) // Directly compare int values
+//                .map(this::convertToDto)
+//                .collect(Collectors.toList());
+//    }
+
+    @Override
+    public List<SucessTransactionResponse> getTransactionById(Long deliveryId) {
+        Optional<TransactionPayment> transactionOptional = transactionPaymentRepository.findAll().stream()
+                .filter(transactionPayment ->
+                        transactionPayment.getBuyer() != null && // Ensure Buyer object is not null
+                                deliveryId.equals(transactionPayment.getDelivery().getDeliveryId())) // Use equals() for Long comparison
+                .findFirst();
+
+        return transactionOptional.map(transactionPayment -> Collections.singletonList(convertToDto(transactionPayment)))
+                .orElse(Collections.emptyList());
+    }
+
+
+    private SucessTransactionResponse convertToDto(TransactionPayment transactionPayment) {
+        SucessTransactionResponse dto = new SucessTransactionResponse();
         dto.setTransactionId(transactionPayment.getTransactionId());
         dto.setPaymentMethod(transactionPayment.getPaymentMethod());
         dto.setTotalPrice(transactionPayment.getTotalPrice());
-        dto.setTransactionDate(transactionPayment.getTransactionDate());
+        dto.setTransactionDate(formatLocalDateTime(transactionPayment.getTransactionDate()));
 //        dto.setAmount(transactionPayment.getAmount());
         dto.setStatus(transactionPayment.getStatus());
         return dto;
+    }
+
+    private String formatLocalDateTime(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return localDateTime.format(formatter);
     }
 }

@@ -29,7 +29,7 @@ public class TransactionPaymentController {
 
     @PostMapping("/sucess")
     public ResponseEntity<?> getSuccessfulTransactions(@RequestBody TransactionPaymentRequest transactionPaymentRequest) {
-        List<TransactionPaymentRequest> successfulTransactions = transactionPaymentService.sucessTransaction(transactionPaymentRequest);
+        List<SucessTransactionResponse> successfulTransactions = transactionPaymentService.sucessTransaction(transactionPaymentRequest);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Success");
@@ -39,11 +39,21 @@ public class TransactionPaymentController {
 
     @GetMapping("/sucess-all")
     public ResponseEntity<?> getSuccessfulAllTransactions() {
-        List<TransactionPaymentRequest> successfulAllTransactions = transactionPaymentService.sucessTransactionAll();
+        List<SucessTransactionResponse> successfulAllTransactions = transactionPaymentService.sucessTransactionAll();
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Success");
         response.put("data", successfulAllTransactions);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/get-transaction/{id}")
+    public ResponseEntity<?> getTransactionsById(@PathVariable("id") Long deliveryId) {
+        List<SucessTransactionResponse> transactions = transactionPaymentService.getTransactionById(deliveryId);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Success");
+        response.put("data", transactions);
         return ResponseEntity.ok().body(response);
     }
 }
