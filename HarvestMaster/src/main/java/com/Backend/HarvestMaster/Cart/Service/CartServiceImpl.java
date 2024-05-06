@@ -48,7 +48,7 @@ public class CartServiceImpl implements CartService{
         dto.setUnitPrice(cartItem.getUnitPrice());
         // Convert Inventory to InventoryDTO
         dto.setInventoryDTO(convertInventoryToDTO(cartItem.getInventory()));
-        dto.setBuyer(cartItem.getBuyer());
+        dto.setBuyerId(cartItem.getBuyer().getCusId());
         return dto;
     }
 
@@ -95,6 +95,8 @@ public class CartServiceImpl implements CartService{
 
         existingCartItem.setQuantity(cartItemDTO.getQuantity());
 
+        cartRepository.save(existingCartItem);
+
         InventoryDTO dto = convertInventoryToDTO(existingCartItem.getInventory());
 
         return new CartItemDTO(
@@ -102,7 +104,7 @@ public class CartServiceImpl implements CartService{
                 existingCartItem.getQuantity(),
                 existingCartItem.getUnitPrice(),
                 dto,
-                existingCartItem.getBuyer()
+                existingCartItem.getBuyer().getCusId()
         );
     }
 

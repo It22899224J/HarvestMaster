@@ -14,5 +14,5 @@ public class CartItemDTO {
     private Integer quantity;
     private Double unitPrice;
     private InventoryDTO inventoryDTO;
-    private Buyer buyer;
+    private Integer buyerId;
 }
