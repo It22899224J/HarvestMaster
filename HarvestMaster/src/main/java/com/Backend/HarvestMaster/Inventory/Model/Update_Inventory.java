@@ -9,4 +9,5 @@ public class Update_Inventory {
 
     private  double Price;
     private String Description;
+    private int quantity;
 }
