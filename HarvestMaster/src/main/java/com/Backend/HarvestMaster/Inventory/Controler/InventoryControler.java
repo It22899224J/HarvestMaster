@@ -37,7 +37,8 @@ public class InventoryControler {
             @RequestParam ("description") String Description,
             @RequestParam ("packege_Type") int Packege_Type,
             @RequestParam ("product_type") String Product_type,
-            @RequestParam ("price") double Price
+            @RequestParam ("price") double Price,
+            @RequestParam ("quantity") int quantity
 
     ){
 
@@ -57,6 +58,7 @@ public class InventoryControler {
            inventory.setPackege_Type(Packege_Type);
            inventory.setProduct_type(Product_type);
            inventory.setPrice(Price);
+           inventory.setQuantity(quantity);
 
 
 
