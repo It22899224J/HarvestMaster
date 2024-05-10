@@ -3,9 +3,6 @@ package com.Backend.HarvestMaster.Order.Service;
 
 import com.Backend.HarvestMaster.Order.Model.*;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface DeliveryService {
     CommonResponse updateDeliverySchedule(DeliveryRequest delivery);
 
@@ -22,4 +19,8 @@ public interface DeliveryService {
     CommonResponse orderTotal();
 
     CommonResponse getDeliveryItems(PendingDeliveryRequest request);
+
+    CommonResponse approvedPayment(ManageDeliveryRequest request);
+
+    CommonResponse deleteDeliveryById(Long deliveryId);
 }

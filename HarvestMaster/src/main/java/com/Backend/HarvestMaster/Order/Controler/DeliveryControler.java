@@ -66,7 +66,7 @@ public class DeliveryControler {
 
 
     @GetMapping("/log")
-    public ResponseEntity<CommonResponse> deliveryLogActivityCommonResponseResponseEntity(){
+    public ResponseEntity<CommonResponse> deliveryLogActivityCommonResponseResponseEntity() {
         CommonResponse deliveryLogActivity = deliveryService.deliveryLogActivity();
         if (deliveryLogActivity.isStatus()) {
             return new ResponseEntity<>(deliveryLogActivity, HttpStatus.OK);
@@ -76,7 +76,7 @@ public class DeliveryControler {
     }
 
     @GetMapping("/total")
-    public ResponseEntity<CommonResponse> orderTotalCommonResponseResponseEntity(){
+    public ResponseEntity<CommonResponse> orderTotalCommonResponseResponseEntity() {
         CommonResponse orderTotal = deliveryService.orderTotal();
         if (orderTotal.isStatus()) {
             return new ResponseEntity<>(orderTotal, HttpStatus.OK);
@@ -86,8 +86,26 @@ public class DeliveryControler {
     }
 
     @PostMapping("get/pending-items")
-    public ResponseEntity<CommonResponse> getgDeliveryItems(@RequestBody PendingDeliveryRequest request) {
-        CommonResponse response = deliveryService.getDeliveryItems(request);
+    public ResponseEntity<CommonResponse> getDeliveryItems(@RequestBody PendingDeliveryRequest request) {
+        CommonResponse response = deliveryService.getPendingDelivery(request);
+        if (response.isStatus()) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/approved-payment")
+    public ResponseEntity<CommonResponse> approvedPayment(@RequestBody ManageDeliveryRequest request) {
+        CommonResponse response = deliveryService.approvedPayment(request);
+        if (response.isStatus()) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<CommonResponse> deleteEntity(@PathVariable Long id) {
+        CommonResponse response = deliveryService.deleteDeliveryById(id);
         if (response.isStatus()) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }

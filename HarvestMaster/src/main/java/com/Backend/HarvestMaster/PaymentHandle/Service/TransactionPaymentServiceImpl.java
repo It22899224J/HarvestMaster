@@ -92,7 +92,7 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
     public List<SucessTransactionResponse> sucessTransactionAll() {
         List<TransactionPayment> allTransactionPayments = transactionPaymentRepository.findAll();
         return allTransactionPayments.stream()
-                .filter(transactionPayment -> "VERIFY".equals(transactionPayment.getStatus()))
+//                .filter(transactionPayment -> "VERIFY".equals(transactionPayment.getStatus()))
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
@@ -129,6 +129,8 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
         dto.setTransactionDate(formatLocalDateTime(transactionPayment.getTransactionDate()));
 //        dto.setAmount(transactionPayment.getAmount());
         dto.setStatus(transactionPayment.getStatus());
+        dto.setBankSlipImage(transactionPayment.getBankSlipImage());
+        dto.setPaymentSuccessCode(transactionPayment.getPaymentSuccessCode());
         return dto;
     }
 

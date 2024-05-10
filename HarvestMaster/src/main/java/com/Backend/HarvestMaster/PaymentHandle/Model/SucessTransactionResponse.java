@@ -15,4 +15,6 @@ public class SucessTransactionResponse {
     private String transactionDate;
     private String paymentMethod;
     private String status;
+    private byte[] bankSlipImage;
+    private String paymentSuccessCode;
 }

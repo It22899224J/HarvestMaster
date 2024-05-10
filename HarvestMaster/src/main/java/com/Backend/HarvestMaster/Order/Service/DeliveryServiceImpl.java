@@ -2,10 +2,7 @@ package com.Backend.HarvestMaster.Order.Service;
 
 import com.Backend.HarvestMaster.Buyer.Repositiory.BuyerRepositiory;
 import com.Backend.HarvestMaster.Cart.Repository.CartRepository;
-import com.Backend.HarvestMaster.Inventory.Model.Inventory;
-import com.Backend.HarvestMaster.Inventory.Model.InventoryDTO;
 import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
-import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
 import com.Backend.HarvestMaster.Order.Model.*;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryItemRepositiory;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryLogActivityRepository;
@@ -93,7 +90,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         Delivery deliveryData = Delivery.builder()
 //                .customerName(request.getCustomerName())
                 .deliveryAddress(request.getDeliveryAddress())
-                .pickupAddress(request.getPickupAddress())
+                .pickupAddress("HarvestMaster Pvt Ltd Polonnaruwa Road New Town")
 //                 .deliveryDate(request.getDeliveryDate())
                 .driverId(request.getDriverId())
                 .driverName(request.getDriverName())
@@ -112,6 +109,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         for (DeliveryItem item : deliveryItems) {
             // Set the deliveryId of each delivery item to associate it with the newly created delivery
             item.setDeliveryItemId(deliveryData.getDeliveryId());
+            System.out.println(deliveryData.getDeliveryId());
 
 //            item.setInventory();
         }
@@ -286,4 +284,36 @@ public class DeliveryServiceImpl implements DeliveryService {
 //                .build();
 //
 //    }
+
+    @Override
+    public CommonResponse approvedPayment(ManageDeliveryRequest request) {
+        Optional<Delivery> delivery = deliveryRepository.findById(request.getDeliveryId());
+        if (delivery.isEmpty()) {
+            return CommonResponse.builder()
+                    .status(false)
+                    .message("Delivery not found")
+                    .data(null)
+                    .build();
+        }
+        Delivery deliveryDetails = delivery.get();
+        deliveryDetails.setPaymentStatus(request.isPaymentStatus() ? "APPROVED" : "REJECTED");
+        deliveryDetails.setReason(request.getReason());
+//        deliveryDetails.setReason(StringUtils.hasLength(request.getReason())?request.getReason():null);
+        deliveryRepository.save(deliveryDetails);
+        return CommonResponse.builder()
+                .status(true)
+                .message("Delivery Managed")
+                .data(null)
+                .build();
+    }
+
+    @Override
+    public CommonResponse deleteDeliveryById(Long deliveryId) {
+        deliveryRepository.deleteById(deliveryId);
+        return CommonResponse.builder()
+                .status(true)
+                .message("Delivery Delete")
+                .build();
+    }
 }
+
