@@ -88,9 +88,9 @@ public class SolutionController {
         }
 
         // Proceed with fetching solutions for the specified issue
-        List<Solution> solutions = solutionService.getSolutionsForIssue(issue_id);
+         Solution solutions = solutionService.getSolutionsForIssue(issue_id);
 
-        if (solutions.isEmpty()) {
+        if (solutions == null) {
             // If no solutions are found, return a 404 Not Found response with an error message
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No solutions found for issue with ID " + issue_id);
         }

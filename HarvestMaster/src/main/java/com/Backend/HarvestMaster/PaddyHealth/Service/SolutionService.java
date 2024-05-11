@@ -19,6 +19,6 @@ public interface SolutionService {
     Solution updateSolution(int id, Solution solution);
 
     // Method to get solutions for a specific issue
-    List<Solution> getSolutionsForIssue(int issue_id);
+    Solution getSolutionsForIssue(int issue_id);
 }
 
