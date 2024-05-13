@@ -7,9 +7,12 @@ import com.Backend.HarvestMaster.Order.Model.*;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryItemRepositiory;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryLogActivityRepository;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryRepository;
+import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPayment;
+import com.Backend.HarvestMaster.PaymentHandle.Repositiory.TransactionPaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +28,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final InventoryRepository inventoryRepository;
     private final DeliveryItemRepositiory deliveryItemRepositiory;
     private final BuyerRepositiory buyerRepositiory;
+    private final TransactionPaymentRepository transactionPaymentRepository;
 
     @Override
     public CommonResponse updateDeliverySchedule(DeliveryRequest delivery) {
@@ -258,32 +262,41 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .build();
     }
 
-//    @Override
-//    public CommonResponse getBuyerPendingDelivery(PendingDeliveryRequest request) {
-//        List<Delivery> deliveries = deliveryRepository.findDeliverysByOrderStatusAndPaymentStatusAndDeliveryStatus(request.getOrderStatus(), request.getPaymentStatus(), "PENDING");
-//        List<PendingDeliveryResponse> pendingDeliveries = new ArrayList<>();
-//
-//        for (Delivery item : deliveries) {
-//            pendingDeliveries.add(
-//                    PendingDeliveryResponse.builder()
-//                            .customerName(item.getBuyer().getCusName())
-//                            .orderId(String.valueOf(item.getCartId()))
-//                            .orderDate(item.getOrderDate().toString())
-//                            .deliveryAddress(item.getDeliveryAddress())
-//                            .pickupAddress(item.getPickupAddress())
-//                            .deliveryDate(item.getDeliveryDate())
-//                            .deliveryId(item.getDeliveryId())
-//                            .build()
-//            );
-//        }
-//
-//        return CommonResponse.builder()
-//                .status(true)
-//                .message("Pending Deliveries")
-//                .data(pendingDeliveries)
-//                .build();
-//
-//    }
+    @Override
+    public CommonResponse getDeliveryToCart(PendingDeliveryRequest request) {
+        List<Delivery> deliveries = deliveryRepository.findDeliverysByOrderStatusAndPaymentStatusAndDeliveryStatus(request.getOrderStatus(), request.getPaymentStatus(), "PENDING");
+        List<DeliveryViewResponse> pendingDeliveries = new ArrayList<>();
+
+        for (Delivery item : deliveries) {
+
+            List<TransactionPayment> transactions = transactionPaymentRepository.findByDelivery(item);
+            BigDecimal totalAmount = transactions.stream().map(TransactionPayment::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+
+            pendingDeliveries.add(
+                    DeliveryViewResponse.builder()
+                            .customerName(item.getBuyer().getCusName())
+//                            .orderId(String.valueOf(item.getDeliveryId()))
+                            .deliveryId(item.getDeliveryId())
+                            .orderDate(item.getOrderDate().toString())
+                            .deliveryAddress(item.getDeliveryAddress())
+                            .pickupAddress("HarvestMaster Pvt Ltd Polonnaruwa Road New Town")
+                            .deliveryDate(item.getDeliveryDate().toString())
+                            .deliveryId(item.getDeliveryId())
+                            .totalPrice(totalAmount)
+                            .build()
+            );
+        }
+
+
+        return CommonResponse.builder()
+                .status(true)
+                .message("Pending Deliveries")
+                .data(pendingDeliveries)
+                .build();
+
+    }
 
     @Override
     public CommonResponse approvedPayment(ManageDeliveryRequest request) {

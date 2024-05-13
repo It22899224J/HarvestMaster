@@ -20,6 +20,9 @@ public interface DeliveryService {
 
     CommonResponse getDeliveryItems(PendingDeliveryRequest request);
 
+
+    CommonResponse getDeliveryToCart(PendingDeliveryRequest request);
+
     CommonResponse approvedPayment(ManageDeliveryRequest request);
 
     CommonResponse deleteDeliveryById(Long deliveryId);

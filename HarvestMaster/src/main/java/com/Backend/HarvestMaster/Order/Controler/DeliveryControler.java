@@ -111,6 +111,14 @@ public class DeliveryControler {
         }
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
-}
 
+    @PostMapping("get/pending-items-view")
+    public ResponseEntity<CommonResponse> getDeliveryToCart(@RequestBody PendingDeliveryRequest request) {
+        CommonResponse response = deliveryService.getDeliveryToCart(request);
+        if (response.isStatus()) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+}
 
