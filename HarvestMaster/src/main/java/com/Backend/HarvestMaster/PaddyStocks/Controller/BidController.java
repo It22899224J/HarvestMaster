@@ -1,9 +1,8 @@
 package com.Backend.HarvestMaster.PaddyStocks.Controller;
 
-import com.Backend.HarvestMaster.PaddyStocks.Model.Bid;
-import com.Backend.HarvestMaster.PaddyStocks.Model.SoldPaddyStock;
-import com.Backend.HarvestMaster.PaddyStocks.Model.SoldPaddyStockDTO;
+import com.Backend.HarvestMaster.PaddyStocks.Model.*;
 import com.Backend.HarvestMaster.PaddyStocks.Service.BidService;
+import com.Backend.HarvestMaster.PaddyStocks.Service.PaddyStockService;
 import com.Backend.HarvestMaster.PaddyStocks.Service.SoldPaddyStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -28,6 +28,9 @@ public class BidController {
 
     @Autowired
     private SoldPaddyStockService soldPaddyStockService;
+
+    @Autowired
+    private PaddyStockService paddyStockService;
 
     @PostMapping("/add")
     public ResponseEntity<Bid> add(@RequestBody Bid bid){
@@ -108,6 +111,8 @@ public class BidController {
 
     }
 
+
+    //sold paddy stock searched by stockid
     @GetMapping("/getsoldstock/{stockid}")
     @Async
     public ResponseEntity<SoldPaddyStockDTO> getSoldStock(@PathVariable Integer stockid){
@@ -119,6 +124,54 @@ public class BidController {
         }
 
     }
+    @GetMapping("/getAllStocksBuyer/{buyer}")
+    @Async
+    public ResponseEntity<List<BidBuyerDTO>> getBidStocksByBuyer(@PathVariable String buyer){
+
+        try{
+           List<Bid> buyerBids = bidService.getbidbyBuyer(buyer);
+            List<BidBuyerDTO> bidBuyerDTOs = new ArrayList<>();
+
+            for (Bid bid : buyerBids) {
+                BidBuyerDTO bidBuyerDTO = new BidBuyerDTO();
+                bidBuyerDTO.setBidid(bid.getBidid());
+                bidBuyerDTO.setPrice(bid.getPrice());
+                bidBuyerDTO.setBuyer_email(bid.getBuyer_email());
+                bidBuyerDTO.setBuyer_name(bid.getBuyer_name());
+                bidBuyerDTO.setCreationDate(bid.getCreationDate());
+
+                // Call a DB function to get relevant paddy stock and convert it to PaddyStockViewDTO
+                PaddyStockViewDTO paddyStockView = paddyStockService.getPaddyStockDetails(bid.getStockid()).get(0); // Implement this method
+
+
+                bidBuyerDTO.setPaddyStockViewDTO(paddyStockView);
+
+                bidBuyerDTOs.add(bidBuyerDTO);
+            }
+            return new ResponseEntity<>(bidBuyerDTOs,HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+
+    @GetMapping("/getsoldstockbybuyer/{buyer}")
+    @Async
+    public ResponseEntity<SoldPaddyStockDTO> getSoldStockByBuyerName(@PathVariable String buyer){
+
+        try{
+
+
+
+            return new ResponseEntity<>(soldPaddyStockService.getSoldPaddyStocksBuyer(buyer),HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+
 
 
     @PatchMapping("/updatesoldstock/{soldstock}")

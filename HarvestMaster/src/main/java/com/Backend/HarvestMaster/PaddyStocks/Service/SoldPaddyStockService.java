@@ -15,5 +15,7 @@ public interface SoldPaddyStockService {
 
     public SoldPaddyStockDTO getSoldPaddyStock(Integer stock_id);
 
+  public SoldPaddyStockDTO getSoldPaddyStocksBuyer(String buyer_name);
+
 
 }

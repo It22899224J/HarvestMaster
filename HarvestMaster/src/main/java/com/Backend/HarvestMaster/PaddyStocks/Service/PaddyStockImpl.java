@@ -176,13 +176,14 @@ public class PaddyStockImpl implements PaddyStockService{
             if (postHarvest != null) {
                 dto.setPaddyVariety(postHarvest.getPaddyVareity());
                 dto.setLocation(postHarvest.getLocation());
+                dto.setDistrict(postHarvest.getDistrict());
                 // Add other fields as needed
             }
         }
         return dto;
     }
 
-    private PaddyStockViewDTO convertToviewDTO(PaddyStock paddyStock) {
+    public PaddyStockViewDTO convertToviewDTO(PaddyStock paddyStock) {
         PaddyStockViewDTO dto = new PaddyStockViewDTO();
         dto.setPs_id(paddyStock.getPs_id());
         dto.setAmount(paddyStock.getAmount());

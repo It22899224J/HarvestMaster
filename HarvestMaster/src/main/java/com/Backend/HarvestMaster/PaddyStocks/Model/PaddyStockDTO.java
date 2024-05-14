@@ -20,6 +20,7 @@ public class PaddyStockDTO {
     private String location;
     private List<BidDTO> bids;
     private LocalDate stockCreationDate;
+    private String district;
 
     public PaddyStockDTO() {
     }

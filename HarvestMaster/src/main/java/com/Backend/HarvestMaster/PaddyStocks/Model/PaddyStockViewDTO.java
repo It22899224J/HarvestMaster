@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @Setter
 public class PaddyStockViewDTO {
     private int ps_id;
+
+
     private String image;
     //foreign key for postharvest
 
@@ -23,4 +25,5 @@ public class PaddyStockViewDTO {
     @Enumerated(EnumType.STRING)
     private Status_stock status;
     private LocalDate stockCreationDate;
+
 }

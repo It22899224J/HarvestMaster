@@ -118,4 +118,30 @@ public class SoldPaddyStockServiceImpl implements SoldPaddyStockService{
         return soldPaddyStockDTO;
 
     }
+
+    @Override
+    public SoldPaddyStockDTO getSoldPaddyStocksBuyer(String buyer_name) {
+
+        int soldStockId = soldPaddyStockrepsitory.findByBuyernames(buyer_name);
+
+        Optional<SoldPaddyStock> currentResult = soldPaddyStockrepsitory.findById(soldStockId);
+        SoldPaddyStockDTO soldPaddyStockDTO = new SoldPaddyStockDTO();
+        if(currentResult.isPresent()) {
+            SoldPaddyStock current  = currentResult.get();
+
+
+
+            soldPaddyStockDTO.setAcceptedbid(current.getAcceptedbid());
+            soldPaddyStockDTO.setReleventpaddyStock(paddyStockService.getPaddyStockDetails(current.getReleventpaddyStock().getPs_id()).get(0));
+
+            soldPaddyStockDTO.setArrivinglocation(current.getArrivinglocation());
+            soldPaddyStockDTO.setPaymentstatus(current.getPaymentstatus());
+            soldPaddyStockDTO.setSoldstockid(current.getSoldstockid());
+            soldPaddyStockDTO.setTransportstatus(current.getTransportstatus());
+
+
+        }
+        return soldPaddyStockDTO;
+
+    }
 }
