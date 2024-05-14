@@ -3,12 +3,14 @@ package com.Backend.HarvestMaster.PaymentHandle.Service;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfo;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfoResponse;
 import com.Backend.HarvestMaster.PaymentHandle.Repositiory.PaymentInfoRepository;
+import com.Backend.HarvestMaster.PaymentHandle.Repositiory.TransactionPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -16,9 +18,14 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
 
     @Autowired
     private PaymentInfoRepository paymentInfoRepository;
+    private TransactionPaymentRepository transactionPaymentRepository;
 
     @Autowired
     private PaymentLogActivityService paymentLogActivityService;
+
+    public PaymentInfoServiceImpl(TransactionPaymentRepository transactionPaymentRepository) {
+        this.transactionPaymentRepository = transactionPaymentRepository;
+    }
 
     @Override
     public List<PaymentInfo> getAllPaymentInfo() {
@@ -86,5 +93,22 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
     @Override
     public void deletePaymentInfo(Long id) {
         paymentInfoRepository.deleteById(id);
+    }
+
+    @Override
+    public HashMap<String, Object> paymentTotal() {
+        double pendingAmount = paymentInfoRepository.getTotalAmountByPaymentStatus("PENDING");
+        double sendAmount = paymentInfoRepository.getTotalAmountByPaymentStatus("VERIFY");
+        double transtractionAmount= transactionPaymentRepository.getTotalAmount();
+
+        double balance = 10105989.86;
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pending_amount", pendingAmount);
+        map.put("send_amount", sendAmount);
+        map.put("trnstraction_count", transtractionAmount);
+        map.put("total_balance", balance + transtractionAmount - sendAmount - pendingAmount);
+
+        return map;
     }
 }

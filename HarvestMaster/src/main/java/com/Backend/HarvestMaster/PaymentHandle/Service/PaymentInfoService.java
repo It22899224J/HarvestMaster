@@ -3,6 +3,7 @@ package com.Backend.HarvestMaster.PaymentHandle.Service;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfo;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfoResponse;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface PaymentInfoService {
@@ -14,4 +15,6 @@ public interface PaymentInfoService {
     PaymentInfo createPaymentInfo(PaymentInfo paymentInfo, String paymentStatus);
     PaymentInfo updatePaymentInfo(Long id, PaymentInfo paymentInfo);
     void deletePaymentInfo(Long id);
+
+    HashMap<String, Object> paymentTotal();
 }

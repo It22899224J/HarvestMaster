@@ -1,5 +1,6 @@
 package com.Backend.HarvestMaster.PaymentHandle.Controller;
 
+import com.Backend.HarvestMaster.Order.Model.CommonResponse;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfo;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfoRequest;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfoResponse;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -60,5 +62,12 @@ public class PaymentInfoController {
     public ResponseEntity<List<PaymentInfoResponse>> getAllPaymentInfo(@RequestBody PaymentInfoRequest paymentInfoRequest) {
         List<PaymentInfoResponse> paymentInfoList = paymentInfoService.getAllPaymentInfoByStatus(paymentInfoRequest.getPaymentStatus());
         return ResponseEntity.ok(paymentInfoList);
+    }
+
+    @GetMapping("/total")
+    public ResponseEntity<HashMap<String, Object>> orderTotalCommonResponseResponseEntity() {
+        HashMap<String, Object> response = paymentInfoService.paymentTotal();
+        HttpStatus status = response != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(response, status);
     }
 }
