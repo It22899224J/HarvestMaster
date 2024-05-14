@@ -135,7 +135,7 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
         dto.setTransactionDate(formatLocalDateTime(transactionPayment.getTransactionDate()));
         dto.setTotalPrice(transactionPayment.getTotalPrice());
         dto.setStatus(transactionPayment.getStatus());
-        dto.setBankSlipImage(Base64.getEncoder().encodeToString(transactionPayment.getBankSlipImage()));
+//        dto.setBankSlipImage(Base64.getEncoder().encodeToString(transactionPayment.getBankSlipImage()));
         dto.setPaymentSuccessCode(transactionPayment.getPaymentSuccessCode());
         return dto;
     }
