@@ -2,6 +2,7 @@ package com.Backend.HarvestMaster.PaymentHandle.Controller;
 
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfo;
 import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfoRequest;
+import com.Backend.HarvestMaster.PaymentHandle.Model.PaymentInfoResponse;
 import com.Backend.HarvestMaster.PaymentHandle.Service.PaymentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,8 +57,8 @@ public class PaymentInfoController {
     }
 
     @PostMapping("/status")
-    public ResponseEntity<List<PaymentInfo>> getAllPaymentInfo(@RequestBody PaymentInfoRequest paymentInfoRequest) {
-        List<PaymentInfo> paymentInfoList = paymentInfoService.getAllPaymentInfoByStatus(paymentInfoRequest.getPaymentStatus());
+    public ResponseEntity<List<PaymentInfoResponse>> getAllPaymentInfo(@RequestBody PaymentInfoRequest paymentInfoRequest) {
+        List<PaymentInfoResponse> paymentInfoList = paymentInfoService.getAllPaymentInfoByStatus(paymentInfoRequest.getPaymentStatus());
         return ResponseEntity.ok(paymentInfoList);
     }
 }
