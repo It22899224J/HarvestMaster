@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RefundInfoResponse {
+public class RefundInfoDTO {
     private Long id;
     private String bankName;
     private String accountNo;
