@@ -12,8 +12,10 @@ public class PreHarvestPlans {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fieldId; // Unique identifier for the pre-harvest plan
 
-    private int farmerId; // ID of the farmer associated with the plan
+    private int farmerId;// ID of the farmer associated with the plan
+
     private String regNumber; // Registration number of the field
+    private String province; //Province where the field is located
     private String district; // District where the field is located
     private String city; // City where the field is located
     private float fieldArea; // Area of the field in acres

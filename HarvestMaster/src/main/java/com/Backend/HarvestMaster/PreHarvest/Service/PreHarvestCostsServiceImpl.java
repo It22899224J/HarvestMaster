@@ -23,7 +23,6 @@ public class PreHarvestCostsServiceImpl implements PreHarvestCostsService{
     }
 
 
-
     @Override
     public PreHarvestCosts getCostById(Integer costId) {
         return preHarvestCostsRepository.findById(costId).get();
