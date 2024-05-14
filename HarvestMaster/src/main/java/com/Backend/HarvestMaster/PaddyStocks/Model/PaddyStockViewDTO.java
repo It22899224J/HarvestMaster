@@ -20,6 +20,7 @@ public class PaddyStockViewDTO {
     //foreign key for postharvest
 
     private int relatedPostHarvestaudit;
+    private String riceVareity;
     public int amount;
     private float price;
     @Enumerated(EnumType.STRING)

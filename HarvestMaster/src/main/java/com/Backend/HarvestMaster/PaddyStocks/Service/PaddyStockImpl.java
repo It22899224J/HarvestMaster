@@ -201,6 +201,7 @@ public class PaddyStockImpl implements PaddyStockService{
         PostHarvestAudit postHarvestAudit = paddyStock.getRelatedPostHarvestaudit();
         if (postHarvestAudit != null) {
             dto.setRelatedPostHarvestaudit(postHarvestAudit.getAuditId());
+            dto.setRiceVareity(postHarvestAudit.getRelatedpostHarvest().getPaddyVareity());
         }
 
         return dto;
