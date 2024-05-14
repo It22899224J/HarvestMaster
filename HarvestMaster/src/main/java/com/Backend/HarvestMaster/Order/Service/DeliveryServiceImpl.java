@@ -1,6 +1,7 @@
 package com.Backend.HarvestMaster.Order.Service;
 
 import com.Backend.HarvestMaster.Buyer.Repositiory.BuyerRepositiory;
+import com.Backend.HarvestMaster.Cart.Model.CartItem;
 import com.Backend.HarvestMaster.Cart.Repository.CartRepository;
 import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
 import com.Backend.HarvestMaster.Order.Model.*;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,19 +91,21 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public CommonResponse createNewDelivery(DeliveryCreateRequest request) {
 
-//        CartItem cartDetails = cartRepository.findById(request.getOrderId()).get();
+        CartItem cartDetails = cartRepository.findById(1).get();
+        LocalDate currentDate = LocalDate.now();
 
         Delivery deliveryData = Delivery.builder()
 //                .customerName(request.getCustomerName())
                 .deliveryAddress(request.getDeliveryAddress())
                 .pickupAddress("HarvestMaster Pvt Ltd Polonnaruwa Road New Town")
-//                 .deliveryDate(request.getDeliveryDate())
+                .deliveryDate(currentDate.atStartOfDay())
                 .driverId(request.getDriverId())
                 .driverName(request.getDriverName())
                 .vehicleNumber(request.getVehicleNumber())
                 .orderStatus("PENDING")
                 .paymentStatus("PENDING")
-//                .buyer(cartDetails.getBuyer())
+                .deliveryStatus("PENDING")
+                .buyer(cartDetails.getBuyer())
                 .cartId(request.getOrderId())
                 .build();
 
