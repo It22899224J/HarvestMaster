@@ -28,7 +28,7 @@ public class WishList {
     private Buyer buyer;
 
     public enum Availability {
-        IN_STOCK,
-        OUT_OF_STOCK,
+        Available,
+        Unavailable,
     }
 }
