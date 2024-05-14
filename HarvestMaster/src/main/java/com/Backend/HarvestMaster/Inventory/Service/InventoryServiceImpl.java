@@ -69,6 +69,7 @@ public class InventoryServiceImpl implements InventoryService{
             // Update the inventory details with the provided DT
             inventory.setDescription(updateInventory.getDescription());
             inventory.setPrice(updateInventory.getPrice());
+            inventory.setQuantity(updateInventory.getQuantity());
             // Save the updated inventory
             inventoryRepository.save(inventory);
             // Convert the updated inventory back to DTO for response

@@ -25,7 +25,7 @@ public class InventoryDTO {
     private String Description;
     private int quantity;
     private  int Packege_Type;
-    private  double Price;
+    private  float Price;
     private String image;
 
 

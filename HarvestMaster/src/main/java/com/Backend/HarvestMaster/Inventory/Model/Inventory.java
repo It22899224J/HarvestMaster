@@ -26,7 +26,7 @@ public class Inventory {
     private String Description;
     private int quantity;
     private  int Packege_Type;
-    private  double Price;
+    private  float Price;
     private Blob image;
 
 
