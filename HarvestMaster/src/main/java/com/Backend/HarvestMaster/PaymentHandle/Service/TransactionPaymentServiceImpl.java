@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +71,12 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
             transactionPayment.setPaymentSuccessCode(transactionPaymentRequest.getPaymentSuccessCode());
             transactionPayment.setStatus("VERIFY");
         } else if ("SLIP".equals(transactionPaymentRequest.getPaymentMethod())) {
-            byte[] imageData = java.util.Base64.getDecoder().decode(transactionPaymentRequest.getPaymentMethod());
+            String bankSlipImageString = transactionPaymentRequest.getBankSlipImage();
+            if (bankSlipImageString == null) {
+                throw new IllegalArgumentException("Bank slip image data is missing");
+            }
+            String cleanBankSlipImage = transactionPaymentRequest.getBankSlipImage().replace(":", "");
+            byte[] imageData = Base64.getEncoder().encode(cleanBankSlipImage.getBytes());
             transactionPayment.setBankSlipImage(imageData);
             transactionPayment.setStatus("PENDING");
         } else {
@@ -127,9 +133,9 @@ public class TransactionPaymentServiceImpl implements TransactionPaymentService 
         dto.setPaymentMethod(transactionPayment.getPaymentMethod());
         dto.setTotalPrice(transactionPayment.getTotalPrice());
         dto.setTransactionDate(formatLocalDateTime(transactionPayment.getTransactionDate()));
-//        dto.setAmount(transactionPayment.getAmount());
+        dto.setTotalPrice(transactionPayment.getTotalPrice());
         dto.setStatus(transactionPayment.getStatus());
-        dto.setBankSlipImage(transactionPayment.getBankSlipImage());
+        dto.setBankSlipImage(Base64.getEncoder().encodeToString(transactionPayment.getBankSlipImage()));
         dto.setPaymentSuccessCode(transactionPayment.getPaymentSuccessCode());
         return dto;
     }
