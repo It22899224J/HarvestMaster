@@ -175,9 +175,11 @@ public class BidController {
 
 
     @PatchMapping("/updatesoldstock/{soldstock}")
-    public ResponseEntity<SoldPaddyStockDTO> updateSoldStock(@PathVariable Integer soldstock, SoldPaddyStock soldPaddyStock) {
+    public ResponseEntity<SoldPaddyStockDTO> updateSoldStock(@PathVariable Integer soldstock, @RequestBody SoldPaddyStock soldPaddyStock) {
 
         try {
+
+
             return new ResponseEntity<>(soldPaddyStockService.updateSoldPaddyStock(soldstock, soldPaddyStock), HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

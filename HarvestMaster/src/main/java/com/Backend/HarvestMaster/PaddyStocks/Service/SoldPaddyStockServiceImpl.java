@@ -104,10 +104,12 @@ public class SoldPaddyStockServiceImpl implements SoldPaddyStockService{
            SoldPaddyStock current  = currentResult.get();
 
 
+           soldPaddyStockDTO.setSoldstockid(current.getSoldstockid());
 
             soldPaddyStockDTO.setAcceptedbid(current.getAcceptedbid());
             soldPaddyStockDTO.setReleventpaddyStock(paddyStockService.getPaddyStockDetails(stock_id).get(0));
 
+            soldPaddyStockDTO.setPickuplocation(current.getPickuplocation());
             soldPaddyStockDTO.setArrivinglocation(current.getArrivinglocation());
             soldPaddyStockDTO.setPaymentstatus(current.getPaymentstatus());
             soldPaddyStockDTO.setSoldstockid(current.getSoldstockid());
