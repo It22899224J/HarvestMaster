@@ -62,6 +62,7 @@ public class CartServiceImpl implements CartService{
         dto.setProduct_Name(inventory.getProduct_Name());
         dto.setPackege_Type(inventory.getPackege_Type());
         dto.setProduct_type(inventory.getProduct_type());
+        dto.setQuantity(inventory.getQuantity());
 
         return dto;
     }
