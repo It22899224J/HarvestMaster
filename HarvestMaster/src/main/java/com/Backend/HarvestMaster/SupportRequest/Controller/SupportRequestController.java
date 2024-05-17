@@ -44,8 +44,12 @@ public class SupportRequestController {
 
         SupportRequest current = supportRequestService.getRequest(id);
 
+        current.setTopic(supportRequest.getTopic());
+        current.setIssue(supportRequest.getIssue());
        current.setSolution(supportRequest.getSolution());
-       current.setStatus("Answered");
+       if(supportRequest.getSolution()!="") {
+           current.setStatus("Answered");
+       }
 
 
 
