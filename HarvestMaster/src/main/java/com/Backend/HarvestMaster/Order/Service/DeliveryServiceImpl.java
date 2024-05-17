@@ -1,14 +1,20 @@
 package com.Backend.HarvestMaster.Order.Service;
 
+import com.Backend.HarvestMaster.Buyer.Repositiory.BuyerRepositiory;
 import com.Backend.HarvestMaster.Cart.Model.CartItem;
 import com.Backend.HarvestMaster.Cart.Repository.CartRepository;
 import com.Backend.HarvestMaster.Inventory.Repository.InventoryRepository;
 import com.Backend.HarvestMaster.Order.Model.*;
+import com.Backend.HarvestMaster.Order.Repository.DeliveryItemRepositiory;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryLogActivityRepository;
 import com.Backend.HarvestMaster.Order.Repository.DeliveryRepository;
+import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPayment;
+import com.Backend.HarvestMaster.PaymentHandle.Repositiory.TransactionPaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +28,9 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final CartRepository cartRepository;
     private final DeliveryLogActivityRepository logActivityRepository;
     private final InventoryRepository inventoryRepository;
+    private final DeliveryItemRepositiory deliveryItemRepositiory;
+    private final BuyerRepositiory buyerRepositiory;
+    private final TransactionPaymentRepository transactionPaymentRepository;
 
     @Override
     public CommonResponse updateDeliverySchedule(DeliveryRequest delivery) {
@@ -82,24 +91,40 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public CommonResponse createNewDelivery(DeliveryCreateRequest request) {
 
-        CartItem cartDetails = cartRepository.findById(request.getOrderId()).get();
+        CartItem cartDetails = cartRepository.findById(1).get();
+        LocalDate currentDate = LocalDate.now();
 
         Delivery deliveryData = Delivery.builder()
-                .customerName(request.getCustomerName())
+//                .customerName(request.getCustomerName())
                 .deliveryAddress(request.getDeliveryAddress())
-                .pickupAddress(request.getPickupAddress())
-//                 .deliveryDate(request.getDeliveryDate())
+                .pickupAddress("HarvestMaster Pvt Ltd Polonnaruwa Road New Town")
+                .deliveryDate(currentDate.atStartOfDay())
                 .driverId(request.getDriverId())
                 .driverName(request.getDriverName())
                 .vehicleNumber(request.getVehicleNumber())
                 .orderStatus("PENDING")
                 .paymentStatus("PENDING")
+                .deliveryStatus("PENDING")
                 .buyer(cartDetails.getBuyer())
                 .cartId(request.getOrderId())
                 .build();
 
 
         deliveryData = deliveryRepository.save(deliveryData);
+
+        // Store delivery items
+        List<DeliveryItem> deliveryItems = request.getDeliveryItems();
+        for (DeliveryItem item : deliveryItems) {
+            // Set the deliveryId of each delivery item to associate it with the newly created delivery
+            item.setDeliveryItemId(deliveryData.getDeliveryId());
+            System.out.println(deliveryData.getDeliveryId());
+
+//            item.setInventory();
+        }
+        List<DeliveryItem> savedDeliveryItems = deliveryItemRepositiory.saveAll(deliveryItems);
+
+        // Associate the saved delivery items with the delivery
+        deliveryData.setDeliveryItems(savedDeliveryItems);
 
         return CommonResponse.builder()
                 .status(true)
@@ -117,11 +142,12 @@ public class DeliveryServiceImpl implements DeliveryService {
             pendingDeliveries.add(
                     PendingDeliveryResponse.builder()
                             .customerName(item.getBuyer().getCusName())
-                            .orderId(String.valueOf(item.getCartId()))
+//                            .orderId(String.valueOf(item.getDeliveryId()))
+                            .deliveryId(item.getDeliveryId())
                             .orderDate(item.getOrderDate().toString())
                             .deliveryAddress(item.getDeliveryAddress())
-                            .pickupAddress(item.getPickupAddress())
-                            .deliveryDate(item.getDeliveryDate())
+                            .pickupAddress("HarvestMaster Pvt Ltd Polonnaruwa Road New Town")
+                            .deliveryDate(item.getDeliveryDate().toString())
                             .deliveryId(item.getDeliveryId())
                             .build()
             );
@@ -202,4 +228,109 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .data(map)
                 .build();
     }
+
+    @Override
+    public CommonResponse getDeliveryItems(PendingDeliveryRequest request) {
+//        Buyer buyer = buyerRepositiory.findOneById(request.getBuyerId()).orElse(null);
+//        if (buyer  == null) {
+//            return CommonResponse.builder()
+//                    .status(false)
+//                    .message("Buyer not found")
+//                    .build();
+//        }
+//        System.out.println(buyer);
+        List<Delivery> deliveries = deliveryRepository.findDeliverysByOrderStatusAndPaymentStatusAndDeliveryStatus(
+                request.getOrderStatus(), request.getPaymentStatus(), "PENDING");
+
+        List<DeliveryItemResponse> deliveryItemResponses = new ArrayList<>();
+
+        for (Delivery delivery : deliveries) {
+            List<DeliveryItem> deliveryItems = deliveryItemRepositiory.findByDelivery(delivery);
+
+
+            for (DeliveryItem deliveryItem : deliveryItems) {
+                deliveryItemResponses.add(
+                        DeliveryItemResponse.builder()
+                                .deliveryItemId(deliveryItem.getDeliveryItemId())
+                                .deliveryId(deliveryItem.getDeliveryItemId())
+                                .inventory(deliveryItem.getInventory())
+                                .build()
+                );
+            }
+
+        }
+        return CommonResponse.builder()
+                .status(true)
+                .message("Pending Delivery Items")
+                .data(deliveryItemResponses)
+                .build();
+    }
+
+    @Override
+    public CommonResponse getDeliveryToCart(PendingDeliveryRequest request) {
+        List<Delivery> deliveries = deliveryRepository.findDeliverysByOrderStatusAndPaymentStatusAndDeliveryStatus(request.getOrderStatus(), request.getPaymentStatus(), "PENDING");
+        List<DeliveryViewResponse> pendingDeliveries = new ArrayList<>();
+
+        for (Delivery item : deliveries) {
+
+            List<TransactionPayment> transactions = transactionPaymentRepository.findByDelivery(item);
+            BigDecimal totalAmount = transactions.stream().map(TransactionPayment::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+
+            pendingDeliveries.add(
+                    DeliveryViewResponse.builder()
+                            .customerName(item.getBuyer().getCusName())
+//                            .orderId(String.valueOf(item.getDeliveryId()))
+                            .deliveryId(item.getDeliveryId())
+                            .orderDate(item.getOrderDate().toString())
+                            .deliveryAddress(item.getDeliveryAddress())
+                            .pickupAddress("HarvestMaster Pvt Ltd Polonnaruwa Road New Town")
+                            .deliveryDate(item.getDeliveryDate().toString())
+                            .deliveryId(item.getDeliveryId())
+                            .totalPrice(totalAmount)
+                            .build()
+            );
+        }
+
+
+        return CommonResponse.builder()
+                .status(true)
+                .message("Pending Deliveries")
+                .data(pendingDeliveries)
+                .build();
+
+    }
+
+    @Override
+    public CommonResponse approvedPayment(ManageDeliveryRequest request) {
+        Optional<Delivery> delivery = deliveryRepository.findById(request.getDeliveryId());
+        if (delivery.isEmpty()) {
+            return CommonResponse.builder()
+                    .status(false)
+                    .message("Delivery not found")
+                    .data(null)
+                    .build();
+        }
+        Delivery deliveryDetails = delivery.get();
+        deliveryDetails.setPaymentStatus(request.isPaymentStatus() ? "APPROVED" : "REJECTED");
+        deliveryDetails.setReason(request.getReason());
+//        deliveryDetails.setReason(StringUtils.hasLength(request.getReason())?request.getReason():null);
+        deliveryRepository.save(deliveryDetails);
+        return CommonResponse.builder()
+                .status(true)
+                .message("Delivery Managed")
+                .data(null)
+                .build();
+    }
+
+    @Override
+    public CommonResponse deleteDeliveryById(Long deliveryId) {
+        deliveryRepository.deleteById(deliveryId);
+        return CommonResponse.builder()
+                .status(true)
+                .message("Delivery Delete")
+                .build();
+    }
 }
+

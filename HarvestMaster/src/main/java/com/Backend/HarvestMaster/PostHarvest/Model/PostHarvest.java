@@ -27,11 +27,14 @@ public class PostHarvest
     private int zip;
     private String ownership;
 
-
+    private String district;
 
     private String split;
     private String location;
-    private float startingPrice;
+
+    @Enumerated(EnumType.STRING)
+    private HarvestMethod type;
+
     private String plantedDate;
     private String harvestDate;
 
@@ -39,6 +42,7 @@ public class PostHarvest
     private BidStatus status;
 
     private String fertilizerType;
+
 
 
 

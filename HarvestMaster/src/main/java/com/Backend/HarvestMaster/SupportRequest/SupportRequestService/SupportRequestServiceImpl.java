@@ -26,7 +26,19 @@ public class SupportRequestServiceImpl implements SupportRequestService{
   }
 
   @Override
+  public SupportRequest getRequest(Integer id) {
+    return supportRepository.findById(id).get();
+  }
+
+  @Override
   public LegalOpinion addLegalOpinion(LegalOpinion legalOpinion) {
     return legalOpinion;
+  }
+
+  @Override
+  public boolean deleteRequest(Integer id) {
+
+      supportRepository.deleteById(id);
+    return true;
   }
 }

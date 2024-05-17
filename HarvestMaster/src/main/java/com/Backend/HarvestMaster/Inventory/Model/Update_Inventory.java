@@ -7,6 +7,7 @@ import lombok.Data;
 public class Update_Inventory {
 
 
-    private  double Price;
+    private  float Price;
     private String Description;
+    private int quantity;
 }

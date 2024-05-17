@@ -12,6 +12,7 @@ import org.w3c.dom.html.HTMLTableCaptionElement;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@CrossOrigin("http://localhost:5173/")
 @RestController
 @RequestMapping ("/faq")
 public class FaqController{
@@ -23,7 +24,7 @@ public class FaqController{
 
 
     @PostMapping ("/add")
-    public ResponseEntity<FAQ> add(FAQ faq){
+    public ResponseEntity<FAQ> add(@RequestBody FAQ faq){
 
         try{
 
@@ -45,7 +46,7 @@ public class FaqController{
 
         try {
 
-            return new ResponseEntity<>(faqService.getAllFaq(),HttpStatus.OK);
+            return new ResponseEntity<>(faqService.getAllFaqs(),HttpStatus.OK);
 
         }catch (NoSuchElementException e){
 
@@ -54,8 +55,26 @@ public class FaqController{
 
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<FAQ> update(@PathVariable Integer id) {
+    @PatchMapping ("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id,@RequestBody FAQ faq) {
+
+        try {
+
+            FAQ current = faqService.getSelectedFaq(id);
+
+            faq.setFaq_id(current.getFaq_id());
+
+
+            return new ResponseEntity<FAQ>(faqService.addFaq(faq),HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
+        }
+
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteFaq(@PathVariable Integer id) {
 
         try {
 

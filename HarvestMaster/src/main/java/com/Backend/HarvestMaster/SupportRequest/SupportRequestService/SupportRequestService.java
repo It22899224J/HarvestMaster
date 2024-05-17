@@ -10,7 +10,10 @@ public interface SupportRequestService {
     public SupportRequest addRequest(SupportRequest supportRequest);
     public List<SupportRequest> getAllRequest() ;
 
+    public SupportRequest getRequest ( Integer id);
     public LegalOpinion addLegalOpinion(LegalOpinion legalOpinion);
 
+
+    public boolean deleteRequest(Integer id);
 
 }

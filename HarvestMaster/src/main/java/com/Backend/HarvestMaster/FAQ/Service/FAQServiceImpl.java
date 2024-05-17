@@ -15,17 +15,20 @@ public class FAQServiceImpl implements FAQService {
     @Autowired
     private FaqRepository faqRepository;
     @Override
-    public FAQ addFaq(FAQ faq) {
-        return faqRepository.save(faq);
+    public FAQ addFaq(FAQ faqdata) {
+
+
+
+        return faqRepository.save(faqdata);
     }
 
     @Override
-    public FAQ getFaq(int faq_id) {
-        return faqRepository.findById(faq_id).get();
+    public FAQ getSelectedFaq(int faqid) {
+        return faqRepository.findById(faqid).get();
     }
 
     @Override
-    public List<FAQ> getAllFaq() {
+    public List<FAQ> getAllFaqs() {
         return faqRepository.findAll();
     }
 

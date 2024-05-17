@@ -10,7 +10,9 @@ import java.util.List;
 public interface PaddyStockService {
 
 
-    public List<PaddyStockViewDTO> getPaddyStockDetails(int postharvest_id);
+    public List<PaddyStockViewDTO> getPaddyStockDetails(int stock_id);
+
+    public PaddyStock getPaddyStock(int stockid);
 
     public List<PaddyStockAvl>  getPaddyStocksByType(String vareity,String fertilizer);
 
@@ -18,10 +20,12 @@ public interface PaddyStockService {
 
     public boolean deletePaddyStock(int paddystock_id);
 
-    public PaddyStock updateStock(int paddystock_id,PaddyStock paddyStock);
+    public PaddyStockViewDTO updateStock(int paddystock_id,PaddyStock paddyStock);
 
 
-    public PaddyStock addPaddyStock(Integer fieldId,PaddyStock paddyStock);
+    public PaddyStockViewDTO addPaddyStock(Integer fieldId,PaddyStock paddyStock);
+
+
 
 
 

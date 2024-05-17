@@ -24,7 +24,7 @@ public class PaddyStockController {
     private PaddyStockService paddyStockService;
 
 @PostMapping("/add/{postharvest_id}")
-    public ResponseEntity<PaddyStock> add(
+    public ResponseEntity<PaddyStockViewDTO> add(
 
         @PathVariable Integer postharvest_id,
         @RequestParam ("image_data")MultipartFile image_data,
@@ -55,7 +55,38 @@ public class PaddyStockController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
+@PatchMapping("/update/{stock_id}")
+public ResponseEntity<PaddyStockViewDTO> updateStock(
 
+        @PathVariable Integer stock_id,
+        @RequestParam ("image_data")MultipartFile image_data,
+        @RequestParam ("price") float price,
+        @RequestParam ("amount") int amount,
+        @RequestParam ("status") Status_stock status
+){
+
+    try {
+
+        PaddyStock newStock = new PaddyStock();
+
+        byte[] image_byte = image_data.getBytes();
+
+        Blob img = new SerialBlob(image_byte);
+
+
+        newStock.setImage(img);
+        newStock.setPrice(price);
+        newStock.setAmount(amount);
+        newStock.setStatus(status);
+
+
+
+
+        return new ResponseEntity<>(paddyStockService.updateStock(stock_id,newStock), HttpStatus.OK) ;
+    }catch (Exception e){
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+}
 
 @GetMapping("/get/{postharvest_id}")
     public ResponseEntity<PaddyStockViewDTO> getPaddyStock(@PathVariable Integer postharvest_id){
@@ -97,7 +128,19 @@ public class PaddyStockController {
 
 
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletePaddyStock(@PathVariable Integer id){
 
+    try {
+
+        return new ResponseEntity<>(paddyStockService.deletePaddyStock(id),HttpStatus.OK);
+    }
+    catch (Exception e){
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    }
 
 
 }

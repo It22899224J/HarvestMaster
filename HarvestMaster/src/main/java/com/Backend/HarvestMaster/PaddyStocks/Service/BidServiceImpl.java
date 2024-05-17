@@ -2,12 +2,11 @@ package com.Backend.HarvestMaster.PaddyStocks.Service;
 
 import com.Backend.HarvestMaster.PaddyStocks.Model.*;
 import com.Backend.HarvestMaster.PaddyStocks.Repository.BidsRepository;
-import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class BidServiceImpl implements BidService{
@@ -15,6 +14,11 @@ public class BidServiceImpl implements BidService{
 
     @Autowired
     private BidsRepository bidsRepository;
+
+
+
+
+
     @Override
     public Bid addBid(Bid bid) {
         return bidsRepository.save(bid);
@@ -47,16 +51,28 @@ public class BidServiceImpl implements BidService{
     public Bid updateBid(Integer bid_id, Bid bid) {
 
         Bid current = bidsRepository.findById(bid_id).get();
-        bid.setBid_id(current.getBid_id());
+        bid.setBidid(current.getBidid());
         return bidsRepository.save(bid);
     }
 
     @Override
-    public boolean deleteBid(Integer bid_id) {
-        bidsRepository.deleteById(bid_id);
-        return true;
+    public Bid deleteBid(Integer bid_id) {
+
+        Bid deleted = bidsRepository.findById(bid_id).get();
+         bidsRepository.deleteById(bid_id);
+         return deleted;
     }
 
+    @Override
+    public List<Bid> getbidbyBuyer(String buyer) {
+
+        List<Bid>  buyerBids = bidsRepository.getBidsByBuyerName(buyer);
+
+
+        return buyerBids;
+
+
+    }
 
 
 //    private BidDTO convertTobidDTO(Bid bid) {

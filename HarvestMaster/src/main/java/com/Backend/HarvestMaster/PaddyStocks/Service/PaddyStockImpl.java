@@ -3,17 +3,16 @@ package com.Backend.HarvestMaster.PaddyStocks.Service;
 import com.Backend.HarvestMaster.PaddyStocks.Model.*;
 import com.Backend.HarvestMaster.PaddyStocks.Repository.PaddyStockRepository;
 import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
+import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvestAudit;
 import com.Backend.HarvestMaster.PostHarvest.Repository.PostHarvestRepository;
+import com.Backend.HarvestMaster.PostHarvest.Service.PostHarvestAuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +26,7 @@ public class PaddyStockImpl implements PaddyStockService{
 
 
     @Autowired
-    private PostHarvestRepository postHarvestRepository;
+    private PostHarvestAuditService postHarvestAuditService;
     @Override
 
     public  List<PaddyStockViewDTO> getPaddyStockDetails(int fieldId) {
@@ -49,28 +48,33 @@ public class PaddyStockImpl implements PaddyStockService{
     }
 
     @Override
+    public PaddyStock getPaddyStock(int stockid) {
+
+
+
+        return  paddyStockRepository.findById(stockid).get();
+    }
+
+    @Override
     public List<PaddyStockAvl> getPaddyStocksByType(String vareity, String fertilizer) {
 
 
 
 
-        List<Object[]> resultList = paddyStockRepository.findByVareityAndFertilizer(vareity,fertilizer);
+        List<PaddyStockAvl> resultList = paddyStockRepository.findByVareityAndFertilizer(vareity,fertilizer);
 
-        List<PaddyStockAvl> mappedResult = new ArrayList<>();
 
-        for (Object[] objArray : resultList) {
-            float price = (float) objArray[0];
 
-            mappedResult.add(new PaddyStockAvl(price));
-        }
+        return  resultList;
 
-return mappedResult;
+
+
     }
 
     @Override
     public List<PaddyStockDTO> getAllPaddyStockDetails() {
 
-        List<PaddyStock> paddyStocks = paddyStockRepository.findAll();
+        List<PaddyStock> paddyStocks = paddyStockRepository.findActiveStocks();
         List<PaddyStockDTO> paddyStockDTOs = paddyStocks.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -86,26 +90,64 @@ return mappedResult;
     }
 
     @Override
-    public PaddyStock updateStock(int paddystock_id,PaddyStock paddyStock) {
-        return paddyStockRepository.save(paddyStock);
+    public PaddyStockViewDTO updateStock(int paddystock_id,PaddyStock paddyStock) {
+
+        PaddyStock existingStock = paddyStockRepository.findById(paddystock_id).get();
+        if (existingStock!=null) {
+            if (paddyStock.getImage() != null) {
+
+                existingStock.setImage(paddyStock.getImage());
+            }
+            if (paddyStock.getPrice() != 0.0) {
+                existingStock.setPrice(paddyStock.getPrice());
+            }
+            if (paddyStock.getAmount() != 0.0) {
+                existingStock.setAmount(paddyStock.getAmount());
+            }
+            if (paddyStock.getStatus() != null) {
+                existingStock.setStatus(paddyStock.getStatus());
+            }
+
+            paddyStockRepository.save(existingStock);
+
+        return convertToviewDTO(existingStock);
+    }
+
+
+
+
+
+            else {
+                // Handle case where PaddyStock with the given ID is not found
+                throw new NoSuchElementException("PaddyStock with ID " + paddystock_id+ " not found");
+            }
+
+
+
+
+
+
     }
 
 
     @Override
-    public PaddyStock addPaddyStock(Integer fieldId,PaddyStock paddyStock) {
+    public PaddyStockViewDTO addPaddyStock(Integer auditId,PaddyStock paddyStock) {
 
-        Optional<PostHarvest> optionalPostHarvest = postHarvestRepository.findById(fieldId);
-        if (optionalPostHarvest.isPresent()) {
-            PostHarvest postHarvest = optionalPostHarvest.get();
+       PostHarvestAudit optionalPostHarvest = postHarvestAuditService.getAuditData(auditId);
+        if (optionalPostHarvest!=null) {
+            PostHarvestAudit postHarvestAudit = optionalPostHarvest;
 
             // Set the relevant PostHarvest field in the new PaddyStock object
-           paddyStock.setRelatedPostHarvest(postHarvest);
+           paddyStock.setRelatedPostHarvestaudit(postHarvestAudit);
 
             // Save the new PaddyStock
-            return paddyStockRepository.save(paddyStock);
+             paddyStockRepository.save(paddyStock);
+
+
+            return convertToviewDTO(paddyStock);
         } else {
             // Handle the case when the PostHarvest entity is not found
-            throw new RuntimeException("PostHarvest with fieldId " + fieldId + " not found.");
+            throw new RuntimeException("PostHarvest with fieldId " + auditId + " not found.");
 
     }
     }
@@ -117,6 +159,7 @@ return mappedResult;
         dto.setAmount(paddyStock.getAmount());
         dto.setPrice(paddyStock.getPrice());
         dto.setStatus(paddyStock.getStatus());
+        dto.setStockCreationDate(paddyStock.getStockCreationDate());
         dto.setBids(bidService.getMarketBids(dto.getPs_id()));
 
 
@@ -126,22 +169,27 @@ return mappedResult;
         dto.setImageBase64(blobConverter(paddyStock));
 
         // Populate fields from the associated PostHarvest object
-        PostHarvest postHarvest = paddyStock.getRelatedPostHarvest();
-        if (postHarvest != null) {
-            dto.setPaddyVariety(postHarvest.getPaddyVareity());
-            dto.setLocation(postHarvest.getLocation());
-            // Add other fields as needed
-        }
+        PostHarvestAudit postHarvestAudit = paddyStock.getRelatedPostHarvestaudit();
+        if (postHarvestAudit != null) {
+            PostHarvest postHarvest = postHarvestAudit.getRelatedpostHarvest();
 
+            if (postHarvest != null) {
+                dto.setPaddyVariety(postHarvest.getPaddyVareity());
+                dto.setLocation(postHarvest.getLocation());
+                dto.setDistrict(postHarvest.getDistrict());
+                // Add other fields as needed
+            }
+        }
         return dto;
     }
 
-    private PaddyStockViewDTO convertToviewDTO(PaddyStock paddyStock) {
+    public PaddyStockViewDTO convertToviewDTO(PaddyStock paddyStock) {
         PaddyStockViewDTO dto = new PaddyStockViewDTO();
         dto.setPs_id(paddyStock.getPs_id());
         dto.setAmount(paddyStock.getAmount());
         dto.setPrice(paddyStock.getPrice());
         dto.setStatus(paddyStock.getStatus());
+        dto.setStockCreationDate(paddyStock.getStockCreationDate());
 
 
 
@@ -150,9 +198,10 @@ return mappedResult;
         dto.setImage(blobConverter(paddyStock));
 
         // Populate fields from the associated PostHarvest object
-        PostHarvest postHarvest = paddyStock.getRelatedPostHarvest();
-        if (postHarvest != null) {
-            dto.setRelatedPostHarvest(postHarvest);
+        PostHarvestAudit postHarvestAudit = paddyStock.getRelatedPostHarvestaudit();
+        if (postHarvestAudit != null) {
+            dto.setRelatedPostHarvestaudit(postHarvestAudit.getAuditId());
+            dto.setRiceVareity(postHarvestAudit.getRelatedpostHarvest().getPaddyVareity());
         }
 
         return dto;

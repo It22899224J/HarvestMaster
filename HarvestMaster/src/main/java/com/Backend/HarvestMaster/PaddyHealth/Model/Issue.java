@@ -14,6 +14,10 @@ public class Issue {
     private String date;
     private String farmerName;
     private String fieldLocation;
+
+
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] imageData;
     private String observedIssues;
 

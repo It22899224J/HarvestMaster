@@ -36,4 +36,47 @@ public class SupportRequestController {
         }
     }
 
+    @PatchMapping ("/updatesolution/{id}")
+    public ResponseEntity<?> updateSolution(@PathVariable Integer id,@RequestBody SupportRequest supportRequest) {
+
+        try {
+
+
+        SupportRequest current = supportRequestService.getRequest(id);
+
+        current.setTopic(supportRequest.getTopic());
+        current.setIssue(supportRequest.getIssue());
+       current.setSolution(supportRequest.getSolution());
+       if(supportRequest.getSolution()!="") {
+           current.setStatus("Answered");
+       }
+
+
+
+
+        return new ResponseEntity<>(supportRequestService.addRequest(current), HttpStatus.OK);
+    }catch(NoSuchElementException e){
+
+        return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+}
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteRequest(@PathVariable Integer id) {
+
+        try {
+
+
+
+
+
+
+            return new ResponseEntity<>(supportRequestService.deleteRequest(id), HttpStatus.OK);
+        }catch(NoSuchElementException e){
+
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }}
+
+
+
 }

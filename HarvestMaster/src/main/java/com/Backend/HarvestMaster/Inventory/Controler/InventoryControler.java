@@ -1,13 +1,9 @@
 package com.Backend.HarvestMaster.Inventory.Controler;
 
-import com.Backend.HarvestMaster.Farmer.Model.Farmer;
 import com.Backend.HarvestMaster.Inventory.Model.Inventory;
 import com.Backend.HarvestMaster.Inventory.Model.InventoryDTO;
 import com.Backend.HarvestMaster.Inventory.Model.Update_Inventory;
 import com.Backend.HarvestMaster.Inventory.Service.InventoryService;
-import com.Backend.HarvestMaster.PaddyStocks.Model.PaddyStock;
-import com.Backend.HarvestMaster.PaddyStocks.Model.Status_stock;
-import com.Backend.HarvestMaster.PostHarvest.Model.PostHarvest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +33,8 @@ public class InventoryControler {
             @RequestParam ("description") String Description,
             @RequestParam ("packege_Type") int Packege_Type,
             @RequestParam ("product_type") String Product_type,
-            @RequestParam ("price") double Price
+            @RequestParam ("price") float Price,
+            @RequestParam ("quantity") int quantity
 
     ){
 
@@ -57,6 +54,7 @@ public class InventoryControler {
            inventory.setPackege_Type(Packege_Type);
            inventory.setProduct_type(Product_type);
            inventory.setPrice(Price);
+           inventory.setQuantity(quantity);
 
 
 

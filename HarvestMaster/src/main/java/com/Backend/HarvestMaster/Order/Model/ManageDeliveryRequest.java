@@ -13,6 +13,9 @@ public class ManageDeliveryRequest {
     @JsonProperty("status")
     private boolean orderStatus;
 
+    @JsonProperty("payment_status")
+    private boolean paymentStatus;
+
     @JsonProperty("reason")
     private String reason;
 }

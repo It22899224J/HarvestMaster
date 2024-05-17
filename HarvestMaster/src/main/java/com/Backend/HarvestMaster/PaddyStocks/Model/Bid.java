@@ -15,7 +15,7 @@ public class Bid {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bid_id;
+    private int bidid;
 
     private float price;
 

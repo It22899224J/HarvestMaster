@@ -1,11 +1,13 @@
 package com.Backend.HarvestMaster.Order.Model;
 
 import com.Backend.HarvestMaster.LogisticHandler.Model.Buyer;
+import com.Backend.HarvestMaster.PaymentHandle.Model.TransactionPayment;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "delivery_id")
     private Long deliveryId;
 
     private Integer cartId;
@@ -45,5 +48,11 @@ public class Delivery {
     private String paymentStatus;
     @Column(columnDefinition = "VARCHAR(255) DEFAULT 'PENDING'")
     private String deliveryStatus;
+
+    @OneToMany(mappedBy = "delivery")
+    private List<TransactionPayment> transactionPayments;
+
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DeliveryItem> deliveryItems;
 }
 
